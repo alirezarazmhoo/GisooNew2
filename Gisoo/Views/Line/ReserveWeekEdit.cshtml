@@ -1,0 +1,116 @@
+﻿@model List<LineWeekDate>
+
+@section head {
+    <style>
+        body .datepicker-container {
+            display: none;
+        }
+    </style>
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<input type="text" id="llineId" value="@ViewBag.lineId" hidden>
+<button type="button" class="btn" onclick="RegisterNewReserve()">ثبت برنامه هفتگی جدید</button>
+<div class="profile__content__header">
+    <span>ساعات و روزهای ثبت شده و حذف روزهایی که نمیخواهید </span>
+</div>
+<div class="row" style="margin-bottom: 5px;">
+    <div class="col-md-4">
+        <label>از تاریخ </label>
+        <input type="text" class="datepicker pwt-datepicker-input-element form-control" id="FromdateReserve" value="@ViewBag.FromdateReserve">
+    </div>
+    <div class="col-md-4">
+        <label>تا تاریخ </label>
+        <input type="text" class="datepicker pwt-datepicker-input-element form-control" id="TodateReserve" value="@ViewBag.TodateReserve">
+    </div>
+    <div class="col-md-4">
+        <button type="button" class="btn" onclick="SearchReserve()" style="margin-top: 9%;">جستجو</button>
+    </div>
+</div>
+<div>
+
+
+    @foreach (var item in Model)
+    {
+        if (item.isReserved)
+        {
+            <label style="border-radius: 6px;background: #ff1e7c;margin-right: 3px;line-height: 30px;padding:5px;text-align: center;">
+                @item.fromTime - @item.toTime <span>@Gisoo.Utility.DateChanger.ToPersianDateString(item.date)</span>
+
+            </label>
+
+        }
+        else
+        {
+            <label style="border-radius: 6px;background: #dddddd;margin-right: 3px;line-height: 30px;padding:5px;text-align: center;">
+                @item.fromTime - @item.toTime <span>@Gisoo.Utility.DateChanger.ToPersianDateString(item.date)</span>
+                <button type="button" id="@item.id" data-datesReserve="@item.fromTime - @item.toTime -@Gisoo.Utility.DateChanger.ToPersianDateString(item.date)" class="close removeWeekDate" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </label>
+        }
+
+
+    }
+
+</div>
+<div class="modal fade" id="Line_WeekDate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                </button>
+                <h4 class="modal-title">سامانه گیسو</h4>
+            </div>
+
+            <div class="modal-body">
+                <p id="dateDes"></p>
+                <input id="LineWeekDateId" name="LineWeekDateId" value="" hidden>
+                <input id="LineId" name="LineId" value="" hidden>
+                <button type="button" onclick="RemoveDate()" class="btn" style="margin-top: 9%;">حذف این ساعت در این تاریخ</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+
+<script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+
+<script>
+    $(".datepicker").persianDatepicker({
+        observer: true,
+        format: 'YYYY/MM/DD',
+        autoClose: true
+    });
+</script>
+<script>
+    $(".removeWeekDate").click(function () {
+        $('#LineWeekDateId').val(this.id)
+        $('#dateDes').html($(this).attr('data-datesReserve'))
+        $('#Line_WeekDate').modal('show');
+    });
+    function RemoveDate() {
+        var Parameters = [{ id: "LineWeekDateId", htmlname: "LineWeekDateId", special: "" }];
+        PostAjax('../CustomerHome/DeleteLineWeekDate', Parameters, showAllDate);
+        $('#Line_WeekDate').modal('hide');
+        $('.modal-backdrop').remove();
+
+    }
+    function showAllDate() {
+        var lineId = $('#llineId').val();
+        window.location.href = "/Line/ReserveWeekEdit?lineId=" + lineId + "";
+    }
+    function SearchReserve() {
+        var lineId = $('#llineId').val()
+        var FromdateReserve = $('#FromdateReserve').val();
+        var TodateReserve = $('#TodateReserve').val();
+        window.location.href = "/Line/ReserveWeekEdit?lineId=" + lineId + "&FromdateReserve=" + FromdateReserve + "&TodateReserve=" + TodateReserve + "";
+        $('#FromdateReserve').val(FromdateReserve);
+        $('#TodateReserve').val(TodateReserve);
+    }
+    function RegisterNewReserve() {
+        var lineId = $('#llineId').val()
+        window.location.href = "/Line/RegisterLineForReserve?id=" + lineId + "";
+    }
+</script>

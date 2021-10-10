@@ -1,0 +1,96 @@
+﻿
+@model Gisoo.ViewModel.FactorViewModel
+<section class="factor">
+	<div class="container">
+
+		<div class="factor__wrapper">
+			<div class="row">
+				<div class="col-md-10 offset-lg-1">
+					<div class="row align-items-center">
+						<div class="col-md-6">
+							<div class="factor__list">
+								<ul>
+									<li>
+										<span>نام و نام خانوادگی</span>
+										<span>@Model.fullName</span>
+									</li>
+									<li>
+										<span>تاریخ تراکنش</span>
+										<span>@Gisoo.Utility.PersianCalendarDate.PersianCalendarResult(Model.date)</span>
+									</li>
+
+									<li>
+										<span>مبلغ واحد</span>
+										@{
+											if (Model.totalAmount == "0")
+											{
+												<span>رایگان</span>
+
+											}
+											else
+											{
+												<span>@Model.totalAmount<small>تومان</small></span>
+											}
+										}
+									</li>
+									<li>
+										<span>جمع</span>
+										@{
+											if (Model.totalAmount == "0")
+											{
+												<span>رایگان</span>
+
+											}
+											else
+											{
+												<span>@Model.totalAmount<small>تومان</small></span>
+											}
+										}
+									</li>
+									@if (Model.shouldpurshe)
+									{
+										<li>
+											<span>نوع پرداخت</span>
+											<select class="form-control">
+											<option selected value=1>کارت بانکی</option>
+											<option selected value=2>کیف پول</option>
+											</select>
+										</li>
+									}
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="factor__alert">
+								<ul>
+									<li>لطفا در پرداخت های خود دقت کافی داشته باشید.</li>
+									<li>قیمت را قبل از تایید و ورود به صفحه پرداخت بررسی فرمایید.</li>
+									<li>پس از پرداخت اطلاعات تراکنش برای شما ایمیل خواهد شد.</li>
+									<li>در صفحه پراخت از دکمه Back مرورگر استفاده ننمایید.</li>
+								</ul>
+							</div>
+
+							@{
+
+								if (Model.shouldpurshe)
+								{
+									<div class="factor__btn">
+										<a href="#" class="btn">تایید و پرداخت فاکتور</a>
+									</div>
+								}
+								else
+								{
+									<div class="factor__btn">
+										<a href="#" class="btn">ثبت رایگان آگهی</a>
+									</div>
+								}
+
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>

@@ -1,0 +1,252 @@
+﻿@model Gisoo.ViewModel.NoticeDetailViewModel
+
+@{
+    ViewData["Title"] = "NoticeDetail";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            <h1>@Model.Notice.title</h1>
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                <li>@Model.Notice.title</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="ads-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="ads-content__slider">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @if (!String.IsNullOrEmpty(Model.Notice.image1))
+                            {
+                            <div class="swiper-slide">
+                                <div class="ads-content__slider__item">
+                                    <img src="@Model.Notice.image1">
+                                </div>
+                            </div>
+                            }
+                            @if (!String.IsNullOrEmpty(Model.Notice.image2))
+                            {
+                            <div class="swiper-slide">
+                                <div class="ads-content__slider__item">
+                                    <img src="@Model.Notice.image2">
+                                </div>
+                            </div>
+                            }
+                            @if (!String.IsNullOrEmpty(Model.Notice.image3))
+                            {
+                            <div class="swiper-slide">
+                                <div class="ads-content__slider__item">
+                                    <img src="@Model.Notice.image3">
+                                </div>
+                            </div>
+                            }
+                            else
+                            {
+                            <img src="~/HomeContent/assets/img/ads.png">
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="ads-content__desc">
+                    <p>@Model.Notice.description</p>
+                </div>
+                <div class="ads-content__seller">
+                    <div class="ads-content__seller__avatar">
+                        @if (String.IsNullOrEmpty(Model.Notice.user.url))
+                        {
+                            @if (String.IsNullOrEmpty(Model.Notice.user.fullname))
+                            {
+                                <a href="/CustomerHome/ProfileUserSingle/@Model.Notice.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a>
+                            }
+                            else
+                            {
+                                <a href="/CustomerHome/ProfileUserSingle/@Model.Notice.user.id/@Model.Notice.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>
+
+                            }
+                        }
+                        else
+                        {
+                            @if (String.IsNullOrEmpty(Model.Notice.user.fullname))
+                            {
+                                <a href="/CustomerHome/ProfileUserSingle/@Model.Notice.user.id/آگهی"><img src="/wwwroot @Model.Notice.user.url"></a>
+                            }
+                            else
+
+                            {
+                                <a href="/CustomerHome/ProfileUserSingle/@Model.Notice.user.id/@Model.Notice.user.fullname.Replace(' ', '-')"><img src="/wwwroot @Model.Notice.user.url"></a>
+                            }
+                        }
+                    </div>
+                    <div class="ads-content__seller__name">
+                        @if (String.IsNullOrEmpty(Model.Notice.user.fullname))
+                        {
+                            <a href="/CustomerHome/ProfileUserSingle/@Model.Notice.user.id/آگهی">آگهی</a>
+                        }
+                        else
+                        {
+                            <a href="/CustomerHome/ProfileUserSingle/@Model.Notice.user.id/@Model.Notice.user.fullname.Replace(' ', '-')">@Model.Notice.user.fullname</a>
+                        }
+                    </div>
+                </div>
+                <div class="ads-content__list">
+                    <ul>
+                        <li>  کد : @Model.Notice.code</li>
+                        <li> تاریخ ثبت : @Gisoo.Utility.DateChanger.ToPersianDateString(Model.Notice.createDate)</li>
+                        <li>  استان : @Model.Notice.city.name</li>
+                        <li>  شهرستان : @Model.Notice.province.name</li>
+                        <li>  ناحیه : @Model.Notice.area.name</li>
+                        <li>  شماره تماس : @Model.Notice.user.cellphone</li>
+                        <li>
+
+                            @if (Model.Notice.condition == ConditionEnum.FixedSalary)
+                        {
+                        <li> شرایط : حقوق ثابت </li>
+                        }
+                            @if (Model.Notice.condition == ConditionEnum.Percent)
+                        {
+                            <li> شرایط : درصدی </li>
+                        }
+                            @if (Model.Notice.condition == ConditionEnum.Rent)
+                        {
+                            <li> شرایط : اجاره ای </li>
+                        }
+                            @if (Model.Notice.isBarber)
+                        {
+                            <li>آرایشگر</li>
+
+                        }
+                        else
+                        {
+                            <li>آرایشگاه</li>
+
+                        }
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+    @if (Model.Banner != null)
+{
+    <section class="banner">
+        <div class="container">
+            <div class="banner__wrapper">
+                <a href="@Model.Banner.link"><img src="@Model.Banner.image"></a>
+            </div>
+        </div>
+    </section>
+}
+    @if (Model.OtherNotice.Count()>0)
+{
+    <section class="product-slider">
+        <div class="container">
+            <div class="sec-title">
+                <h3><i class="dn-line-left"></i>آگهی های مرتبط</h3>
+                <a href="/CustomerHome/NoticeList">بیشتر</a>
+            </div>
+            <div class="product-slider__wrapper">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.OtherNotice)
+                    {
+                        <div class="swiper-slide">
+                            <div class="product-slider__item">
+                                <figure class="product-slider__item__image">
+                                    @if (!String.IsNullOrEmpty(item.image1))
+                                    {
+                                    <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>
+                                    }
+                                    else
+                                    {
+                                    <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>
+                                    }
+                                </figure>
+                                <div class="product-slider__item__title">
+                                    <h2><a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                </div>
+                                <div class="product-slider__item__row">
+                                    <div class="product-slider__item__author">
+                                        <div class="product-slider__item__author__avatar">
+                                            @if (String.IsNullOrEmpty(item.user.url))
+                                            {
+                                                @if (String.IsNullOrEmpty(item.user.fullname))
+                                                {
+                                                    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @if (String.IsNullOrEmpty(item.user.fullname))
+                                                {
+                                                    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="/wwwroot @item.user.url"></a>
+                                                }
+                                                else
+
+                                                {
+                                                    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="/wwwroot @item.user.url"></a>
+                                                }
+                                            }
+                                        </div>
+                                        <div class="product-slider__item__author__name">
+                                            @if (String.IsNullOrEmpty(item.user.fullname))
+                                            {
+                                                <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="product-slider__item__price">
+                                        <span>@item.code<small>کد</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                        <div class="swiper-slide">
+                            <div class="ads-slider__item ads-slider__item--more">
+                                <figure class="ads-slider__item__image">
+                                    <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                                </figure>
+                                <div class="ads-slider__item__more">
+                                    <span><i class="dn-arrow-left"></i>بیشتر</span>
+                                </div>
+                                <a href="/CustomerHome/NoticeList"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                    <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+

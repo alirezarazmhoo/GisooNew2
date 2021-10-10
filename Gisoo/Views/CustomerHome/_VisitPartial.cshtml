@@ -1,0 +1,77 @@
+﻿@model Gisoo.ViewModel.VisitViewModel
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/js/Common.js"></script>
+<script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+
+<script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+@{ 
+    var day1 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-9));
+    var day2 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-8));
+    var day3 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-7));
+    var day4 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-6));
+    var day5 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-5));
+    var day6 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-4));
+    var day7 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-3));
+    var day8 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-2));
+    var day9 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-1));
+    var day10 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date);
+}
+
+<div class="profile__content__header">
+    <span>آمار بازدید</span>
+    <span>بازدید کل:@Model.viewTotalCount</span>
+</div>
+<div class="profile__content__ads__chart">
+    <canvas id="ads_chart1"></canvas>
+</div>
+<script>
+    if ($('#ads_chart1').length > 0) {
+        Chart.defaults.global.defaultFontFamily = 'yekan';
+
+        var ads_chart = new Chart($('#ads_chart1')[0], {
+            type: 'line',
+            data: {
+                datasets: [{
+                    data: [@Model.datecount1,@Model.datecount2, @Model.datecount3, @Model.datecount4, @Model.datecount5, @Model.datecount6, @Model.datecount7,@Model.datecount8, @Model.datecount9, @Model.datecount10],
+                    backgroundColor: '#f2a900',
+                    borderColor: '#999',
+                    fill: false,
+                    label: 'میزان بازدید'
+                }],
+                labels: [
+                    '@day1',
+                    '@day2',
+                    '@day3',
+                    '@day4',
+                    '@day5',
+                    '@day6',
+                    '@day7',
+                    '@day8',
+                    '@day9',
+                    '@day10'
+                ]
+            },
+            options:
+            {
+                elements:
+                {
+                    line:
+                    {
+                        tension: 0.000001,
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }]
+                },
+                maintainAspectRatio: false,
+            }
+        });
+    }
+
+
+</script>

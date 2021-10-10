@@ -1,0 +1,470 @@
+﻿@model Gisoo.ViewModel.LineDetailViewModel
+@using Gisoo.Utility
+
+@{
+    ViewData["Title"] = "LineDetail";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+<style>
+    .activeReserve {
+        background: red !important;
+    }
+</style>
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            <h1>@Model.Line.title</h1>
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                <li>@Model.Line.title</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="ads-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="ads-content__slider">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @if (Model.Line.LineImages.Count() > 0)
+                            {
+                                @foreach (var item in Model.Line.LineImages)
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="ads-content__slider__item">
+                                            <img src="/Line/File/@item.url">
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <img src="~/HomeContent/assets/img/ads.png">
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="ads-content__desc">
+                    <p>@Model.Line.description</p>
+                </div>
+                <div class="ads-content__seller">
+                    <div class="ads-content__seller__avatar">
+                        @if (String.IsNullOrEmpty(Model.Line.user.url))
+                        {
+                            @if (String.IsNullOrEmpty(Model.Line.user.fullname))
+                            {
+                                <a href="/CustomerHome/ProfileUserSingle/@Model.Line.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a>
+                            }
+                            else
+                            {
+                                <a href="/CustomerHome/ProfileUserSingle/@Model.Line.user.id/@Model.Line.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>
+
+                            }
+                        }
+                        else
+                        {
+                            @if (String.IsNullOrEmpty(Model.Line.user.fullname))
+                            {
+                                <a href="/CustomerHome/ProfileUserSingle/@Model.Line.user.id/آگهی"><img src="@Model.Line.user.url"></a>
+                            }
+                            else
+
+                            {
+                                <a href="/CustomerHome/ProfileUserSingle/@Model.Line.user.id/@Model.Line.user.fullname.Replace(' ', '-')"><img src="@Model.Line.user.url"></a>
+                            }
+                        }
+                    </div>
+                    <div class="ads-content__seller__name">
+                        @if (String.IsNullOrEmpty(Model.Line.user.fullname))
+                        {
+                            <a href="/CustomerHome/ProfileUserSingle/@Model.Line.user.id/آگهی">آگهی</a>
+                        }
+                        else
+                        {
+                            <a href="/CustomerHome/ProfileUserSingle/@Model.Line.user.id/@Model.Line.user.fullname.Replace(' ', '-')">@Model.Line.user.fullname</a>
+                        }
+                    </div>
+                </div>
+                @if (Model.Line.discountPrice != 0 && Model.Line.discountPrice != null)
+                {
+                    <div class="ads-content__price">
+                        <div class="ads-content__price__new">
+                            <span>@Model.Line.discountPrice?.ToRial()<small>تومان</small></span>
+                        </div>
+                        <div class="ads-content__price__old">
+                            <span>@Model.Line.price.ToRial()<small>تومان</small></span>
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="ads-content__price">
+                        <div class="ads-content__price__new">
+                            <span>@Model.Line.price.ToRial()<small>تومان</small></span>
+                        </div>
+                    </div>
+                }
+                <div class="ads-content__list">
+                    <ul>
+                        <li> تاریخ ثبت : @Gisoo.Utility.DateChanger.ToPersianDateString(Model.Line.registerDate)</li>
+                        @if (!String.IsNullOrEmpty(Model.Line.reserveDate.ToString()))
+                        {
+                            <li> تاریخ رزرو : @Gisoo.Utility.DateChanger.ToPersianDateString((DateTime)Model.Line.reserveDate)</li>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Line.reserveHour))
+                        {
+                            <li>  ساعت رزرو : @Model.Line.reserveHour</li>
+                        }
+
+                        <li>  نوع کلاس : @Model.Line.lineType.name</li>
+                        <li>  شماره تماس  : @Model.Line.user.cellphone</li>
+                        <li>  نام و نام خانوادگی ارائه دهنده خدمات  : @Model.Line.lineTeacher</li>
+
+                        @*@if (Model.Line.lineLaw == EnumLineLaw.hire)
+                            {
+                                <li> شرایط : اجاره ای </li>
+                            }
+                            @if (Model.Line.lineLaw == EnumLineLaw.law)
+                            {
+                                <li> شرایط : حقوقی </li>
+                            }
+                            @if (Model.Line.lineLaw == EnumLineLaw.percent)
+                            {
+                                <li> شرایط : درصدی </li>
+                            }
+                            @if (Model.Line.lineLaw == EnumLineLaw.reserve)
+                            {
+                                <li> شرایط : رزروی </li>
+                            }*@
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        @*<form asp-action="CustomerFactorCreator" method="get">
+
+                <input name="ItemId" value="@Model.Line.id" hidden />
+                <input name="totalAmount" value="@Model.Line.price" hidden />
+                <input name="reserveDate" value="@Model.Line.reserveDate" hidden />
+                <input name="NoticeType" value="@Gisoo.Models.Enums.NoticeType.Line" hidden />
+                <div class="ads-content__btn">
+                    <span>لطفا برای رزرو لاین تماس بگیرید.</span>
+                    <button type="submit" class="btn" style="margin-right:10px">سفارش دهید</button>
+
+                </div>
+            </form>*@
+        <button type="button" onclick="OpenReserve()" class="btn" style="margin-right:10px">رزرو نوبت ها در روز و تاریخ</button>
+
+    </div>
+</section>
+@if (Model.Banner != null)
+{
+    <section class="banner">
+        <div class="container">
+            <div class="banner__wrapper">
+                <a href="@Model.Banner.link"><img src="@Model.Banner.image"></a>
+            </div>
+        </div>
+    </section>
+}
+@if (Model.OtherLine.Count() > 0)
+{
+    <section class="product-slider">
+        <div class="container">
+            <div class="sec-title">
+                <h3><i class="dn-line-left"></i>لاین های مرتبط</h3>
+                <a href="/CustomerHome/LineList">بیشتر</a>
+            </div>
+            <div class="product-slider__wrapper">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.OtherLine)
+                        {
+
+
+                            <div class="swiper-slide">
+                                <div class="product-slider__item">
+                                    <figure class="product-slider__item__image">
+                                        @if (item.LineImages.Count() > 0)
+                                        {
+                                            <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/Line/File/@item.LineImages.FirstOrDefault().url"></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/eyelash.jpg"></a>
+                                        }
+                                    </figure>
+                                    <div class="product-slider__item__title">
+                                        <h2><a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                    </div>
+                                    <div class="product-slider__item__row">
+                                        <div class="product-slider__item__author">
+                                            <div class="product-slider__item__author__avatar">
+                                                @if (String.IsNullOrEmpty(item.user.url))
+                                                {
+                                                    @if (String.IsNullOrEmpty(item.user.fullname))
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>
+
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @if (String.IsNullOrEmpty(item.user.fullname))
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="@item.user.url"></a>
+                                                    }
+                                                    else
+
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="@item.user.url"></a>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="product-slider__item__author__name">
+                                                @if (String.IsNullOrEmpty(item.user.fullname))
+                                                {
+                                                    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>
+                                                }
+                                            </div>
+                                        </div>
+                                        @if (item.discountPrice != 0 && item.discountPrice != null)
+                                        {
+                                            <div class="ads-slider__item__price">
+                                                <div class="ads-slider__item__price__old">
+                                                    <span>@item.price</span>
+                                                </div>
+                                                <div class="ads-slider__item__price__new">
+                                                    <span>@item.discountPrice?.ToRial()<small>تومان</small></span>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="product-slider__item__price">
+                                                <span>@item.price.ToRial()<small>تومان</small></span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="swiper-slide">
+                            <div class="ads-slider__item ads-slider__item--more">
+                                <figure class="ads-slider__item__image">
+                                    <img src="/HomeContent/assets/img/eyelash.jpg">
+                                </figure>
+                                <div class="ads-slider__item__more">
+                                    <span><i class="dn-arrow-left"></i>بیشتر</span>
+                                </div>
+                                <a href="/CustomerHome/LineList"></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                    <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<div class="modal fade" id="Line_WeekDateReserve">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                </button>
+                <h4 class="modal-title">رزرو نوبت در سامانه گیسو</h4>
+            </div>
+
+            <div class="modal-body">
+                <p id="dateDes"></p>
+
+                <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-12">
+                        <h6>ساعت و تاریخ مورد نظر را انتخاب کرده و رزرو کنید</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <label>از تاریخ </label>
+                        <input type="text" class="datepicker pwt-datepicker-input-element form-control" id="FromdateReserve" value="@ViewBag.FromdateReserve">
+                    </div>
+                    <div class="col-md-4">
+                        <label>تا تاریخ </label>
+                        <input type="text" class="datepicker pwt-datepicker-input-element form-control" id="TodateReserve" value="@ViewBag.TodateReserve">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn" onclick="SearchReserve()" style="margin-top: 17%;">جستجو</button>
+                    </div>
+                </div>
+                @{
+
+					var dateTemp1 = Model.LineWeekDates.FirstOrDefault();
+					DateTime dateTemp = new DateTime();
+					if (dateTemp1 != null)
+					{
+
+						 dateTemp = Model.LineWeekDates.FirstOrDefault().date;
+					}
+
+
+					var isFirst = 0;
+                }
+                <div id="DivRes">
+                    <table style="border:1px solid #c8c8c8;width:100%">
+                        <tr>
+                            <th style="border:1px solid #c8c8c8;padding:5px">روزها</th>
+                            <th style="border:1px solid #c8c8c8;padding:5px">ساعات</th>
+                        </tr>
+                        @foreach (var item in Model.LineWeekDates)
+						{
+							if (isFirst == 0) { isFirst++; continue; }
+							if (item.date != dateTemp && dateTemp1 != null)
+							{
+                                <tr>
+                                    <td style="border:1px solid #c8c8c8">@DateTimeHelper.PersionDayOfWeekStr(item.date) &nbsp; @Gisoo.Utility.DateChanger.ToPersianDateString(item.date)</td>
+                                    <td style="border:1px solid #c8c8c8">
+                                        @foreach (var item2 in Model.LineWeekDates)
+                                        {
+                                            @if (item.date.Date == item2.date.Date)
+                                            {
+                                                if (item2.isReserved)
+                                                {
+                                                    <label style="border-radius: 6px;background: #ff1e7c;margin-right: 3px;line-height: 30px;padding:5px;text-align: center;margin-top:5px;">
+                                                        @item2.fromTime - @item2.toTime 
+
+                                                    </label>
+
+                                                }
+                                                else
+                                                {
+
+                                                    <label onclick="addClassByClick(this)" id="@item2.id" style="border-radius: 6px;background: #dddddd;margin-right: 3px;line-height: 30px;padding:5px;text-align: center;cursor:pointer;margin-top:5px;">
+                                                        @item2.fromTime - @item2.toTime 
+
+                                                    </label>
+                                                }
+                                            }
+                                            
+                                        }
+                                    </td>
+                                </tr>
+                                }
+                                
+                                dateTemp = item.date;
+                            
+
+                        }
+
+
+                    </table>
+                </div>
+                <h4 id="divLogin" style="display: none;color:red"></h4>
+                <button type="button" onclick="AddReserve()" class="btn" style="margin-top: 5%;">ثبت رزرو</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<input hidden id="allreserveId" />
+<div class="modal fade" id="register-Reserved">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                </button>
+                <h4 class="modal-title">سامانه گیسو</h4>
+            </div>
+            <div class="modal-body">
+                <p>رزرو با موفقیت انجام شد</p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@*<input hidden id="llineId" value="@Model.Line.id"/>*@
+<script>
+     window.onload = Load;
+    function Load() {
+        if ('@ViewBag.isReserved') {
+            $('#register-Reserved').modal('show');
+        }
+
+    }
+    function OpenReserve() {
+        $('#Line_WeekDateReserve').modal('show');
+    }
+    function addClassByClick(e) {
+        if (e.classList.contains('activeReserve')) { e.classList.remove('activeReserve') }
+        else { e.classList.add("activeReserve"); }
+    }
+    function SearchReserve() {
+        //var str = "";
+        //$("#DivRes label.activeReserve").each(function (index) {
+        //    //console.log($(this).parent().html())
+        //    str += $(this).parent().html();
+        //});
+        var FromdateReserve = $('#FromdateReserve').val();
+        var TodateReserve = $('#TodateReserve').val();
+        GetData("/CustomerHome/ReserveWeekByDate?lineId=@Model.Line.id&FromdateReserve=" + FromdateReserve + "&TodateReserve=" + TodateReserve + "", "DivRes");
+        //$("#DivRes").prepend(str);
+    $('#FromdateReserve').val(FromdateReserve);
+    $('#TodateReserve').val(TodateReserve);
+    }
+    function AddReserve() {
+
+        if ('@User.Identity.IsAuthenticated' =='False') {
+            $("#divLogin").show();
+            $("#divLogin").html("لطفا برای ثبت نوبت اول وارد سایت شوید");
+        }
+        else {
+            var allreserveId = [];
+            $("#DivRes label.activeReserve").each(function (index) {
+                var id = $(this).attr('id');
+                allreserveId.push(id);
+            })
+            if (allreserveId == "") {
+                $("#divLogin").show();
+                $("#divLogin").html("لطفا تاریخ های مورد نظر را برای رزرو انتخاب نمایید");
+            }
+            else {
+                $("#allreserveId").val(allreserveId);
+
+                //var Parameters = [{ id: "allIds", htmlname: "allreserveId", special: "" },
+                //    { id: "lineId", htmlname: "llineId", special: "" }];
+                window.location.href = "/CustomerHome/AddReserveLine?allIds=" + allreserveId + "&lineId=@Model.Line.id";
+
+
+                //PostAjax('/CustomerHome/AddReserveLine', Parameters);
+                //alert(allreserveId);
+            }
+        }
+    }
+</script>
+
+
+
+
+

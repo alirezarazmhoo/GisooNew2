@@ -1,0 +1,82 @@
+﻿@model Gisoo.ViewModel.SearchAllReserveViewModel
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/HomeContent/assets/js/header-bundle.js"></script>
+<script src="~/js/Common.js"></script>
+<script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+<script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+@using Gisoo.Utility
+
+<div class="profile__content__header">
+    <span>لیست رزرو ها</span>
+</div>
+<div class="profile__content__filter">
+    <form id="SearchReserveForm">
+        <div class="profile__content__filter__wrapper">
+            <div>
+                <input type="text" class="form-control" asp-for="userFullName" placeholder="نام ونام خانوادگی">
+            </div>
+            <div>
+                <input type="text" class="form-control" asp-for="userMobile" placeholder="شماره همراه">
+            </div>
+            <div>
+                <input type="text" class=" datepicker" asp-for="registerDate">
+            </div>
+            <div>
+                <button type="button" onclick="SearchReserve()">جستجو</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="profile__content__table">
+    <table class="data-table">
+        <thead>
+            <tr>
+
+                <th>نام و نام خانوادگی</th>
+                <th>شماره همراه</th>
+                <th>تاریخ</th>
+                <th>قیمت</th>
+                <th>توضیحات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Reserves)
+            {
+            <tr>
+
+                <td>@item.user.fullname</td>
+                <td>@item.user.cellphone</td>
+                <td>@PersianCalendarDate.PersianCalendarResult(item.date)</td>
+                <td>@item.price</td>
+                @if (item.productId != null)
+                {
+                    <td>@item.product.title</td>
+                }
+                @if (item.lineId != null)
+                {
+                    <td>@item.line.title</td>
+                }
+                @if (item.classroomId != null)
+                {
+                    <td>@item.classroom.title</td>
+                }
+                @if(item.LineWeekDateId!=null)
+                {
+            <td>
+                @item.lineWeekDate.fromTime - @item.lineWeekDate.toTime - @DateChanger.ToPersianDateString(@item.lineWeekDate.date)
+            </td>
+                }
+
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    function SearchReserve() {
+        var form = $("#SearchReserveForm").serialize();
+        GetData("/CustomerHome/AllReserveThisUser", "divRegister", form);
+    }
+</script>

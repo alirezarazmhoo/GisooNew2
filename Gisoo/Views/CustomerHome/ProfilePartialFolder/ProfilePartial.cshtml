@@ -1,0 +1,216 @@
+﻿
+@model Gisoo.ViewModel.ProfileViewModel
+
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/js/Common.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+<div class="profile__content__header">
+	<span>اطلاعات پروفایل</span>
+</div>
+<div class="profile__content__form">
+	<p class="text text-danger">
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	</p>
+	<form id="frmProfile" action="UpdateProfile" method="post" enctype="multipart/form-data">
+		<div class="row" data-space="20">
+			<div class="col-xl-8 offset-xl-2">
+                <div class="profile__content__form__wrapper">
+                    <input asp-for="id" hidden>
+                    <div class="form-group">
+                        <label>نام و نام خانوادگی</label>
+                        <input type="text" class="form-control" asp-for="fullname" placeholder="نام و نام خانوادگی خود را وارد کنید ">
+                        <span asp-validation-for="fullname" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label>کد ملی</label>
+                        <input type="text" class="form-control" asp-for="nationalCode" placeholder="کد ملی خود را وارد کنید ">
+                        <span asp-validation-for="nationalCode" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+
+                        <div class="form-check" >
+                            @if (Model.sexuality == false)
+                            {
+                                <input class="form-check-input" type="radio" name="sexuality" id="man" value="false" checked>
+                            }
+                            else
+                            {
+                                <input class="form-check-input" type="radio" name="sexuality" id="man" value="false">
+
+                            }
+                            <label class="form-check-label" for="man">
+                                مردانه
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if (Model.sexuality == true)
+                            {
+                                <input class="form-check-input" type="radio" name="sexuality" id="woman" value="true" checked>
+                            }
+                            else
+                            {
+                                <input class="form-check-input" type="radio" name="sexuality" id="woman" value="true">
+
+                            }
+                            <label class="form-check-label" for="woman">
+                                زنانه
+                            </label>
+                        </div>
+                        </div>
+                        @if (Model.rolename != "Student")
+                        {
+
+                            <div class="form-group">
+                                <label>ساعات کاری</label>
+                                <input type="text" class="form-control" asp-for="workingHours" placeholder="ساعات کاری  خود را وارد کنید ">
+                                <span asp-validation-for="workingHours" class="text-danger"></span>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label>توضیحات مختصر</label>
+                            <input type="text" class="form-control" asp-for="shortDescription" placeholder="خلاصه فعالیت های را وارد کنید ">
+                            <span asp-validation-for="shortDescription" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <label>لینک تلگرام</label>
+                            <input type="text" class="form-control" asp-for="linkTelegram" placeholder="لینک تلگرام را وارد کنید ">
+                            <span asp-validation-for="linkTelegram" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <label>لینک اینستاگرام</label>
+                            <input type="text" class="form-control" asp-for="linkInstagram" placeholder="لینک اینستاگرام را وارد کنید ">
+                            <span asp-validation-for="linkInstagram" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <label>شماره شبا</label>
+                            <input type="text" class="form-control" asp-for="shebaNumber" placeholder="شماره شبا را وارد کنید ">
+                            <span asp-validation-for="shebaNumber" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <label>توضیحات جامع</label>
+                            <textarea type="text" class="form-control" asp-for="longDescription">
+
+                        </textarea>
+                            <span asp-validation-for="longDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>آدرس</label>
+                            <textarea type="text" class="form-control" asp-for="address">
+
+                        </textarea>
+                            <span asp-validation-for="address" class="text-danger" />
+                        </div>
+
+                        @if (Model.rolename != "Student")
+                        {
+                            <div class="form-group">
+                                <label>وضعیت مجوز</label>
+                                <select class="form-control" asp-for="hasCertificate">
+                                    <option value="false">بدون مجوز</option>
+                                    <option value="true">دارای مجوز</option>
+                                </select>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label>انتخاب موقعیت</label>
+                            <div id="mapid" style="height:180px"></div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="form-group">
+                                @if (!String.IsNullOrEmpty(Model.url))
+                                {
+                                    <button type="button" class="btn btn-primary" onclick="file1.click()"><i class="fa fa-camera"></i>تغییر عکس پروفایل</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-primary" onclick="file1.click()"><i class="fa fa-camera"></i>انتخاب عکس پروفایل</button>
+
+                                }
+                                <input display="Image" id="file1" name="imageUrl" class="TheFile" onchange="clearDiv('image1');SetPictures('file1','ImageItem1')" style="display:none" type="file">
+                                <div id="ImageItem1" style="margin-top:10px">
+
+                                </div>
+                                @if (!String.IsNullOrEmpty(Model.url))
+                                {
+                                    <img src="/wwwroot/@Model.url" style="width: 70px; margin-right:10px;height: 60px;" />
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button"  class="btn btn-primary" onclick="imageUrldocuments.click()"><i class="fa fa-camera"></i>انتخاب عکس های مدارک و کارت ملی</button>
+                            <input display="Image"   id="imageUrldocuments" name="imageUrldocuments" class="TheFile" onchange="SetPictures('imageUrldocuments','ImageItems');" style="display:none" multiple type="file">
+                            <div id="ImageItems" style="margin-top:10px">
+
+                            </div>
+                            <span id="imageUrldocumentsSpan" asp-validation-for="imageUrldocuments" class="text-danger" />
+                        </div>
+
+
+                        @if (Model.UserDocumentImages != null && Model.UserDocumentImages.Count() > 0)
+                        {
+                            <div class="form-group">
+                                <label>عکس های مدارک</label>
+                                <div id="RemoveImageItems" class="row" style="margin-top:10px;padding:10px">
+                                    @foreach (var item in Model.UserDocumentImages)
+                                    {
+                                        <div id=@item.id style="justify-content:center;align-items:center">
+                                    <img src="/wwwroot/images/Profile/@item.url" style="width: 70px; margin-right:10px;height: 60px;" id="@item.id" />
+                                    <button type="button" style="margin-right:5px" class="btn  btn-danger btnremovefile">حذف</button></div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        <span asp-validation-for="@Model.UserDocumentImages" class="text-danger"></span>
+
+                        <input type="text" class="form-control" asp-for="latitude" hidden>
+                        <input type="text" class="form-control" asp-for="longitude" hidden>
+
+                        <div class="form-group form-group-btn">
+                            <button type="submit" class="btn">ثبت</button>
+                            <a href="@ViewBag.ReturnUrl" class="btn" style="margin-top:3px">انصراف</a>
+                        </div>
+                    </div>
+                </div>
+		</div>
+	</form>
+</div>
+
+<script>
+
+    $("#frmProfile").submit(function (e) {
+        if ($("#imageUrldocuments").val() == "" ) {
+            $("#imageUrldocumentsSpan").html("لطفا عکس های مدارک را انتخاب کنید")
+            return false;
+        }
+        else {
+            $("#imageUrldocumentsSpan").html("")
+
+            return true;
+        }
+    });
+    function clearDiv(imageName) {
+
+        if (imageName == 'image1')
+            $("#ImageItem1").parent().find('img').remove();
+        if (imageName == 'image2')
+            $("#ImageItem2").parent().find('img').remove();
+
+    }
+    $('#RemoveImageItems').on('click', '.btnremovefile', function () {
+        RemoveFiles('RemoveImageItems', '/CustomerHome/RemoveFileUserDocument', 'Id', $(this).closest('div').attr("id"));
+        $(this).closest('div').html('');
+    });
+    
+      
+            SetInputFilter(["shebaNumber"]);
+       
+
+
+
+
+</script>

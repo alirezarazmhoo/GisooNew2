@@ -1,0 +1,113 @@
+﻿@model Gisoo.ViewModel.ArticleDetailViewModel
+
+@{
+    ViewData["Title"] = "ArticleDetail";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            <h1>@Model.Article.title</h1>
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                <li>@Model.Article.title</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="ads-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="ads-content__slider">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="ads-content__slider__item">
+                                        <img src="@Model.Article.image">
+                                    </div>
+                                </div>
+                           
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="ads-content__desc">
+                    <p>
+
+                    @Html.Raw(Model.Article.description)</p>
+                </div>
+               
+            </div>
+        </div>
+        
+    </div>
+</section>
+@if (Model.Banner != null)
+{
+    <section class="banner">
+        <div class="container">
+            <div class="banner__wrapper">
+                <a href="@Model.Banner.link"><img src="../@Model.Banner.image"></a>
+            </div>
+        </div>
+    </section>
+}
+@if (Model.OtherArticle.Count()>0)
+{
+    <section class="Article-slider">
+        <div class="container">
+            <div class="sec-title">
+                <h3><i class="dn-Article-left"></i>مقالات مرتبط</h3>
+                <a href="/CustomerHome/ArticleList">بیشتر</a>
+            </div>
+            <div class="Article-slider__wrapper">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.OtherArticle)
+                        {
+
+
+                            <div class="swiper-slide">
+                                <div class="Article-slider__item">
+                                    <figure class="Article-slider__item__image">
+                                            <a href="/CustomerHome/ArticleDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/images/Article/@item.imageUrl"></a>
+                                    </figure>
+                                    <div class="Article-slider__item__title">
+                                        <h2><a href="/CustomerHome/ArticleDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                    </div>
+                                    
+
+                                </div>
+                            </div>
+                        }
+
+                        <div class="swiper-slide">
+                            <div class="Article-slider__item Article-slider__item--more">
+                                <figure class="Article-slider__item__image">
+                                    <img src="/wwwroot/HomeContent/assets/img/prod.jpg">
+                                </figure>
+                                <div class="Article-slider__item__more">
+                                    <span><i class="dn-arrow-left"></i>بیشتر</span>
+                                </div>
+                                <a href="/CustomerHome/ArticleList"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                    <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+
+

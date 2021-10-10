@@ -1,0 +1,177 @@
+﻿@model Gisoo.ViewModel.AdvertismentViewModel
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">تبلیغات و ورکشاپ جدید</h3>
+                </div>
+                <div class="row">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                       
+                        
+                        <div class="box-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="title" class="control-label"></label>
+                                    <input asp-for="title" class="form-control" />
+                                    <span asp-validation-for="title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">کاربر</label>
+                                    @*<select id="categoryIdm" class="form-control" asp-items="ViewBag.categoryId">*@
+                                    <select asp-for="userId" class="form-control selectlist" asp-items="ViewBag.userId">
+
+                                        
+                                    </select>
+                                    <span asp-validation-for="userId" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">استان</label>
+                                    @*<select id="categoryIdm" class="form-control" asp-items="ViewBag.categoryId">*@
+                                    <select asp-for="cityId" class="form-control" asp-items="ViewBag.cityId">
+
+                                        <option value="">انتخاب کنید</option>
+
+                                    </select>
+                                    <span asp-validation-for="cityId" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">شهرستان</label>
+                                    @*<select id="categoryIdm" class="form-control" asp-items="ViewBag.categoryId">*@
+                                    <select asp-for="provinceId" class="form-control" asp-items="ViewBag.provinceId">
+
+                                        <option value="">انتخاب کنید</option>
+                                    </select>
+                                    <span asp-validation-for="provinceId" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">حومه</label>
+                                    @*<select id="categoryIdm" class="form-control" asp-items="ViewBag.categoryId">*@
+                                    <select asp-for="areaId" class="form-control" asp-items="ViewBag.areaId">
+
+                                        <option value="">انتخاب کنید</option>
+                                    </select>
+                                    <span asp-validation-for="areaId" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="description" class="control-label"></label>
+                                    <textarea asp-for="description" class="form-control"></textarea>
+                                    <span asp-validation-for="description" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">دسته</label>
+
+
+                                    <label>
+                                        <input type="checkbox" value="true" class="minimal" id="isWorkshop" name="isWorkshop">
+                                        ورک شاپ
+                                    </label>
+
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" onclick="file1.click()"><i class="fa fa-camera"></i>انتخاب عکس اول</button>
+                                    <input display="Image" id="file1" name="file1" class="TheFile" onchange="SetPictures('file1','ImageItems1');" style="display:none" type="file">
+                                    <div id="ImageItems1" style="margin-top:10px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" onclick="file2.click()"><i class="fa fa-camera"></i>انتخاب عکس دوم</button>
+                                    <input display="Image" id="file2" name="file2" class="TheFile" onchange="SetPictures('file2','ImageItems2');" style="display:none" type="file">
+                                    <div id="ImageItems2" style="margin-top:10px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" onclick="file3.click()"><i class="fa fa-camera"></i>انتخاب عکس سوم</button>
+                                    <input display="Image" id="file3" name="file3" class="TheFile" onchange="SetPictures('file3','ImageItems3');" style="display:none" type="file">
+                                    <div id="ImageItems3" style="margin-top:10px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="submit" value="ثبت" class="btn btn-default" />
+                                    <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/PersianDatePicker.min.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $('.selectlist').select2();
+
+            $('#expireDate1').persianDatepicker({
+                formatDate: "YYYY/MM/DD",
+                altFormat: 'X',
+                observer: true,
+                timePicker: {
+                    enabled: false
+                },
+
+            });
+            $("#expireDate1").val('');
+        });
+
+    </script>
+    <script>
+        $('form').submit(function () {
+            if ($('#isWorkshop').parent().attr('aria-checked', true)) {
+                $('#isWorkshop').val(true);
+            }
+        })
+             $('#cityId').on('change', function () {
+            var valueSelected = this.value;
+            $('#provinceId').load('@Url.Action("LoadProvince")?cityId=' + valueSelected);
+            });
+        $('#provinceId').on('change', function () {
+            var valueSelected = this.value;
+            $('#areaId').load('@Url.Action("LoadArea")?provinceId=' + valueSelected);
+            });
+    </script>
+}
+

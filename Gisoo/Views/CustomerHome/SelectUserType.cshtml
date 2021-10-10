@@ -1,0 +1,98 @@
+﻿@model List<Gisoo.Models.Role>
+
+@{
+    ViewData["Title"] = "SelectUserType";
+    Layout = "~/Views/Shared/_CustomerHomeLayout.cshtml";
+}
+<section class="blog">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>انتخاب نوع کاربری</h3>
+        </div>
+        <div class="blog__wrapper">
+            <div class="row">
+                @*<div class="col-md-2">
+            <div class="blog__item">
+                <div class="blog__item__background">
+                    <img src="~/HomeContent/assets/img/slide.jpg">
+                </div>
+                <div class="blog__item__title">
+                    <h2>کاربر عادی</h2>
+                </div>
+                <a id="NormalUser" href="/CustomerHome/Register?type=@Model.FirstOrDefault(x=>x.RoleNameEn=="Member").Id"></a>
+            </div>
+        </div>*@
+                <div class="col-md-2">
+                    <div class="blog__item">
+                        <div class="blog__item__background">
+                            <img src="~/HomeContent/assets/img/slide.jpg">
+                        </div>
+                        <div class="blog__item__title">
+                            <h2>آرایشگاه</h2>
+                        </div>
+                        <a href="/CustomerHome/Register?roleId=@Model.FirstOrDefault(x=>x.RoleNameEn=="SalonOwner").Id"></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="blog__item">
+                        <div class="blog__item__background">
+                            <img src="~/HomeContent/assets/img/facial.png">
+                        </div>
+                        <div class="blog__item__title">
+                            <h2>آرایشگر</h2>
+                        </div>
+                        <a href="/CustomerHome/Register?roleId=@Model.FirstOrDefault(x=>x.RoleNameEn=="HairStylist").Id"></a>
+
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="blog__item">
+                        <div class="blog__item__background">
+                            <img src="~/HomeContent/assets/img/ser1.jpg">
+                        </div>
+                        <div class="blog__item__title">
+                            <h2>کاربر عادی</h2>
+                        </div>
+
+                        @*<a href="/CustomerHome/Register?roleId=@Model.FirstOrDefault(x=>x.RoleNameEn=="Student").Id"></a>*@
+                        <a href="/CustomerHome/Register?roleId=@Model.FirstOrDefault(x=>x.RoleNameEn=="Member").Id"></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="blog__item">
+                        <div class="blog__item__background">
+                            <img src="~/HomeContent/assets/img/ser1.jpg">
+                        </div>
+                        <div class="blog__item__title">
+                            <h2>فروشگاه</h2>
+                        </div>
+                        <a href="/CustomerHome/Register?roleId=@Model.FirstOrDefault(x=>x.RoleNameEn=="Store").Id"></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="blog__item">
+                        <div class="blog__item__background">
+                            <img src="~/HomeContent/assets/img/ser1.jpg">
+                        </div>
+                        <div class="blog__item__title">
+                            <h2>مربی</h2>
+                        </div>
+                        <a href="/CustomerHome/Register?roleId=@Model.FirstOrDefault(x=>x.RoleNameEn=="Mentor").Id"></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="blog__item">
+                        <div class="blog__item__background">
+                            <img src="~/HomeContent/assets/img/ser1.jpg">
+                        </div>
+                        <div class="blog__item__title">
+                            <h2>آموزشگاه</h2>
+                        </div>
+                        <a href="/CustomerHome/Register?roleId=@Model.FirstOrDefault(x=>x.RoleNameEn=="Academy").Id"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

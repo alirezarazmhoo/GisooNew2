@@ -1,0 +1,314 @@
+﻿@model Gisoo.ViewModel.UserListViewModel
+
+@{ ViewData["Title"] = "UserDetail";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml"; }
+
+
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            @if ((string)ViewData["userType"] == "آرایشگر")
+            {
+<h1>آرایشگرها</h1> }
+else
+{
+<h1>@Model.UserTypeName</h1>}
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                @if ((string)ViewData["userType"] == "آرایشگر")
+                {
+    <li>آرایشگرها</li> }
+                else
+                {
+    <li>@Model.UserTypeName</li>}
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="cat-blog">
+    <div class="container">
+
+        @if ((string)ViewData["userType"] == "آرایشگر")
+        {
+<div class="row">
+    <div class="col-md-9">
+        <div class="cat-blog__title">
+            <h3>@Model.RoleNameListLeftFa</h3>
+        </div>
+        <div id="yourDiv">
+
+            @foreach (var item in Model.HairStylist)
+            {
+<div class="cat-blog__list">
+    <div class="cat-blog__list__img">
+        @if (String.IsNullOrEmpty(item.url))
+        {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+    </div>
+    <div class="cat-blog__list__desc">
+        <div class="cat-blog__list__desc__title">
+            <h2>
+                @if (String.IsNullOrEmpty(item.fullname))
+                {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+            </h2>
+
+        </div>
+        @if (!String.IsNullOrEmpty(item.shortDescription))
+        {
+<div class="cat-blog__list__desc__text">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+
+    </div>
+
+</div>}
+
+
+        </div>
+        <div id="mydiv2"></div>
+    </div>
+
+    @* For then Click Store don`t show left menu *@
+    @if (Model.RoleNameListLeftFa != Model.UserTypeName)
+    {
+
+<div class="col-md-3">
+    <div class="cat-blog__title">
+        <h3>@Model?.UserTypeName</h3>
+    </div>
+    <div id="yourDiv">
+
+        @foreach (var item in Model?.Users)
+        {
+<div class="cat-blog__list">
+
+    <div class="cat-blog__list__img2">
+        @if (String.IsNullOrEmpty(item.url))
+        {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img width="100" style="border-radius: 50%; margin-top: 20px; margin-right: 8px" src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img width="100" style="border-radius: 50%; margin-top: 20px; margin-right: 8px" src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img width="100" style="border-radius: 50%; margin-top: 20px; margin-right: 8px" src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img style="border-radius:50% ; margin-top:20px; margin-right:8px" src="@item.url"></a>}}
+    </div>
+    <div class="cat-blog__list__desc">
+        <div class="cat-blog__list__desc__title">
+            <h2>
+                @if (String.IsNullOrEmpty(item.fullname))
+                {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+            </h2>
+
+        </div>
+        @if (!String.IsNullOrEmpty(item.shortDescription))
+        {
+<div class="cat-blog__list__desc__text">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+
+    </div>
+
+</div>}
+
+    </div>
+    <div id="mydiv2"></div>
+</div>
+        
+        }
+</div> }
+else
+{
+<div class="row">
+    <div class="col-md-9">
+        <div class="cat-blog__title">
+            <h3>@Model.UserTypeName</h3>
+        </div>
+        <div id="yourDiv">
+
+            @foreach (var item in Model.Users)
+            {
+<div class="cat-blog__list">
+    <div class="cat-blog__list__img">
+        @if (String.IsNullOrEmpty(item.url))
+        {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+    </div>
+    <div class="cat-blog__list__desc">
+        <div class="cat-blog__list__desc__title">
+            <h2>
+                @if (String.IsNullOrEmpty(item.fullname))
+                {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+            </h2>
+
+        </div>
+        @if (!String.IsNullOrEmpty(item.shortDescription))
+        {
+<div class="cat-blog__list__desc__text">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+
+    </div>
+
+</div>}
+
+
+        </div>
+        <div id="mydiv2"></div>
+    </div>
+
+    @* For then Click Store don`t show left menu *@
+    @if (Model.RoleNameListLeftFa != Model.UserTypeName)
+    {
+
+<div class="col-md-3">
+    <div class="cat-blog__title">
+        <h3>@Model?.RoleNameListLeftFa</h3>
+    </div>
+    <div id="yourDiv">
+
+        @foreach (var item in Model?.HairStylist)
+        {
+<div class="cat-blog__list">
+
+    <div class="cat-blog__list__img2">
+        @if (String.IsNullOrEmpty(item.url))
+        {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img width="100" style="border-radius: 50%; margin-top: 20px; margin-right: 8px" src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img width="100" style="border-radius: 50%; margin-top: 20px; margin-right: 8px" src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img width="100" style="border-radius: 50%; margin-top: 20px; margin-right: 8px" src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img style="border-radius:50% ; margin-top:20px; margin-right:8px" src="@item.url"></a>}}
+    </div>
+    <div class="cat-blog__list__desc">
+        <div class="cat-blog__list__desc__title">
+            <h2>
+                @if (String.IsNullOrEmpty(item.fullname))
+                {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+            </h2>
+
+        </div>
+        @if (!String.IsNullOrEmpty(item.shortDescription))
+        {
+<div class="cat-blog__list__desc__text">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+
+    </div>
+
+</div>}
+
+    </div>
+    <div id="mydiv2"></div>
+</div>}
+</div>}
+
+
+    </div>
+</section>
+@if (Model.Banner != null)
+{
+<section class="banner">
+    <div class="container">
+        <div class="banner__wrapper">
+            <a href="@Model.Banner.link"><img src="@Model.Banner.image"></a>
+        </div>
+    </div>
+</section>}
+<script>
+        window.onscroll = function () {
+            LoadListNotice("/CustomerHome/UserListPartial?userRolaNameEng=@Model.userRolaNameEng");
+        }
+</script>
+
+
+
+
+

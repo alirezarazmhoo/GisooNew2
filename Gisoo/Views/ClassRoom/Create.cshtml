@@ -1,0 +1,211 @@
+﻿@model Gisoo.ViewModel.ClassRoomViewModelAdmin
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">جزییات کلاس</h3>
+                </div>
+                <div class="row">
+
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+                        <div class="box-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+                            @*<div class="col-md-6">
+            <div class="form-group">
+
+                <label class="control-label">تاریخ رزور  </label>
+                <input class="form-control" id="reserveDate1" name="reserveDate1" value="" />
+
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>ساعت رزرو</label>
+                <input asp-for="@Model.ClassRoom.reserveHour"  type="time" class="form-control">
+                <span asp-validation-for="@Model.ClassRoom.reserveHour" class="text-danger"></span>
+            </div>
+        </div>*@
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model.ClassRoom.title" class="control-label"></label>
+                                    <input asp-for="@Model.ClassRoom.title" class="form-control" />
+                                    <span asp-validation-for="@Model.ClassRoom.title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model.ClassRoom.classRoomTeacher" class="control-label"></label>
+                                    <input asp-for="@Model.ClassRoom.classRoomTeacher" class="form-control" />
+                                    <span asp-validation-for="@Model.ClassRoom.classRoomTeacher" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model.ClassRoom.classRoomPeriod" class="control-label"></label>
+                                    <input asp-for="@Model.ClassRoom.classRoomPeriod" class="form-control" />
+                                    <span asp-validation-for="@Model.ClassRoom.classRoomPeriod" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">نوع کلاس </label>
+                                    <select class="form-control" asp-for="@Model.ClassRoom.classRoomTypeId">
+
+                                        @foreach (var item in Model.ClassRoomTypes)
+                                        {
+
+                                            <option value=@item.id>@item.name</option>
+
+                                        }
+                                    </select>
+                                    <span asp-validation-for="@Model.ClassRoom.classRoomTypeId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            @*<div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">نوع پرداختی </label>
+                <select class="form-control" asp-for="@Model.ClassRoom.classRoomLaw" >
+
+                    <option value=1>اجاره ای</option>
+
+
+                    <option value=3>حقوقی</option>
+
+
+                    <option value=2>درصدی</option>
+
+
+                    <option value=4>رزرو</option>
+
+
+                </select>
+                <span asp-validation-for="@Model.ClassRoom.classRoomLaw" class="text-danger"></span>
+            </div>
+        </div>*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">قیمت</label>
+                                    <input asp-for="@Model.ClassRoom.price" value="" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    <span asp-validation-for="@Model.ClassRoom.price" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">قیمت تخفیف</label>
+                                    <input asp-for="@Model.ClassRoom.discountPrice" value="" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    <span asp-validation-for="@Model.ClassRoom.discountPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">کاربر </label>
+                                    <select class="form-control selectlist" searchable="جستجو" asp-for="@Model.ClassRoom.userId">
+
+                                        @foreach (var item in Model.Users)
+                                        {
+
+                                            <option value=@item.id>@item.cellphone:@item.fullname</option>
+
+                                        }
+                                    </select>
+                                    <span asp-validation-for="@Model.ClassRoom.userId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="@Model.ClassRoom.description" class="control-label"></label>
+                                    <textarea asp-for="@Model.ClassRoom.description" class="form-control"></textarea>
+                                    <span asp-validation-for="@Model.ClassRoom.description" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" onclick="file.click()"><i class="fa fa-camera"></i>انتخاب عکس</button>
+                                    <input display="Image" id="file" name="file" class="TheFile" onchange="SetPictures('file','ImageItems');" style="display:none" multiple type="file">
+                                    <div id="ImageItems" style="margin-top:10px">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="submit" value="ثبت" class="btn btn-default" />
+                                    <a onclick="goBack()" class="btn btn-danger">بازگشت</a>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/PersianDatePicker.min.js"></script>
+
+    <script>
+       
+        $(document).ready(function () {
+            $('.selectlist').select2();
+
+        $('#reserveDate1').persianDatepicker({
+            formatDate: "YYYY/MM/DD",
+            altFormat: 'X',
+            observer: true,
+            timePicker: {
+                enabled: false
+            },
+
+        });
+        $("#reserveDate1").val('');
+
+        });
+        function goBack() {
+            window.history.back();
+        }
+        function numberWithCommas(x) {
+            var tmp = x.value;
+            while (tmp.indexOf(',') != -1)
+                tmp = tmp.replace(',', '');
+            var parts = tmp.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            x.value = parts.join(".");
+        }
+        $('form').submit(function () {
+            if ($('#ClassRoom_price').length != 0) {
+                while (ClassRoom_price.value.indexOf(',') != -1) {
+                    ClassRoom_price.value = ClassRoom_price.value.replace(',', '');
+                }
+            }
+            if ($('#ClassRoom_discountPrice').length != 0) {
+                while (ClassRoom_discountPrice.value.indexOf(',') != -1) {
+                    ClassRoom_discountPrice.value = ClassRoom_discountPrice.value.replace(',', '');
+                }
+            }
+        });
+    
+   
+    </script>
+
+}
+

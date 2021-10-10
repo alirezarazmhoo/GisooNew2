@@ -1,0 +1,49 @@
+﻿@model Gisoo.Models.AboutUs
+@using Gisoo.Utility
+
+@{
+    ViewData["Title"] = "AboutUs";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            <h1>درباره ما</h1>
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                <li>درباره ما</li>
+            </ul>
+        </div>
+    </div>
+</section>
+@if (Model != null)
+{
+<section class="factor">
+    <div class="container">
+
+        <div class="factor__wrapper">
+            <div class="row">
+                <div class="col-md-10 offset-lg-1">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <div style="box-shadow: 0 0 25px rgba(0, 0, 0, 0.15); padding: 25px 35px; border-radius: 15px; margin-bottom: 30px;">
+
+                                @Html.Raw(Model.description)
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+}
+
+
+
+

@@ -1,0 +1,261 @@
+﻿@model Gisoo.ViewModel.LineViewModel
+
+@{
+    ViewData["Title"] = "Member";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+<section class="profile">
+    <div class="container">
+        <div class="profile__header">
+            <div class="profile__header__toggle" onclick="openTab()">
+                <i class="dn-menu"></i>
+            </div>
+            <div class="profile__header__user">
+                <div class="profile__header__user__avatar">
+                    @if (String.IsNullOrEmpty(ViewBag.url))
+                    {
+                        <img src="/HomeContent/assets/img/avatar.jpg">
+                    }
+                    else
+                    {
+                        <img src="/wwwroot/@ViewBag.url" />
+                    }
+                </div>
+                <div class="profile__header__user__name">
+                    <span id="testname">@ViewBag.UserName</span>
+                </div>
+                &nbsp; &nbsp;
+                <div class="profile__header__user__name">
+                    <span id="testname" style="color:red">کد شما برای معرفی به دوستان:@ViewBag.identifyCode</span>
+                </div>
+               
+                
+            </div>
+            <div class="profile__header__menu">
+                <ul>
+                    <li>
+                        <a href="/LogoutCustomer">خروج</a>
+
+                    </li>
+                </ul>
+            </div>
+           
+        </div>
+        <div class="profile__wrapper" style="min-height:350px;">
+            <div class="profile__sidebar">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#"><span>تکمیل پروفایل</span></a>
+                            <ul>
+                                <li>
+                                    <a style="cursor:pointer" onclick="profileManagment()" @*href="#!"*@ class="link"><span>تکمیل اطلاعات پروفایل</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><span>رزروها</span></a>
+                            <ul>
+                                <li>
+                                    <a style="cursor:pointer" onclick="showAllReservedSalowns()" class="link"><span>سالن های رزرو شده</span></a>
+                                </li>
+
+                                <li>
+                                    <a style="cursor:pointer" onclick="showAllReservedClasses()" class="link"><span>کلاس های رزرو شده</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><span>مدیریت تبلیغات و ورکشاپ</span></a>
+                            <ul>
+
+                                <li>
+                                    <a style="cursor:pointer" onclick="showAllAdvertisment()" class="link"><span>همه تبلیغات من</span></a>
+                                </li>
+                                <li>
+                                    <a style="cursor:pointer" id="newAdvertisment" class="link"><span>ایجاد تبلیغ</span></a>
+
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><span>مدیریت آگهی ها</span></a>
+                            <ul>
+
+                                <li>
+                                    <a style="cursor:pointer" onclick="showAllNotice()" class="link"><span>همه آگهی های من</span></a>
+                                </li>
+                                <li>
+                                    <a style="cursor:pointer" id="newNotice" class="link"><span>ایجاد آگهی</span></a>
+
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="#"><span>تغییر نوع کاربری</span></a>
+                            <ul>
+                                <li>
+                                    <a style="cursor:pointer" onclick="changeRole()" class="link"><span>تغییر نوع کاربری</span></a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+            <div class="profile__content">
+                <div class="profile__header__user__name" style="margin-bottom:20px;">
+                    <span style="color:red">  پروفایل شما به عنوان کاربر معمولی است میتوانید فقط یک بار پروفایل خود را از منو کنار به عنوان آرایشگر(با قابلیت گذاشتن خدمات) یا آرایشگاه (با قابلیت گذاشتن خدمات) یا فروشگاه (با قابلیت گذاشتن محصول) یا آموزشگاه (با قابلیت گذاشتن کلاس) یا مربی (با قابلیت گذاشتن کلاس) تغییر دهید و از امکانات بیشتر استفاده نمایید لازم به ذکر است پس از یکبار تغییر نوع کاربری دیگر قادر به تغییر مجدد آن نمی باشید و با هر شماره فقط یک نوع کاربری در سیستم نقش ایفا می نمایید و اگر بخواهید تحت عنوان سایر نقش ها در سایت فعالیت نمایید لطفا با یک شماره جدید وارد شوید</span>
+                </div>
+                <div class="profile__content__dashboard">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="profile__content__dashboard__item">
+                                <span>امتیاز</span>
+                                <span>@ViewBag.UserScore</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="profile__content__dashboard__item">
+                                <span>آگهی ها</span>
+                                <span>@ViewBag.TotalNotice</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="profile__content__dashboard__item">
+                                <span>تبلیغات وورکشاپ</span>
+                                <span>@ViewBag.TotalAdvertisments</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="profile__content" style="display:none">
+
+                </div>
+                <div id="divRegister" style="display:none">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="Error">
+
+</div>
+<div id="Question">
+
+</div>
+<div id="Advertisment">
+
+</div>
+<div id="Notice">
+
+</div>
+<div class="modal fade" id="score-user">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                </button>
+                <h4 class="modal-title">سامانه گیسو</h4>
+            </div>
+            <div class="modal-body">
+                <p>درخواست شما با موفقیت انجام شد و از امتیاز شما کسر گردید</p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div id="ItemId">
+    
+    <input name="advertismentid" id="advertismentid" hidden>
+    <input name="noticeid" id="noticeid" hidden>
+</div>
+<script>
+    function openTab() {
+        $('.profile__wrapper').toggleClass('profile__wrapper--collapse');
+
+    }
+    $('.profile__sidebar nav a').on('click', function () {
+        if ($(this).hasClass('link')) {
+            $('.profile__wrapper').toggleClass('profile__wrapper--collapse');
+        }
+    })
+    window.onload = Load;
+	function Load() {
+		CreateAllModals();
+        if ('@ViewBag.subScore' == 'True') {
+        $('#score-user').modal('show');
+		}
+
+
+		if ('@ViewBag.isNoticeShortcut' == 1) {
+			
+			$("#newNotice").click();
+		}
+        if ('@ViewBag.hasadverstitmentshortcut' == 1) {
+			$("#newAdvertisment").click();
+		}
+
+	}
+
+    if ('@ViewBag.isRegisterAdvertisment' == 'True') {
+        showAllAdvertisment();
+    }
+    if ('@ViewBag.isRegisterNotice' == 'True') {
+        showAllNotice();
+    }
+
+
+
+    function RemoveAdvertisment() {
+        var Parameters = [{ id: "id", htmlname: "advertismentid", special: "" }];
+        PostAjax('../CustomerHome/RemoveAdvertisment', Parameters, showAllAdvertisment);
+        $("#QuestionModalAdvertisment").modal('hide');
+        $('.modal-backdrop').remove();
+    }
+    function RemoveNotice() {
+        var Parameters = [{ id: "id", htmlname: "noticeid", special: "" }];
+        PostAjax('../CustomerHome/RemoveNotice', Parameters, showAllNotice);
+        $("#QuestionModalNotice").modal('hide');
+        $('.modal-backdrop').remove();
+    }
+
+    function AssignButtonClicked(elem, page) {
+
+        if (page == 2) {
+            $('#advertismentid').val($(elem).data('assigned-id'));
+        }
+        if (page == 3) {
+            $('#noticeid').val($(elem).data('assigned-id'));
+        }
+    }
+    $("#newAdvertisment").on("click", function () {
+        GetData("/CustomerHome/RegisterAdvertisment", "divRegister");
+    });
+    function showAllAdvertisment() {
+
+        GetData("/CustomerHome/AllAdvertisment", "divRegister");
+    }
+    $("#newNotice").on("click", function () {
+        GetData("/CustomerHome/RegisterNotice", "divRegister");
+    });
+    function showAllNotice() {
+        GetData("/CustomerHome/AllNotice", "divRegister");
+	}
+    function profileManagment() {
+        GetData("/CustomerHome/ProfileManagment", "divRegister", null, true);
+    }
+    function changeRole() {
+        GetData("/CustomerHome/ChangeRole", "divRegister");
+
+    }
+</script>
+

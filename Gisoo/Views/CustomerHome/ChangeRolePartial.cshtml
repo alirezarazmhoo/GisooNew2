@@ -1,0 +1,60 @@
+﻿@model List<Gisoo.Models.Role>
+
+<section class="blog">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>تغییر نوع کاربری</h3>
+        </div>
+        <div class="blog__wrapper">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <select class="form-control" id="roleSelected">
+                        @foreach (var item in Model)
+                        {
+                            @if (!(item.RoleNameEn == "Member" || item.RoleNameEn == "Admin"))
+                            {
+                            <option value="@item.RoleNameEn">@item.RoleNameFa</option>
+                                }
+                            }
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" onclick="RegisterRoleMember(document.getElementById('roleSelected').value);" class="btn" style="margin-top:3px">ثبت</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="register-user-role">
+    <div class="modal-dialog">
+        <form action="ChangeRole" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                    </button>
+                    <h4 class="modal-title">سامانه گیسو</h4>
+                </div>
+                <div class="modal-body">
+                    <p style="color:red">  پس از یکبار تغییر نوع کاربری دیگر قادر به تغییر مجدد آن نمی باشید و با هر شماره فقط یک نوع کاربری در سیستم نقش ایفا می نمایید و اگر بخواهید تحت عنوان سایر نوع کاربری ها در سایت فعالیت نمایید لطفا با یک شماره جدید وارد شوید</p>
+                    <p>آیا از تغییر نوع کاربری زیر اطمینان دارید؟ </p>
+                    <input class="form-control" disabled id="roleNameFa" name="roleNameFa" value=""/>
+                    <input class="form-control" hidden id="roleNameEng" name="roleNameEng" value=""/>
+                    <button type="submit" class="btn" style="margin-top:3px">بلی</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    function RegisterRoleMember(roleNameEng) {
+        $('#register-user-role #roleNameEng').val(roleNameEng);
+        var roleNameFa = $("#roleSelected option:selected").text();
+        $('#register-user-role #roleNameFa').val(roleNameFa);
+        $('#register-user-role').modal('show');
+       
+
+
+    }
+</script>

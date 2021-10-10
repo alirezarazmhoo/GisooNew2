@@ -1,0 +1,2100 @@
+﻿@model Gisoo.ViewModel.HomeViewModel
+
+@{
+    Layout = "_CustomerHomeLayout";
+}
+
+
+
+<header class="main-header">
+    <div class="container">
+        <div class="main-header__wrapper">
+            <div class="main-header__mobie-menu">
+                <a href="#" data-toggle="openbox" data-target="mobile-menu" data-status="false"><i class="dn-menu"></i></a>
+            </div>
+
+            <div class="intro__logo">
+                <a href="#">
+                    <img src="~/images/barbershop2.png" />
+                </a>
+            </div>
+
+
+            <div class="main-header__nav">
+                <nav>
+                    <ul>
+                       
+                        <li>
+                            <div class="d-flex justify-content-between">
+
+                                <a href="/CustomerHome/UserList?userRolaNameEng=Academy">آموزشگاه ها</a>
+                                <a href="/CustomerHome/ClassRoomList">کلاس ها</a>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="d-flex justify-content-between">
+                                <a href="/CustomerHome/UserList?userRolaNameEng=Store">فروشگاه ها</a>
+                                <a href="/CustomerHome/ProductList">محصولات</a>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="d-flex justify-content-between">
+                                <a href="/CustomerHome/UserList?userRolaNameEng=SalonOwner">آرایشگاه ها</a>
+                                <a href="/CustomerHome/LineList">لاین ها</a>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex justify-content-between">
+                                <a href="/CustomerHome/AdvertismentList">ورکشاپ و تبلیغات</a>
+                                <a href="/Ad_List">آگهی ها</a>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex justify-content-between">
+                                <a href="/CustomerHome/ContactUs">تماس با ما</a>
+                                <a href="/CustomerHome/AboutUs">درباره ما</a>
+                            </div>
+                        </li>
+
+
+                        <li>
+                            <div class="d-flex justify-content-around">
+
+                                <a href="/CustomerHome/Rule">قوانین و مقررات</a>
+                            </div>
+                        </li>
+                        <li style="padding-top: 12px;">
+                            @using (Html.BeginForm("AllSearch", "CustomerHome", FormMethod.Get))
+                            {
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="عنوان را وارد کنید">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit">
+                                            <i class="dn-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </li>
+                        <li style="padding-top: 12px;">
+                            <div class="main-header__logo">
+                                <a target="_blank" href="https://cafebazaar.ir/app/ir.talebi.gisooapp">
+                                    <img src="~/images/bazaar.png" />
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="main-header__left">
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <li>
+                        @if (User.IsInRole("SalonOwner"))
+                        {
+                            <a href="/CustomerHome/SalonOwner"><i class="dn-user"></i>پروفایل</a>
+                        }
+                        @if (User.IsInRole("Member"))
+                        {
+                            <a href="/CustomerHome/Member"><i class="dn-user"></i>پروفایل</a>
+                        }
+                        @if (User.IsInRole("HairStylist"))
+                        {
+                            <a href="/CustomerHome/HairStylist"><i class="dn-user"></i>پروفایل</a>
+                        }
+                        @if (User.IsInRole("Store"))
+                        {
+                            <a href="/CustomerHome/Store"><i class="dn-user"></i>پروفایل</a>
+                        }
+                        @if (User.IsInRole("Academy"))
+                        {
+                            <a href="/CustomerHome/Academy"><i class="dn-user"></i>پروفایل</a>
+                        }
+                        @if (User.IsInRole("Mentor"))
+                        {
+                            <a href="/CustomerHome/Mentor"><i class="dn-user"></i>پروفایل</a>
+                        }
+                        @if (User.IsInRole("Student"))
+                        {
+                            <a href="/CustomerHome/Student"><i class="dn-user"></i>پروفایل</a>
+                        }
+                    </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="/CustomerHome/SelectUserType"><i class="dn-user"></i>ثبت نام</a>
+                            <a href="/CustomerHome/Login"><i class="dn-user"></i>ورود </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<main>
+
+    <section class="intro">
+        <div class="container">
+            <div class="intro__wrapper">
+                <div class="intro__right">
+
+                    <div class="intro__logo">
+                        <a href="#">
+                            <img src="~/images/barbershop2.png" />
+                        </a>
+                    </div>
+
+
+                    <div class="intro__login">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+            @if (User.IsInRole("SalonOwner"))
+            {
+<a href="/CustomerHome/SalonOwner"><i class="dn-user"></i>پروفایل</a>}
+                            @if (User.IsInRole("Member"))
+                            {
+            <a href="/CustomerHome/Member"><i class="dn-user"></i>پروفایل</a>}
+                                            @if (User.IsInRole("HairStylist"))
+                                            {
+                            <a href="/CustomerHome/HairStylist"><i class="dn-user"></i>پروفایل</a>}
+                                                            @if (User.IsInRole("Store"))
+                                                            {
+                                            <a href="/CustomerHome/Store"><i class="dn-user"></i>پروفایل</a>}
+                                                                            @if (User.IsInRole("Academy"))
+                                                                            {
+                                                            <a href="/CustomerHome/Academy"><i class="dn-user"></i>پروفایل</a>}
+                                                                                            @if (User.IsInRole("Mentor"))
+                                                                                            {
+                                                                            <a href="/CustomerHome/Mentor"><i class="dn-user"></i>پروفایل</a>}
+                                                                                                            @if (User.IsInRole("Student"))
+                                                                                                            {
+                                                                                            <a href="/CustomerHome/Student"><i class="dn-user"></i>پروفایل</a>} }
+                                                                                                        else
+                                                                                                        {
+                                                                                            <a href="/CustomerHome/SelectUserType"><i class="dn-user"></i>ثبت نام</a>
+
+                                                                                                            <a href="/CustomerHome/Login">&nbsp; &nbsp;<i class="dn-line-left"></i>ورود </a>}
+                    </div>
+
+                    <div class="intro__nav">
+                        <nav>
+                            <ul>
+                                <li>
+                                    <div class="d-flex justify-content-between">
+
+                                        <a href="/CustomerHome/UserList?userRolaNameEng=Academy">آموزشگاه ها</a>
+                                        <a href="/CustomerHome/ClassRoomList">کلاس ها</a>
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="/CustomerHome/UserList?userRolaNameEng=Store">فروشگاه ها</a>
+                                        <a href="/CustomerHome/ProductList">محصولات</a>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="/CustomerHome/UserList?userRolaNameEng=SalonOwner">آرایشگاه ها</a>
+                                        <a href="/CustomerHome/LineList">لاین ها</a>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="/CustomerHome/AdvertismentList">ورکشاپ و تبلیغات</a>
+                                        <a href="/Ad_List">آگهی ها</a>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="/CustomerHome/ContactUs">تماس با ما</a>
+                                        <a href="/CustomerHome/AboutUs">درباره ما</a>
+                                    </div>
+                                </li>
+
+
+                                <li>
+                                    <div class="d-flex justify-content-around">
+
+                                        <a href="/CustomerHome/Rule">قوانین و مقررات</a>
+                                    </div>
+                                </li>
+                                <li style="padding-top: 12px;">
+                                    @using (Html.BeginForm("AllSearch", "CustomerHome", FormMethod.Get))
+                                    {
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="title" name="title" placeholder="عنوان را وارد کنید">
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="submit">
+                                    <i class="dn-search"></i>
+                                </button>
+                            </div>
+                        </div>}
+                                </li>
+                                <li style="padding-top: 12px;">
+                                    <div class="main-header__logo">
+                                        <a target="_blank" href="https://cafebazaar.ir/app/ir.talebi.gisooapp">
+                                            <img src="~/images/bazaar.png" />
+                                        </a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+                <div class="intro__slider">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model.Sliders)
+                            {
+                <div class="swiper-slide">
+                    <div class="intro__item">
+                        <div class="intro__item__image">
+                            <img src="@item.image">
+                        </div>
+                        <div class="intro__item__overlay">
+                            <span><b>@item.titleForWebSite</b></span>
+                            <a href="@item.link" class="btn btn-white">کلیک کنید</a>
+                        </div>
+                    </div>
+                </div>}
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cats">
+        <div class="container">
+            <div class="row" data-space="20">
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="cats__item">
+                        <figure class="cats__item__image">
+                            <img src="~/HomeContent/assets/img/slide2.jpg">
+                        </figure>
+                        <div class="cats__item__title">
+                            <h2>ایجاد آگهی</h2>
+                        </div>
+                        <a href="/CustomerHome/ShortcutToNotice"></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="cats__item">
+                        <figure class="cats__item__image">
+                            <img src="~/HomeContent/assets/img/shop.jpg">
+                        </figure>
+                        <div class="cats__item__title">
+                            <h2>ایجاد ورکشاپ</h2>
+                        </div>
+                        <a href="/CustomerHome/ShortcutToAdverstitment"></a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    @if (Model.Notices.Count() > 0)
+    {
+<section class="ads-slider" id="not">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>آماده به کار </h3>
+            <a href="/CustomerHome/NoticeList?isBarber=false" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="ads-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.Notices)
+                    {
+    <div class="swiper-slide">
+        <div class="ads-slider__item">
+            <figure class="ads-slider__item__image">
+                @if (!String.IsNullOrEmpty(item.image1))
+                {
+<a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a> }
+else
+{
+<a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>}
+            </figure>
+            <div class="ads-slider__item__title">
+                <h2><a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.description))
+            {
+<div class="ads-slider__item__desc">
+    @if (item.description.Length > 20)
+    {
+<p> @item.description.Substring(0, 20)</p> }
+else
+{
+<p> @item.description</p>}
+</div>}
+
+            <div class="ads-slider__item__row">
+                <div class="ads-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.user.url))
+                        {
+    @if (String.IsNullOrEmpty(item.user.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.user.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="@item.user.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="@item.user.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.user.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>}
+                    </div>
+                </div>
+                <div class="ads-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/NoticeList?isBarber=false"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+            </div>
+        </div>
+    </div>
+</section>}
+
+    @if (Model.NoticeNotBarbers.Count() > 0)
+    {
+<section class="ads-slider" id="not">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>درخواست نیرو </h3>
+            <a href="/CustomerHome/NoticeList?isBarber=true" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="ads-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.NoticeNotBarbers)
+                    {
+    <div class="swiper-slide">
+        <div class="ads-slider__item">
+            <figure class="ads-slider__item__image">
+                @if (!String.IsNullOrEmpty(item.image1))
+                {
+<a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a> }
+else
+{
+<a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>}
+            </figure>
+            <div class="ads-slider__item__title">
+                <h2><a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.description))
+            {
+<div class="ads-slider__item__desc">
+    @if (item.description.Length > 20)
+    {
+<p> @item.description.Substring(0, 20)</p> }
+else
+{
+<p> @item.description</p>}
+</div>}
+
+            <div class="ads-slider__item__row">
+                <div class="ads-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.user.url))
+                        {
+    @if (String.IsNullOrEmpty(item.user.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.user.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="@item.user.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="@item.user.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.user.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>}
+                    </div>
+                </div>
+                <div class="ads-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/NoticeList?isBarber=true"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+            </div>
+        </div>
+    </div>
+</section>}
+
+
+    @if (Model.AdvertismentNotWorkshops.Count() > 0)
+    {
+<section class="salon-slider" id="adss">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i> تبلیغات</h3>
+            <a href="/CustomerHome/AdvertismentList?isWorkshop=false" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="salon-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.AdvertismentNotWorkshops)
+                    {
+    <div class="swiper-slide">
+        <div class="salon-slider__item">
+            <figure class="salon-slider__item__image">
+                @if (String.IsNullOrEmpty(item.image1))
+                {
+<a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a> }
+else
+{
+<a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>}
+            </figure>
+            <div class="salon-slider__item__title">
+                <h2><a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.description))
+            {
+<div class="salon-slider__item__desc">
+    @if (item.description.Length > 20)
+    {
+<p> @item.description.Substring(0, 20)</p> }
+else
+{
+<p> @item.description</p>}
+</div>}
+
+            <div class="salon-slider__item__row">
+                <div class="salon-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.user.url))
+                        {
+    @if (String.IsNullOrEmpty(item.user.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.user.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="@item.user.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="@item.user.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.user.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>}
+                    </div>
+
+                </div>
+                <div class="salon-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+
+
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/AdvertismentList"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+            </div>
+        </div>
+    </div>
+</section>}
+
+    <section class="cats">
+        <div class="container">
+            <div class="row" data-space="20">
+                <div class="col-lg-2 col-md-6">
+                    <div class="cats__item">
+                        <figure class="cats__item__image">
+                            <img src="~/HomeContent/assets/img/ads.png">
+                        </figure>
+                        <div class="cats__item__title">
+                            <h2>رزرو سالن آرایشی</h2>
+                        </div>
+                        <a href="#"></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="cats__item">
+                        <figure class="cats__item__image">
+                            <img src="~/HomeContent/assets/img/slide2.jpg">
+                        </figure>
+                        <div class="cats__item__title">
+                            <h2>سالن آرایش خود را ثبت کنید</h2>
+                        </div>
+                        <a href="#"></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="cats__item">
+                        <figure class="cats__item__image">
+                            <img src="~/HomeContent/assets/img/shop.jpg">
+                        </figure>
+                        <div class="cats__item__title">
+                            <h2>فروشگاه خود را ثبت کنید</h2>
+                        </div>
+                        <a href="#"></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="cats__item">
+                        <figure class="cats__item__image">
+                            <img src="~/HomeContent/assets/img/wax.jpg">
+                        </figure>
+                        <div class="cats__item__title">
+                            <h2>شرکت در دوره ها</h2>
+                        </div>
+                        <a href="#"></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    @if (Model.SalonOwnerUsers.Count() > 0)
+    {
+<section class="ads-slider" id="salo">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>آرایشگاه ها </h3>
+            <a href="/CustomerHome/UserList?userRolaNameEng=SalonOwner" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="ads-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.SalonOwnerUsers)
+                    {
+    <div class="swiper-slide">
+        <div class="ads-slider__item">
+            <figure class="ads-slider__item__image">
+                @if (String.IsNullOrEmpty(item.url))
+                {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+            </figure>
+            <div class="ads-slider__item__title">
+                <h2>
+                    @if (String.IsNullOrEmpty(item.fullname))
+                    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                </h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.shortDescription))
+            {
+<div class="ads-slider__item__desc">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+            <div class="ads-slider__item__row">
+                <div class="ads-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.url))
+                        {
+    @if (String.IsNullOrEmpty(item.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                    </div>
+                </div>
+                <div class="ads-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/UserList?userRolaNameEng=SalonOwner"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+            </div>
+        </div>
+    </div>
+</section>}
+    @if (Model.AcademyUsers.Count() > 0)
+    {
+<section class="ads-slider" id="Aca">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>آموزشگاه ها </h3>
+            <a href="/CustomerHome/UserList?userRolaNameEng=Academy" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="ads-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.AcademyUsers)
+                    {
+    <div class="swiper-slide">
+        <div class="ads-slider__item">
+            <figure class="ads-slider__item__image">
+                @if (String.IsNullOrEmpty(item.url))
+                {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+            </figure>
+            <div class="ads-slider__item__title">
+                <h2>
+                    @if (String.IsNullOrEmpty(item.fullname))
+                    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                </h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.shortDescription))
+            {
+<div class="ads-slider__item__desc">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+            <div class="ads-slider__item__row">
+                <div class="ads-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.url))
+                        {
+    @if (String.IsNullOrEmpty(item.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                    </div>
+                </div>
+                <div class="ads-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/UserList?userRolaNameEng=Academy"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+            </div>
+        </div>
+    </div>
+</section>}
+    @if (Model.HairStylistUsers.Count() > 0)
+    {
+<section class="ads-slider" id="Aca">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>آرایشگر ها </h3>
+            <a href="/CustomerHome/UserList?userRolaNameEng=SalonOwner&userType=آرایشگر" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="ads-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.HairStylistUsers)
+                    {
+    <div class="swiper-slide">
+        <div class="ads-slider__item">
+            <figure class="ads-slider__item__image">
+                @if (String.IsNullOrEmpty(item.url))
+                {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+            </figure>
+            <div class="ads-slider__item__title">
+                <h2>
+                    @if (String.IsNullOrEmpty(item.fullname))
+                    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                </h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.shortDescription))
+            {
+<div class="ads-slider__item__desc">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+            <div class="ads-slider__item__row">
+                <div class="ads-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.url))
+                        {
+    @if (String.IsNullOrEmpty(item.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                    </div>
+                </div>
+                <div class="ads-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/UserList?userRolaNameEng=SalonOwner&userType=آرایشگر"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+            </div>
+        </div>
+    </div>
+</section>}
+    @if (Model.MentorUsers.Count() > 0)
+    {
+<section class="ads-slider" id="Aca">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>مربی ها </h3>
+            <a href="/CustomerHome/UserList?userRolaNameEng=Mentor" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="ads-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.MentorUsers)
+                    {
+    <div class="swiper-slide">
+        <div class="ads-slider__item">
+            <figure class="ads-slider__item__image">
+                @if (String.IsNullOrEmpty(item.url))
+                {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+            </figure>
+            <div class="ads-slider__item__title">
+                <h2>
+                    @if (String.IsNullOrEmpty(item.fullname))
+                    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                </h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.shortDescription))
+            {
+<div class="ads-slider__item__desc">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+            <div class="ads-slider__item__row">
+                <div class="ads-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.url))
+                        {
+    @if (String.IsNullOrEmpty(item.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                    </div>
+                </div>
+                <div class="ads-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/UserList?userRolaNameEng=Mentor"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+            </div>
+        </div>
+    </div>
+</section>}
+    @if (Model.StoreUsers.Count() > 0)
+    {
+<section class="ads-slider" id="sto">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>فروشگاه ها </h3>
+            <a href="/CustomerHome/UserList?userRolaNameEng=Store" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="ads-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.StoreUsers)
+                    {
+    <div class="swiper-slide">
+        <div class="ads-slider__item">
+            <figure class="ads-slider__item__image">
+                @if (String.IsNullOrEmpty(item.url))
+                {
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+            </figure>
+            <div class="ads-slider__item__title">
+                <h2>
+                    @if (String.IsNullOrEmpty(item.fullname))
+                    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                </h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.shortDescription))
+            {
+<div class="ads-slider__item__desc">
+    @if (item.shortDescription.Length > 20)
+    {
+<p> @item.shortDescription.Substring(0, 20)</p> }
+else
+{
+<p> @item.shortDescription</p>}
+</div>}
+
+            <div class="ads-slider__item__row">
+                <div class="ads-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.url))
+                        {
+    @if (String.IsNullOrEmpty(item.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="@item.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="@item.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>}
+                    </div>
+                </div>
+                <div class="ads-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/UserList?userRolaNameEng=Store"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+
+            </div>
+        </div>
+    </div>
+</section>}
+    @if (Model.Advertisments.Count() > 0)
+    {
+<section class="salon-slider" id="adss">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>ورکشاپ </h3>
+            <a href="/CustomerHome/AdvertismentList?isWorkshop=true" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="salon-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.Advertisments)
+                    {
+    <div class="swiper-slide">
+        <div class="salon-slider__item">
+            <figure class="salon-slider__item__image">
+                @if (String.IsNullOrEmpty(item.image1))
+                {
+<a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a> }
+else
+{
+<a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>}
+            </figure>
+            <div class="salon-slider__item__title">
+                <h2><a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+            </div>
+            @if (!String.IsNullOrEmpty(item.description))
+            {
+<div class="salon-slider__item__desc">
+    @if (item.description.Length > 20)
+    {
+<p> @item.description.Substring(0, 20)</p> }
+else
+{
+<p> @item.description</p>}
+</div>}
+
+            <div class="salon-slider__item__row">
+                <div class="salon-slider__item__author">
+                    <div class="ads-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.user.url))
+                        {
+    @if (String.IsNullOrEmpty(item.user.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.user.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="@item.user.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="@item.user.url"></a>}}
+                    </div>
+                    <div class="ads-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.user.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>}
+                    </div>
+
+                </div>
+                <div class="salon-slider__item__price">
+                    <span>@item.code<small>کد</small></span>
+                </div>
+            </div>
+        </div>
+    </div>}
+
+
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/ads.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/AdvertismentList?isWorkshop=true"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+            </div>
+        </div>
+    </div>
+</section>}
+    @if (Model.Banners.FirstOrDefault() != null)
+    {
+<section class="banner">
+    <div class="container">
+        <div class="banner__wrapper">
+            <a href="@Model.Banners.FirstOrDefault().link"><img src="@Model.Banners.FirstOrDefault().image"></a>
+        </div>
+    </div>
+</section> } @*@if (Model.Lines.Count() > 0)
+    {
+        <section class="learn-slider" id="linss">
+            <div class="container">
+                <div class="sec-title">
+                    <h3><i class="dn-line-left"></i>لاین های آرایشگاه ها</h3>
+                    <a href="/CustomerHome/LineList?LineIsService=false">بیشتر</a>
+                </div>
+                <div class="learn-slider__wrapper">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model.Lines)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="learn-slider__item">
+                                        <figure class="learn-slider__item__image">
+                                            @if (item.LineImages.Count() > 0)
+                                            {
+                                                <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Line/File/@item.LineImages.FirstOrDefault().url"></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/eyelash.jpg"></a>
+                                            }
+                                        </figure>
+                                        <div class="learn-slider__item__title">
+                                            <h2><a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                        </div>
+                                        @if (!String.IsNullOrEmpty(item.description))
+                                        {
+                                            <div class="learn-slider__item__desc">
+                                                @if (item.description.Length > 20)
+                                                {
+                                                    <p> @item.description.Substring(0, 20)</p>
+                                                }
+                                                else
+                                                {
+                                                    <p> @item.description</p>
+
+                                                }
+                                            </div>
+                                        }
+                                        <div class="learn-slider__item__row">
+                                            <div class="learn-slider__item__author">
+
+                                                <div class="learn-slider__item__author__avatar">
+                                                    @if (String.IsNullOrEmpty(item.user.url))
+                                                    {
+                                                        @if (String.IsNullOrEmpty(item.user.fullname))
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @if (String.IsNullOrEmpty(item.user.fullname))
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="/wwwroot @item.user.url"></a>
+                                                        }
+                                                        else
+
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="/wwwroot @item.user.url"></a>
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="learn-slider__item__author__name">
+                                                    @if (String.IsNullOrEmpty(item.user.fullname))
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            @if (item.discountPrice != 0 && item.discountPrice != null)
+                                            {
+                                                <div class="ads-slider__item__price">
+                                                    <div class="ads-slider__item__price__old">
+                                                        <span>@item.price</span>
+                                                    </div>
+                                                    <div class="ads-slider__item__price__new">
+                                                        <span>@item.discountPrice<small>تومان</small></span>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="learn-slider__item__price">
+                                                    <span>@item.price<small>تومان</small></span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="swiper-slide">
+                                <div class="ads-slider__item ads-slider__item--more">
+                                    <figure class="ads-slider__item__image">
+                                        <img src="/wwwroot/HomeContent/assets/img/eyelash.jpg">
+                                    </figure>
+                                    <div class="ads-slider__item__more">
+                                        <span><i class="dn-arrow-left"></i>بیشتر</span>
+                                    </div>
+                                    <a href="/CustomerHome/LineList"></a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                        <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }*@ @*@if (Model.LineIsService.Count() > 0)
+    {
+        <section class="learn-slider" id="linss">
+            <div class="container">
+                <div class="sec-title">
+                    <h3><i class="dn-line-left"></i>خدمات آرایشگاه ها</h3>
+                    <a href="/CustomerHome/LineList?LineIsService=true">بیشتر</a>
+                </div>
+                <div class="learn-slider__wrapper">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model.LineIsService)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="learn-slider__item">
+                                        <figure class="learn-slider__item__image">
+                                            @if (item.LineImages.Count() > 0)
+                                            {
+                                                <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Line/File/@item.LineImages.FirstOrDefault().url"></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/eyelash.jpg"></a>
+                                            }
+                                        </figure>
+                                        <div class="learn-slider__item__title">
+                                            <h2><a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                        </div>
+                                        @if (!String.IsNullOrEmpty(item.description))
+                                        {
+                                            <div class="learn-slider__item__desc">
+                                                @if (item.description.Length > 20)
+                                                {
+                                                    <p> @item.description.Substring(0, 20)</p>
+                                                }
+                                                else
+                                                {
+                                                    <p> @item.description</p>
+
+                                                }
+                                            </div>
+                                        }
+                                        <div class="learn-slider__item__row">
+                                            <div class="learn-slider__item__author">
+
+                                                <div class="learn-slider__item__author__avatar">
+                                                    @if (String.IsNullOrEmpty(item.user.url))
+                                                    {
+                                                        @if (String.IsNullOrEmpty(item.user.fullname))
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @if (String.IsNullOrEmpty(item.user.fullname))
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="/wwwroot @item.user.url"></a>
+                                                        }
+                                                        else
+
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="/wwwroot @item.user.url"></a>
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="learn-slider__item__author__name">
+                                                    @if (String.IsNullOrEmpty(item.user.fullname))
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            @if (item.discountPrice != 0 && item.discountPrice != null)
+                                            {
+                                                <div class="ads-slider__item__price">
+                                                    <div class="ads-slider__item__price__old">
+                                                        <span>@item.price</span>
+                                                    </div>
+                                                    <div class="ads-slider__item__price__new">
+                                                        <span>@item.discountPrice<small>تومان</small></span>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="learn-slider__item__price">
+                                                    <span>@item.price<small>تومان</small></span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="swiper-slide">
+                                <div class="ads-slider__item ads-slider__item--more">
+                                    <figure class="ads-slider__item__image">
+                                        <img src="/wwwroot/HomeContent/assets/img/eyelash.jpg">
+                                    </figure>
+                                    <div class="ads-slider__item__more">
+                                        <span><i class="dn-arrow-left"></i>بیشتر</span>
+                                    </div>
+                                    <a href="/CustomerHome/LineList"></a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                        <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }*@
+    @if (Model.Banners.Skip(1).FirstOrDefault() != null)
+    {
+<section class="banner">
+    <div class="container">
+        <div class="banner__wrapper">
+            <a href="@Model.Banners.Skip(1).FirstOrDefault().link"><img src="@Model.Banners.Skip(1).FirstOrDefault().image"></a>
+        </div>
+    </div>
+</section> } @*@if (Model.ClassRooms.Count() > 0)
+    {
+        <section class="learn-slider" id="cla">
+            <div class="container">
+                <div class="sec-title">
+                    <h3><i class="dn-line-left"></i>کلاس ها</h3>
+                    <a href="/CustomerHome/ClassRoomList?isReserves=false">بیشتر</a>
+                </div>
+                <div class="learn-slider__wrapper">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model.ClassRooms)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="learn-slider__item">
+                                        <figure class="learn-slider__item__image">
+                                            @if (item.ClassRoomImages.Count() > 0)
+                                            {
+                                                <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/ClassRoom/File/@item.ClassRoomImages.FirstOrDefault().url"></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/eyelash.jpg"></a>
+                                            }
+                                        </figure>
+                                        <div class="learn-slider__item__title">
+                                            <h2><a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                        </div>
+                                        @if (!String.IsNullOrEmpty(item.description))
+                                        {
+                                            <div class="learn-slider__item__desc">
+                                                @if (item.description.Length > 20)
+                                                {
+                                                    <p> @item.description.Substring(0, 20)</p>
+                                                }
+                                                else
+                                                {
+                                                    <p> @item.description</p>
+
+                                                }
+                                            </div>
+                                        }
+                                        <div class="learn-slider__item__row">
+                                            <div class="learn-slider__item__author">
+                                                <div class="learn-slider__item__author__avatar">
+                                                    @if (String.IsNullOrEmpty(item.user.url))
+                                                    {
+                                                        @if (String.IsNullOrEmpty(item.user.fullname))
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @if (String.IsNullOrEmpty(item.user.fullname))
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="/wwwroot @item.user.url"></a>
+                                                        }
+                                                        else
+
+                                                        {
+                                                            <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="/wwwroot @item.user.url"></a>
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="learn-slider__item__author__name">
+                                                    @if (String.IsNullOrEmpty(item.user.fullname))
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                            @if (item.discountPrice != 0 && item.discountPrice != null)
+                                            {
+                                                <div class="ads-slider__item__price">
+                                                    <div class="ads-slider__item__price__old">
+                                                        <span>@item.price</span>
+                                                    </div>
+                                                    <div class="ads-slider__item__price__new">
+                                                        <span>@item.discountPrice<small>تومان</small></span>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="learn-slider__item__price">
+                                                    <span>@item.price<small>تومان</small></span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="swiper-slide">
+                                <div class="ads-slider__item ads-slider__item--more">
+                                    <figure class="ads-slider__item__image">
+                                        <img src="/wwwroot/HomeContent/assets/img/facial.png">
+                                    </figure>
+                                    <div class="ads-slider__item__more">
+                                        <span><i class="dn-arrow-left"></i>بیشتر</span>
+                                    </div>
+                                    <a href="/CustomerHome/ClassRoomList"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                        <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    }*@
+
+    @if (Model.Banners.Skip(2).FirstOrDefault() != null)
+    {
+<section class="banner">
+    <div class="container">
+        <div class="banner__wrapper">
+            <a href="@Model.Banners.Skip(2).FirstOrDefault().link"><img src="@Model.Banners.Skip(2).FirstOrDefault().image"></a>
+        </div>
+    </div>
+</section>}
+    @if (Model.Products.Count() > 0)
+    {
+
+<section class="product-slider" id="pro">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>محصولات</h3>
+            <a href="/CustomerHome/ProductList" style="font-size: 16px;">بیشتر</a>
+        </div>
+        <div class="product-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.Products)
+                    {
+    <div class="swiper-slide">
+        <div class="product-slider__item">
+
+            <figure class="product-slider__item__image">
+                @if (item.ProductImages.Count() > 0)
+                {
+<a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Product/File/@item.ProductImages.FirstOrDefault().url"></a> }
+else
+{
+<a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/prod.jpg"></a>}
+
+
+            </figure>
+            <div class="product-slider__item__title">
+                <h2><a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+            </div>
+            <div class="product-slider__item__row">
+                <div class="product-slider__item__author">
+                    <div class="product-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.user.url))
+                        {
+    @if (String.IsNullOrEmpty(item.user.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.user.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="@item.user.url"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="@item.user.url"></a>}}
+                    </div>
+                    <div class="product-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.user.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>}
+                    </div>
+                </div>
+                @if (item.discountPrice != 0 && item.discountPrice != null)
+                {
+<div class="ads-slider__item__price">
+    <div class="ads-slider__item__price__old">
+        <span>@item.price</span>
+    </div>
+    <div class="ads-slider__item__price__new">
+        <span>@item.discountPrice<small>تومان</small></span>
+    </div>
+</div> }
+else
+{
+<div class="product-slider__item__price">
+    <span>@item.price<small>تومان</small></span>
+</div>}
+            </div>
+        </div>
+    </div>}
+
+
+
+
+                    <div class="swiper-slide">
+                        <div class="product-slider__item product-slider__item--more">
+                            <figure class="product-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/prod.jpg">
+                            </figure>
+                            <div class="product-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/ProductList"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+            </div>
+        </div>
+    </div>
+</section>}
+    @if (Model.Banners.Skip(3).FirstOrDefault() != null)
+    {
+<section class="banner">
+    <div class="container">
+        <div class="banner__wrapper">
+            <a href="@Model.Banners.Skip(3).FirstOrDefault().link"><img src="@Model.Banners.Skip(3).FirstOrDefault().image"></a>
+        </div>
+    </div>
+</section>}
+
+
+
+    <section class="services">
+        <div class="container">
+            <div class="sec-title">
+                <h3><i class="dn-line-left"></i>خدمات گیسو</h3>
+            </div>
+            <div class="services__wrapper">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6 ">
+                        <div class="services__item">
+                            <figure class="services__item__image">
+                                <img src="~/HomeContent/assets/img/ser1.jpg">
+                            </figure>
+                            <div class="services__item__title">
+                                <a href="#">خدمات آموزشی</a>
+                            </div>
+                            <div class="services__item__content">
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 ">
+                        <div class="services__item">
+                            <figure class="services__item__image">
+                                <img src="~/HomeContent/assets/img/ser2.png">
+                            </figure>
+                            <div class="services__item__title">
+                                <a href="#">رزرو سالن</a>
+                            </div>
+                            <div class="services__item__content">
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 ">
+                        <div class="services__item">
+                            <figure class="services__item__image">
+                                <img src="~/HomeContent/assets/img/ser1.jpg">
+                            </figure>
+                            <div class="services__item__title">
+                                <a href="#">خدمات زیبایی</a>
+                            </div>
+                            <div class="services__item__content">
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 ">
+                        <div class="services__item">
+                            <figure class="services__item__image">
+                                <img src="~/HomeContent/assets/img/ser2.png">
+                            </figure>
+                            <div class="services__item__title">
+                                <a href="#">دوره های آموزشی</a>
+                            </div>
+                            <div class="services__item__content">
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="row-socials">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row-socials__item row-socials__item--instagram">
+                        <div class="row-socials__item__btn">
+                            <a href="https://www.instagram.com/gisoo_app" target="_blank"><i class="dn-right"></i>دنبال کنید</a>
+                        </div>
+                        <div class="row-socials__item__icon">
+                            <i class="dn-instagram"></i>
+                            <span>Gisoo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row-socials__item row-socials__item--telegram">
+                        <div class="row-socials__item__btn">
+                            <a href="https://telegram.me/gisoo_app" target="_blank"><i class="dn-right"></i>پیوستن</a>
+                        </div>
+                        <div class="row-socials__item__icon">
+                            <i class="dn-telegram"></i>
+                            <span>Gisoo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row-socials__item row-socials__item--whatsapp">
+                        <div class="row-socials__item__btn">
+                            <a href="https://api.whatsapp.com/send?phone=+989305763029" target="_blank"><i class="dn-right"></i>پیام دهید</a>
+                        </div>
+                        <div class="row-socials__item__icon">
+                            <i class="dn-whatsapp"></i>
+                            <span>Gisoo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog">
+        <div class="container">
+            <div class="sec-title">
+                <h3><i class="dn-line-left"></i>مقالات آموزشی</h3>
+                <a href="/CustomerHome/ArticleList" style="font-size: 16px;">بیشتر</a>
+            </div>
+            <div class="blog__wrapper">
+                <div class="row">
+                    @if (Model.Articles.Count() > 0)
+                    {
+        @foreach (var item in Model.Articles)
+        {
+<div class="col-md-4">
+    <div class="blog__item">
+        <div class="blog__item__background">
+            <img src="@item.image">
+        </div>
+        <div class="blog__item__title">
+            <h2>@item.title</h2>
+        </div>
+
+        <a href="/CustomerHome/ArticleDetail/@item.id/@item.title.Replace(' ', '-')"></a>
+    </div>
+</div>}}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="mobile-menu" data-toggle="showbox" data-target="mobile-menu" data-status="false">
+        <div data-toggle="closebox" data-target="mobile-menu"></div>
+        <div class="mobile-menu__logo">
+            <img src="~/images/barbershop2.png">
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/CustomerHome/UserList?userRolaNameEng=SalonOwner">آرایشگاه ها</a>
+
+                </li>
+                <li>
+                    <a href="/CustomerHome/UserList?userRolaNameEng=Academy">آموزشگاه ها</a>
+
+                </li>
+                <li>
+                    <a href="/CustomerHome/UserList?userRolaNameEng=Mentor">مربی ها</a>
+
+                </li>
+                <li>
+                    <a href="/CustomerHome/UserList?userRolaNameEng=Store">فروشگاه ها</a>
+
+                </li>
+                <li>
+                    @*<a href="/CustomerHome/Ad_List">آگهی ها</a>*@
+                    <a href="/Ad_List">آگهی ها</a>
+                </li>
+
+                <li>
+
+                    <a href="/CustomerHome/ProductList">محصولات</a>
+
+                </li>
+                <li>
+                    <a href="/CustomerHome/ClassRoomList">کلاس ها</a>
+                </li>
+                <li>
+
+                    <a href="/CustomerHome/AdvertismentList">ورکشاپ و تبلیغات</a>
+
+
+                </li>
+                <li>
+                    <a href="/CustomerHome/LineList">لاین ها</a>
+                </li>
+                <li>
+
+                    <a href="/CustomerHome/ContactUs">تماس با ما</a>
+
+                </li>
+                <li>
+                    <a href="/CustomerHome/AboutUs">درباره ما</a>
+
+                </li>
+
+                <li>
+
+
+                    <a href="/CustomerHome/Rule">قوانین و مقررات</a>
+
+                </li>
+                <li style="padding-top: 5px;">
+                    @using (Html.BeginForm("AllSearch", "CustomerHome", FormMethod.Get))
+                    {
+        <div class="input-group">
+            <input type="text" class="form-control" id="title" name="title" placeholder="عنوان را وارد کنید">
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="submit">
+                    <i class="dn-search"></i>
+                </button>
+            </div>
+        </div>}
+                </li>
+                <li style="padding-top: 5px;">
+                    <div class="main-header__logo">
+                        <a target="_blank" href="https://cafebazaar.ir/app/ir.talebi.gisooapp">
+                            <img src="~/images/bazaar.png" />
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+</main>
+<div class="modal fade" id="register-user">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                    @*<span aria-hidden="true">&times;</span>*@
+                </button>
+                <h4 class="modal-title">سامانه گیسو</h4>
+            </div>
+            <div class="modal-body">
+                <p>به سامانه گیسو خوش آمدید لطفا منتظر تایید ادمین باشید. با تشکر</p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="pay-user">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                </button>
+                <h4 class="modal-title">سامانه گیسو</h4>
+            </div>
+            <div class="modal-body">
+                <p id="payText"></p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    window.onload = Load;
+    function Load() {
+        if ('@ViewBag.isRegisterSuccess') {
+            $('#register-user').modal('show');
+        }
+
+         if ('@Html.Raw(ViewBag.PaySuccess)'!="") {
+             $('#pay-user').modal('show');
+             $("#pay-user #payText").html('@Html.Raw(ViewBag.PaySuccess.Replace("-", " "))');
+        }
+    }
+    function searchAll() {
+        var title = $("#titleId").val();
+        $.ajax({
+            type: "GET",
+
+            url: "/CustomerHome/AllSearch?title=" + title,
+            dataType: "Json",
+            success: function (data) {
+
+            }
+        });
+    }
+
+</script>

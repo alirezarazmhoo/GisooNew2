@@ -1,0 +1,137 @@
+﻿
+@model Gisoo.ViewModel.AdViewModel
+@using Gisoo.Utility
+
+@{
+    ViewData["Titla"] = "Ad";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+<!-- for Ad -->
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            <h1>آگهی ها</h1>
+
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                <li>آگهی ها</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="cat-blog__title">
+                <h3>درخواست نیرو</h3>
+            </div>
+            <div id="yourDiv">
+
+
+                @foreach (var item in Model.NoticeNotBarbers)
+                {
+                    <div class="cat-blog__list ">
+                        <div class="cat-blog__list__img">
+                            @if (!String.IsNullOrEmpty(item.image1))
+                            {
+                                <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a> }
+                            else
+                            {
+                                <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>}
+                        </div>
+                        <div class="cat-blog__list__desc">
+                            <div class="cat-blog__list__desc__title">
+                                <h2>  <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                            </div>
+                            @if (!String.IsNullOrEmpty(item.description))
+                            {
+                                <div class="cat-blog__list__desc__text">
+                                    @if (item.description.Length > 20)
+                                    {
+                                        <p> @item.description.Substring(0, 20)</p> }
+                                    else
+                                    {
+                                        <p> @item.description</p>}
+                                </div>}
+
+                            <div class="cat-blog__list__desc__info">
+                                <span><i class="dn-clock"></i>@DateChanger.calculatDate(item.createDate)</span>
+
+                            </div>
+                        </div>
+
+                    </div>}
+
+
+            </div>
+            <div id="mydiv2"></div>
+            <div class="page-number">
+                <ul>
+                    <li>
+                        <pager asp-controller="CustomerHome" asp-action="NoticeList" />
+                    </li>
+
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="col-md-6">
+            <div class="cat-blog__title">
+                <h3>آماده به کار</h3>
+            </div>
+            <div id="yourDiv">
+
+                @foreach (var item in Model.Notices)
+                {
+                    <div class="cat-blog__list ">
+                        <div class="cat-blog__list__img">
+                            @if (!String.IsNullOrEmpty(item.image1))
+                            {
+                                <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a> }
+                            else
+                            {
+                                <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>}
+                        </div>
+                        <div class="cat-blog__list__desc">
+                            <div class="cat-blog__list__desc__title">
+                                <h2>  <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                            </div>
+                            @if (!String.IsNullOrEmpty(item.description))
+                            {
+                                <div class="cat-blog__list__desc__text">
+                                    @if (item.description.Length > 20)
+                                    {
+                                        <p> @item.description.Substring(0, 20)</p> }
+                                    else
+                                    {
+                                        <p> @item.description</p>}
+                                </div>}
+
+                            <div class="cat-blog__list__desc__info">
+                                <span><i class="dn-clock"></i>@DateChanger.calculatDate(item.createDate)</span>
+
+                            </div>
+                        </div>
+
+                    </div>}
+            </div>
+            <div id="mydiv2"></div>
+            <div class="page-number">
+                <ul>
+                    <li>
+                        @*<pager list="@Model.Notices" ) asp-controller="CustomerHome" asp-action="NoticeList" />*@
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>

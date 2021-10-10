@@ -1,0 +1,35 @@
+﻿@model Gisoo.Models.ClassRoomType
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">نوع کلاس جدید</h3>
+                </div>
+                <div class="row">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div class="box-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="name" class="control-label"></label>
+                                    <input asp-for="name" class="form-control" />
+                                    <span asp-validation-for="name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="padding-top: 24px;">
+                                <div class="form-group">
+                                    <input type="submit" value="ثبت" class="btn btn-default" />
+                                    <a class="btn btn-danger" asp-action="Index">بازگشت</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

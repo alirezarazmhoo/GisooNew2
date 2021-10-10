@@ -1,0 +1,108 @@
+﻿@model Gisoo.Utility.LoginUserAdmin
+
+@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="~/AdminContent/AdminLogin/material-design-iconic-font.min.css" rel="stylesheet" />
+    <link href="~/AdminContent/AdminLogin/animate.min.css" rel="stylesheet" />
+    <link href="~/AdminContent/AdminLogin/app.min.css" rel="stylesheet" />
+    <link href="~/AdminContent/AdminLogin/MyStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/AdminContent/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/AdminContent/bower_components/Ionicons/css/ionicons.min.css">
+    @*<link href="~/Content/vendors/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />*@
+</head>
+
+<body data-sa-theme="1">
+
+    <div class="login">
+
+        <!-- Login -->
+        <div class="login__block active" id="l-login">
+            <div class="login__block__header">
+                @*<i class="zmdi zmdi-account-circle"></i>*@
+                ! لطفا وارد شوید
+               
+            </div>
+
+            <div class="login__block__body">
+                <div style="color:red;text-align:right">
+                    @Html.ValidationSummary()
+                </div>
+                <form action="~/User/SignIn" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.cellphone, new { placeholder = "تلفن همراه", @class = "form-control text-center" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.password, new { placeholder = "رمز عبور", @class = "form-control text-center" })
+                    </div>
+                    @*<div class="form-group">
+            <img alt="Captcha" id="Captcha" src="~/get-captcha-image" style="" />
+            <i class="fa fa-fw fa-refresh" id="Captcha2"></i>
+        </div>
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.Captcha, new { placeholder = "جواب جمع", @class = "form-control text-center" })
+            @Html.ValidationMessageFor(model => model.Captcha)
+        </div>*@
+                    @*<div class="form-group" data-bind="validationElement: viewModel.captchaAttemptedValue">
+                        <img id="captchaId" class="img-thumbnail img-responsive img-captcha" src="">
+                        <div class="form-inline inline">
+                            <div class="form-group">
+
+                                <input type="text" class="form-control " autocomplete="off" name="captchaAttemptedValue" data-bind="textInput: viewModel.captchaAttemptedValue" placeholder="captcha">
+                            </div>
+                            <button type="button" id="btnCaptcha" onclick="getCaptcha()"><i class="fa fa-fw fa-refresh"></i></button>
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        <div class="remember-me">
+                            <label><input asp-for="RememberMe" type="checkbox" name="">  مرا بخاطر بسپار </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn--icon login__block__btn">
+                        <i class="fa fa-fw fa-arrow-right"></i>
+                    </button>
+                    @*<input type="hidden" name="Url" value="@Request["ReturnUrl"]" />*@
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="~/AdminContent/bower_components/jquery/dist/jquery.js"></script>
+
+    <script src="~/AdminContent/AdminLogin/popper.min.js"></script>
+    <script src="~/AdminContent/AdminLogin/bootstrap.min.js"></script>
+    <script src="~/AdminContent/AdminLogin/app.min.js"></script>
+
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+    @*<script src="~/Content/vendors/sweetalert2/dist/sweetalert2.min.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            $("#btnCaptcha").click();
+
+        });
+
+        function getCaptcha() {
+            $.ajax({
+                url: "../api/captcha/?captchaName=myCaptchaName",
+                method: "GET",
+                success: function (data) {
+                    $("#captchaId").attr("src", data);
+                }
+
+            })
+        }
+    </script>
+</body>
+</html>

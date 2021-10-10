@@ -1,0 +1,45 @@
+﻿@model Gisoo.ViewModel.ClassRoomListViewModel
+@using Gisoo.Utility
+
+@foreach (var item in Model.ClassRooms)
+{
+    <div class="cat-blog__list">
+        <div class="cat-blog__list__img">
+            @if (item.ClassRoomImages.Count() > 0)
+            {
+                <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/ClassRoom/File/@item.ClassRoomImages.FirstOrDefault().url"></a>
+            }
+            else
+            {
+                <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+            }
+        </div>
+        <div class="cat-blog__list__desc">
+            <div class="cat-blog__list__desc__title">
+                <h2>  <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+            </div>
+            @if (!String.IsNullOrEmpty(item.description))
+            {
+                <div class="cat-blog__list__desc__text">
+                    @if (item.description.Length > 20)
+                    {
+                        <p> @item.description.Substring(0, 20)</p>
+                    }
+                    else
+                    {
+                        <p> @item.description</p>
+
+                    }
+                </div>
+            }
+
+            <div class="cat-blog__list__desc__info">
+                <span><i class="dn-clock"></i>@DateChanger.calculatDate(item.registerDate)</span>
+
+                <span>@item.classRoomType.name</span>
+            </div>
+        </div>
+
+    </div>
+}

@@ -1,0 +1,109 @@
+﻿@model PagedList.Core.PagedList<Gisoo.ViewModel.AllSearchDetailViewModel>
+
+@foreach (var item in Model)
+{
+    <div class="cat-blog__list">
+        <div class="cat-blog__list__img">
+            @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Advertisment)
+            {
+                @if (!String.IsNullOrEmpty(item.image1))
+                {
+                    <a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>
+                }
+                else
+                {
+                    <a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>
+                }
+            }
+            @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Notice)
+            {
+                @if (!String.IsNullOrEmpty(item.image1))
+                {
+                    <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>
+                }
+                else
+                {
+                    <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>
+                }
+            }
+            @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Line)
+            {
+                @if (!String.IsNullOrEmpty(item.image1))
+                {
+
+                    <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Line/File/@item.image1"></a>
+                }
+                else
+                {
+                    <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                }
+            }
+
+            @if (item.tabletype == Gisoo.ViewModel.EnumTableType.ClassRoom)
+            {
+                @if (!String.IsNullOrEmpty(item.image1))
+                {
+                    <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/ClassRoom/File/@item.image1"></a>
+                }
+                else
+                {
+                    <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                }
+            }
+            @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Product)
+            {
+                @if (!String.IsNullOrEmpty(item.image1))
+                {
+                    <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Product/File/@item.image1"></a>
+                }
+                else
+                {
+                    <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                }
+            }
+        </div>
+        <div class="cat-blog__list__desc">
+            <div class="cat-blog__list__desc__title">
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Advertisment)
+                {
+                    <h2>  <a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+                }
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Notice)
+                {
+                    <h2>  <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                }
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Line)
+                {
+                    <h2>  <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                }
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.ClassRoom)
+                {
+                    <h2>  <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                }
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Product)
+                {
+                    <h2>  <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                }
+            </div>
+            @if (!String.IsNullOrEmpty(item.description))
+            {
+                <div class="cat-blog__list__desc__text">
+                    @if (item.description.Length > 20)
+                    {
+                        <p> @item.description.Substring(0, 20)</p>
+                    }
+                    else
+                    {
+                        <p> @item.description</p>
+
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+}

@@ -1,0 +1,44 @@
+﻿@model Gisoo.Models.Line
+
+<section class="content">
+
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title"> @Model.title</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="جمع شود">
+                    <i class="fa fa-minus"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="box-body" style="">
+            آیا مایل به حذف این رکورد هستید؟
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer" style="">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="id" />
+                <input type="submit" value="حذف" class="btn btn-default" /> |
+                <a onclick="goBack()" class="btn btn-danger">بازگشت</a>
+            </form>
+        </div>
+        <!-- /.box-footer-->
+    </div>
+    <!-- /.box -->
+
+</section>
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+}

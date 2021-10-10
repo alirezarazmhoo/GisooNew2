@@ -1,0 +1,114 @@
+﻿@model Gisoo.ViewModel.SearchClassRoomViewModel
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/HomeContent/assets/js/header-bundle.js"></script>
+<script src="~/js/Common.js"></script>
+<script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+<script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+@using Gisoo.Utility
+
+<div class="profile__content__header">
+    <span>لیست کلاس ها</span>
+</div>
+<div class="profile__content__filter">
+    <form id="SearchClassRoomForm">
+        <div class="profile__content__filter__wrapper">
+            <div>
+                <input type="text" class="form-control" asp-for="title" placeholder="عنوان">
+            </div>
+            <div>
+
+                <input type="text"  class=" datepicker" asp-for="registerDate">
+            </div>
+            <div class="form-group">
+                <select class="form-control" asp-for="classRoomLaw">
+                    <option value=0>نوع هزینه</option>
+                    <option value=1>اجاره</option>
+                    <option value=2>درصدی</option>
+                    <option value=3>حقوقی</option>
+                    <option value=4>رزرو</option>
+
+                </select>
+            </div>
+            <div>
+                <select class="form-control" asp-for="classRoomTypeId">
+                    <option value=0>نوع</option>
+
+                    @foreach (var item in Model.ClassRoomTypes)
+                    {
+                        <option value=@item.id>@item.name</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <button type="button" onclick="SearchClassRoom()">جستجو</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="profile__content__table">
+    <table class="data-table">
+        <thead>
+            <tr>
+
+                <th>تصویر</th>
+                <th>عنوان</th>
+                <th>تاریخ</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ClassRooms)
+            {
+                <tr>
+                    @if (item.ClassRoomImages.FirstOrDefault() != null)
+                    {
+                        <td><img src="/wwwroot/ClassRoom/file/@item.ClassRoomImages.FirstOrDefault().url" width="50" height="50"></td>
+                    }
+                    else
+                    {
+                        <td><img src="/wwwroot/assets/img/slide2.jpg" width="50" height="50"></td>
+
+                    }
+                    <td>@item.title</td>
+                    <td>@PersianCalendarDate.PersianCalendarResult(item.registerDate)</td>
+                    <td>
+                        <a data-toggle="modal" data-target="#QuestionModal" onclick="AssignButtonClicked(this,1)" data-assigned-id="@item.id">حذف</a>
+                        @if (item.classRoomLaw == EnumLineLaw.reserve)
+                        {
+                            <a class="btn-Editwarning-Reserve" id="@item.id">ویرایش</a>
+                        }
+                        else
+                        {
+                            <a class="btn-Editwarning" id="@item.id">ویرایش</a>
+                        }
+                        <a class="btn-visit" id="@item.id">آمار بازدید</a>
+
+                    </td>
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+ 
+    function SearchClassRoom() {
+        var form = $("#SearchClassRoomForm").serialize();
+        GetData("/CustomerHome/AllClassRoom", "divRegister", form);
+    }
+
+    $(".btn-Editwarning").click(function () {
+        GetData("/CustomerHome/RegisterClassRoom?Id=" + this.id + "", "divRegister");
+    });
+    $(".btn-Editwarning-Reserve").click(function () {
+        GetData("/CustomerHome/RegisterClassRoomForReserve?Id=" + this.id + "", "divRegister");
+    });
+    $(".btn-visit").click(function () {
+
+        GetData("/CustomerHome/VisitAll?Id=" + this.id + "&whichTableEnum=3", "divRegister");
+    });
+</script>

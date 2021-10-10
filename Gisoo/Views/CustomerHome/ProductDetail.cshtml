@@ -1,0 +1,232 @@
+﻿@model Gisoo.ViewModel.ProductDetailViewModel
+@using Gisoo.Utility
+
+@{ ViewData["Title"] = "ProductDetail";
+                Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml"; }
+
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            <h1>@Model.Product.title</h1>
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                <li>@Model.Product.title</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="ads-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="ads-content__slider">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model.Product.ProductImages)
+                            {
+                <div class="swiper-slide">
+                    <div class="ads-content__slider__item">
+                        <img src="/Product/File/@item.url">
+                    </div>
+                </div>}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="ads-content__desc">
+                    <p>@Model.Product.description</p>
+                </div>
+                <div class="ads-content__seller">
+                    <div class="ads-content__seller__avatar">
+                        @if (String.IsNullOrEmpty(Model.Product.user.url))
+                        {
+            @if (String.IsNullOrEmpty(Model.Product.user.fullname))
+            {
+<a href="/CustomerHome/ProfileUserSingle/@Model.Product.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+                else
+                {
+<a href="/CustomerHome/ProfileUserSingle/@Model.Product.user.id/@Model.Product.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+                        else
+                        {
+            @if (String.IsNullOrEmpty(Model.Product.user.fullname))
+            {
+<a href="/CustomerHome/ProfileUserSingle/@Model.Product.user.id/آگهی"><img src="/wwwroot @Model.Product.user.url"></a> }
+                else
+
+                {
+<a href="/CustomerHome/ProfileUserSingle/@Model.Product.user.id/@Model.Product.user.fullname.Replace(' ', '-')"><img src="/wwwroot @Model.Product.user.url"></a>}}
+                    </div>
+                    <div class="ads-content__seller__name">
+                        @if (String.IsNullOrEmpty(Model.Product.user.fullname))
+                        {
+            <a href="/CustomerHome/ProfileUserSingle/@Model.Product.user.id/آگهی">آگهی</a> }
+                        else
+                        {
+            <a href="/CustomerHome/ProfileUserSingle/@Model.Product.user.id/@Model.Product.user.fullname.Replace(' ', '-')">@Model.Product.user.fullname</a>}
+                    </div>
+                </div>
+                @if (Model.Product.discountPrice != 0 && Model.Product.discountPrice != null)
+                {
+    <div class="ads-content__price">
+        <div class="ads-content__price__new">
+            <span>@Model.Product.discountPrice?.ToRial()<small>تومان</small></span>
+        </div>
+        <div class="ads-content__price__old">
+            <span>@Model.Product.price.ToRial()<small>تومان</small></span>
+        </div>
+
+    </div> }
+                else
+                {
+    <div class="ads-content__price">
+        <div class="ads-content__price__new">
+            <span>@Model.Product.price.ToRial()<small>تومان</small></span>
+        </div>
+    </div>}
+                <div class="ads-content__list">
+                    <ul>
+
+                        @*<li>  قیمت : @Model.Product.price</li>*@
+                        <li>  شماره تماس  : @Model.Product.user.cellphone</li>
+
+                        @{ if (!string.IsNullOrEmpty(Model.Product.user.address))
+                                        {
+                            <li>  آدرس : @Model.Product.user.address</li> }
+
+                                        if (!string.IsNullOrEmpty(Model.Product.description))
+                                        {
+                            <li>  آدرس : @Model.Product.description</li> } }
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <form asp-action="CustomerFactorCreator" method="get">
+
+            <input name="ItemId" value="@Model.Product.id" hidden />
+            <input name="totalAmount" value="@Model.Product.price" hidden />
+            <input name="NoticeType" value="@Gisoo.Models.Enums.NoticeType.Store" hidden />
+            <div class="ads-content__btn">
+                <span>سفارش این محصول</span>
+
+                <button type="submit" class="btn" style="margin-right:10px">سفارش دهید</button>
+
+            </div>
+        </form>
+    </div>
+</section>
+@if (Model.Banner != null)
+{
+<section class="banner">
+    <div class="container">
+        <div class="banner__wrapper">
+            <a href="@Model.Banner.link"><img src="@Model.Banner.image"></a>
+        </div>
+    </div>
+</section>}
+@if (Model.OtherProduct.Count() > 0)
+{
+<section class="product-slider">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-Product-left"></i>محصولات مرتبط</h3>
+            <a href="/CustomerHome/ProductList">بیشتر</a>
+        </div>
+        <div class="product-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.OtherProduct)
+                    {
+
+
+    <div class="swiper-slide">
+        <div class="product-slider__item">
+            <figure class="product-slider__item__image">
+                @if (item.ProductImages.Count() > 0)
+                {
+<a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Product/File/@item.ProductImages.FirstOrDefault().url"></a> }
+                    else
+                    {
+<a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/prod.jpg"></a>}
+
+            </figure>
+            <div class="product-slider__item__title">
+                <h2><a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+            </div>
+            <div class="product-slider__item__row">
+                <div class="product-slider__item__author">
+                    <div class="product-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.user.url))
+                        {
+    @if (String.IsNullOrEmpty(item.user.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+                        else
+                        {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+                        else
+                        {
+    @if (String.IsNullOrEmpty(item.user.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="/wwwroot @item.user.url"></a> }
+                        else
+
+                        {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="/wwwroot @item.user.url"></a>}}
+                    </div>
+                    <div class="product-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.user.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a> }
+                        else
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>}
+                    </div>
+                </div>
+                @if (item.discountPrice != 0 && item.discountPrice != null)
+                {
+<div class="ads-slider__item__price">
+    <div class="ads-slider__item__price__old">
+        <span>@item.price.ToRial()</span>
+    </div>
+    <div class="ads-slider__item__price__new">
+        <span>@item.discountPrice?.ToRial()<small>تومان</small></span>
+    </div>
+</div> }
+                    else
+                    {
+<div class="product-slider__item__price">
+    <span>@item.price.ToRial()<small>تومان</small></span>
+</div>}
+            </div>
+
+        </div>
+    </div>}
+
+                    <div class="swiper-slide">
+                        <div class="product-slider__item product-slider__item--more">
+                            <figure class="product-slider__item__image">
+                                <img src="/HomeContent/assets/img/prod.jpg">
+                            </figure>
+                            <div class="product-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/ProductList"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+            </div>
+        </div>
+    </div>
+</section>}
+
+
+
+
+

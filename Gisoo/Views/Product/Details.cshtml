@@ -1,0 +1,193 @@
+﻿@model Gisoo.ViewModel.ProductViewModelAdmin
+@{
+    var day1 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-9));
+    var day2 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-8));
+    var day3 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-7));
+    var day4 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-6));
+    var day5 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-5));
+    var day6 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-4));
+    var day7 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-3));
+    var day8 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-2));
+    var day9 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-1));
+    var day10 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date);
+}
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">جزییات محصول</h3>
+                </div>
+                <div class="row">
+
+
+                    <div class="box-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">تاریخ ایجاد</label>
+
+                                <input class="form-control" disabled value="@Gisoo.Utility.PersianCalendarDate.PersianCalendarResult(Model.Product.createDate)" />
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label class="control-label">تاریخ انقضا فعلی @Gisoo.Utility.PersianCalendarDate.PersianCalendarResult((DateTime)Model.Product.expireDate)</label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="@Model.Product.title" class="control-label"></label>
+                                <input asp-for="@Model.Product.title" disabled class="form-control" />
+                                <span asp-validation-for="@Model.Product.title" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="@Model.Product.countView" class="control-label"></label>
+                                <input asp-for="@Model.Product.countView" class="form-control" disabled />
+                                <span asp-validation-for="@Model.Product.countView" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="@Model.Product.price" class="control-label"></label>
+                                <input asp-for="@Model.Product.price" disabled value="@String.Format("{0:0,0}", @Model.Product.price)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                <span asp-validation-for="@Model.Product.price" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">کاربر</label>
+                                <input disabled value="@Model.Product.user.cellphone" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="@Model.Product.description" class="control-label"></label>
+                                <textarea asp-for="@Model.Product.description" disabled class="form-control"></textarea>
+                                <span asp-validation-for="@Model.Product.description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+
+                            @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count() > 0)
+                            {
+                                <div id="RemoveImageItems" class="form-group">
+                                    <label>عکس ها</label>
+                                    @foreach (var item in Model.Product.ProductImages)
+                                    {
+                                        <div id=@item.id>
+                                            <div><img src="/wwwroot/Product/File/@item.url" style="width: 70px; height: 60px;" id="@item.id" /></div><div style="margin-top:5px;width:40px">
+
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-12">
+
+                            <div class="profile__content__header">
+                                <span>آمار بازدید</span>
+                            </div>
+                            <div class="profile__content__ads__chart">
+                                <canvas id="ads_chart1"></canvas>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <a onclick="goBack()" class="btn btn-danger">بازگشت</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/PersianDatePicker.min.js"></script>
+
+    <script>
+       
+        function goBack() {
+            window.history.back();
+        }
+       
+    </script>
+    <script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+
+    <script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+    <script>
+    if ($('#ads_chart1').length > 0) {
+        Chart.defaults.global.defaultFontFamily = 'yekan';
+
+        var ads_chart = new Chart($('#ads_chart1')[0], {
+            type: 'line',
+            data: {
+                datasets: [{
+                    data: [@Model.datecount1,@Model.datecount2, @Model.datecount3, @Model.datecount4, @Model.datecount5, @Model.datecount6, @Model.datecount7,@Model.datecount8, @Model.datecount9, @Model.datecount10],
+                    backgroundColor: '#f2a900',
+                    borderColor: '#999',
+                    fill: false,
+                    label: 'میزان بازدید'
+                }],
+                labels: [
+                    '@day1',
+                    '@day2',
+                    '@day3',
+                    '@day4',
+                    '@day5',
+                    '@day6',
+                    '@day7',
+                    '@day8',
+                    '@day9',
+                    '@day10'
+                ]
+            },
+            options:
+            {
+                elements:
+                {
+                    Product:
+                    {
+                        tension: 0.000001,
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }]
+                },
+                maintainAspectRatio: false,
+            }
+        });
+    }
+
+
+    </script>
+}
+

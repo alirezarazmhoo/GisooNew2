@@ -1,0 +1,403 @@
+﻿@model Gisoo.ViewModel.ProfileUserSingleViewModel
+@using Gisoo.Utility
+@{
+    ViewData["Title"] = "ProductDetail";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+<style>
+    @@media only screen and (max-width: 768px) {
+        .cat-blog__list {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<section class="salon-content">
+    <div class="container">
+        <div class="salon-content__header">
+            <div class="salon-content__header__logo">
+                @if (String.IsNullOrEmpty(Model.User.url))
+                {
+                    <img src="/wwwroot/HomeContent/assets/img/store.png">
+                }
+                else
+                {
+                    <img src="@Model.User.url">
+
+                }
+            </div>
+            <div class="salon-content__header__name">
+                <h1>@Model.User.fullname</h1>
+                <p>@Model.User.shortDescription</p>
+            </div>
+
+        </div>
+        <div class="row">
+            @*<div class="col-md-5 order-md-2">
+                <div class="salon-content__slider">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/salon.jpg">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/facial.png">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/slide2.jpg">
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/salon.jpg">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/facial.png">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/slide2.jpg">
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/salon.jpg">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/facial.png">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="salon-content__slider__item">
+                                    <img src="./assets/img/slide2.jpg">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <div class="col-md-12 order-md-1">
+                <div class="salon-content__content">
+                    <div class="salon-content__list">
+                        <ul>
+                            <li>  آدرس : @Model.User.address</li>
+                            @if (Model.User.sexuality == true)
+                            {
+                                <li>  نوع کاربری : زنانه </li>
+                            }
+                            else
+                            {
+                                <li>  نوع کاربری : مردانه </li>
+
+                            }
+                            <li>  ساعت کاری : @Model.User.workingHours</li>
+                            <li>  تلفن همراه : @Model.User.cellphone</li>
+                            @if (Model.User.hasCertificate)
+                            {
+                                <li> مجوز : دارد </li>
+                            }
+                            else
+                            {
+                                <li> مجوز : ندارد </li>
+                            }
+
+                        </ul>
+                    </div>
+                    <div class="salon-content__map" id="mapid"></div>
+                </div>
+            </div>
+        </div>
+        <div class="salon-content__desc">
+            <p>@Model.User.longDescription</p>
+        </div>
+        @if (Model.Lines.Count() > 0)
+        {
+            <section class="cat-blog">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="cat-blog__title">
+                                <h3> لاین ها</h3>
+                            </div>
+                            <div id="yourDiv" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+                                @foreach (var item in Model.Lines)
+                                {
+                                    <div class="cat-blog__list" style="width: 48%;">
+                                        <div class="cat-blog__list__img">
+                                            @if (item.LineImages.Count() > 0)
+                                            {
+                                                <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Line/File/@item.LineImages.FirstOrDefault().url"></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                                            }
+                                        </div>
+                                        <div class="cat-blog__list__desc">
+                                            <div class="cat-blog__list__desc__title">
+                                                <h3>  <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h3>
+                                                <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')">  @item.lineTeacher</a>
+
+                                            </div>
+                                            @if (!String.IsNullOrEmpty(item.description))
+                                            {
+                                                <div class="cat-blog__list__desc__text">
+                                                    @if (item.description.Length > 20)
+                                                    {
+                                                        <p> @item.description.Substring(0, 20)</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p> @item.description</p>
+
+                                                    }
+                                                </div>
+                                            }
+
+                                            <div class="cat-blog__list__desc__info">
+                                                <span><i class="dn-clock"></i>@DateChanger.calculatDate(item.registerDate)</span>
+                                                <a type="button" href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')" class="btn" style="margin-right:10px">مشاهده لاین و رزرو</a>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-3">
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        }
+        @if (Model.ClassRooms.Count() > 0)
+        {
+            <section class="cat-blog">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="cat-blog__title">
+                                <h3> کلاس ها</h3>
+                            </div>
+                            <div id="yourDiv" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+                                @foreach (var item in Model.ClassRooms)
+                                {
+                                    <div class="cat-blog__list" style="width: 48%;">
+                                        <div class="cat-blog__list__img">
+                                            @if (item.ClassRoomImages.Count() > 0)
+                                            {
+                                                <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/ClassRoom/File/@item.ClassRoomImages.FirstOrDefault().url"></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                                            }
+                                        </div>
+                                        <div class="cat-blog__list__desc">
+                                            <div class="cat-blog__list__desc__title">
+                                                <h3>  <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h3>
+                                                <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')">  @item.classRoomTeacher</a>
+
+                                            </div>
+                                            @if (!String.IsNullOrEmpty(item.description))
+                                            {
+                                                <div class="cat-blog__list__desc__text">
+                                                    @if (item.description.Length > 20)
+                                                    {
+                                                        <p> @item.description.Substring(0, 20)</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p> @item.description</p>
+
+                                                    }
+                                                </div>
+                                            }
+
+                                            <div class="cat-blog__list__desc__info">
+                                                <span><i class="dn-clock"></i>@DateChanger.calculatDate(item.registerDate)</span>
+                                                <a type="button" href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')" class="btn" style="margin-right:10px">مشاهده کلاس و رزرو</a>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-3">
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        }
+        <div class="salon-content__tabs">
+            <ul>
+                @if (Model.Products.Count() > 0)
+                {
+                    <li @*class="active"*@ data-tab="tab_1" data-tab-target="salon">محصولات</li>
+                }
+                
+                @if (Model.Advertisments.Count() > 0)
+                {
+                    <li data-tab="tab_4" data-tab-target="workshop">ورکشاپ و تبلیغات</li>
+                }
+                @if (Model.Notices.Count() > 0)
+                {
+                    <li data-tab="tab_5" data-tab-target="notice">آگهی ها</li>
+                }
+            </ul>
+            @if (Model.Products.Count() > 0)
+            {
+                <div class="tab-content " data-tab="tab_1" data-tab-target="salon">
+                    <div class="salon-content__ads">
+                        <div class="row">
+                            @foreach (var item in Model.Products)
+                            {
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="salon-content__ads__item">
+                                        <figure class="salon-content__ads__item__image">
+                                            @if (item.ProductImages.Count() > 0)
+                                            {
+                                                <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Product/File/@item.ProductImages.FirstOrDefault().url"></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/prod.jpg"></a>
+                                            }
+                                        </figure>
+                                        <div class="salon-content__ads__item__title">
+                                            <h2><a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                        </div>
+                                        <div class="salon-content__ads__item__price">
+                                            <span>@item.price<small>تومان</small></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.Advertisments.Count() > 0)
+            {
+                <div class="tab-content" data-tab="tab_4" data-tab-target="workshop">
+                    <div class="salon-content__ads">
+                        <div class="row">
+                            @foreach (var item in Model.Advertisments)
+                            {
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="salon-content__ads__item">
+                                        <figure class="salon-content__ads__item__image">
+                                            @if (String.IsNullOrEmpty(item.image1))
+                                            {
+                                                <a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>
+
+                                            }
+                                        </figure>
+                                        <div class="salon-content__ads__item__title">
+                                            <h2><a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                        </div>
+                                        <div class="salon-content__ads__item__price">
+                                            <span>@item.code<small>کد</small></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.Notices.Count() > 0)
+            {
+                <div class="tab-content" data-tab="tab_5" data-tab-target="notice">
+                    <div class="salon-content__ads">
+                        <div class="row">
+                            @foreach (var item in Model.Notices)
+                            {
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="salon-content__ads__item">
+                                        <figure class="salon-content__ads__item__image">
+                                            @if (String.IsNullOrEmpty(item.image1))
+                                            {
+                                                <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>
+
+                                            }
+                                        </figure>
+                                        <div class="salon-content__ads__item__title">
+                                            <h2><a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+                                        </div>
+                                        <div class="salon-content__ads__item__price">
+                                            <span>@item.code<small>کد</small></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+@if (Model.Banner != null)
+{
+    <section class="banner">
+        <div class="container">
+            <div class="banner__wrapper">
+                <a href="@Model.Banner.link"><img src="@Model.Banner.image"></a>
+            </div>
+        </div>
+    </section>
+}
+<script>
+    $(document).ready(function () {
+        $(".salon-content__tabs ul li").first().addClass("active");
+    $(".salon-content__tabs .tab-content").first().addClass("active");
+    LoadMap(@Model.User.longitude,@Model.User.latitude);
+    });
+
+</script>
+
+
+
+

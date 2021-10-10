@@ -1,0 +1,275 @@
+﻿@model Gisoo.ViewModel.LineViewModelAdmin
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">جزییات لاین</h3>
+                </div>
+                <div class="row">
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="@Model.line.id" />
+                        <input type="hidden" asp-for="@Model.line.notConfirmDescription" />
+                        <input type="hidden" asp-for="@Model.line.userId" />
+                        <input type="hidden" asp-for="@Model.line.adminConfirmStatus" />
+                        <input type="hidden" asp-for="@Model.line.registerDate" />
+                        <input type="hidden" asp-for="@Model.line.expireDate" />
+                        <input type="hidden" asp-for="@Model.line.reserveDate" />
+                       
+                        <div class="box-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">تاریخ ایجاد</label>
+
+                                    <input class="form-control" disabled value="@Gisoo.Utility.PersianCalendarDate.PersianCalendarResult(Model.line.registerDate)" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label class="control-label">تاریخ انقضا فعلی @Gisoo.Utility.PersianCalendarDate.PersianCalendarResult(Model.line.expireDate)</label>
+                                    <input class="form-control" id="expireDate1" name="expireDate1" value="" />
+                                </div>
+                            </div>
+                            @if (@Model.line.reserveDate != null)
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label class="control-label">تاریخ رزور فعلی @Gisoo.Utility.PersianCalendarDate.PersianCalendarResult((DateTime)@Model.line.reserveDate)</label>
+                                        <input class="form-control" id="reserveDate1" name="reserveDate1" value="" />
+
+
+                                    </div>
+                                </div>}
+                            @if (@Model.line.reserveHour != null)
+                            {
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>ساعت رزرو</label>
+                                        <input asp-for="@Model.line.reserveHour" type="time" class="form-control">
+                                        <span asp-validation-for="@Model.line.reserveHour" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model.line.title" class="control-label"></label>
+                                    <input asp-for="@Model.line.title" class="form-control" />
+                                    <span asp-validation-for="@Model.line.title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model.line.countView" class="control-label"></label>
+                                    <input asp-for="@Model.line.countView" class="form-control" disabled />
+                                    <span asp-validation-for="@Model.line.countView" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="@Model.line.lineTeacher" class="control-label"></label>
+                                    <input asp-for="@Model.line.lineTeacher" class="form-control" />
+                                    <span asp-validation-for="@Model.line.lineTeacher" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">نوع لاین </label>
+                                    <select class="form-control" asp-for="@Model.line.lineTypeId">
+
+                                        @foreach (var item in Model.lineTypes)
+                                        {
+                                            if (item.id == Model.line.lineTypeId)
+                                            {
+                                                <option selected value=@item.id>@item.name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value=@item.id>@item.name</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="@Model.line.lineTypeId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            @*<div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">نوع پرداختی </label>
+                <select class="form-control" asp-for="@Model.line.lineLaw">
+                    @if (@Model.line.lineLaw == EnumLineLaw.hire)
+                    {
+                        <option selected value=1>اجاره ای</option>
+                    }
+                    else
+                    {
+                        <option value=1>اجاره ای</option>
+
+                    }
+                    @if (@Model.line.lineLaw == EnumLineLaw.law)
+                    {
+                        <option selected value=3>حقوقی</option>
+                    }
+                    else
+                    {
+                        <option value=3>حقوقی</option>
+
+                    }
+                    @if (@Model.line.lineLaw == EnumLineLaw.percent)
+                    {
+                        <option selected value=2>درصدی</option>
+                    }
+                    else
+                    {
+                        <option value=2>درصدی</option>
+
+                    }
+                    @if (@Model.line.lineLaw == EnumLineLaw.reserve)
+                    {
+                        <option selected value=4>رزرو</option>
+                    }
+                    else
+                    {
+                        <option value=4>رزرو</option>
+
+                    }
+                </select>
+                <span asp-validation-for="@Model.line.lineLaw" class="text-danger"></span>
+            </div>
+        </div>*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">قیمت</label>
+                                    <input asp-for="@Model.line.price" value="@String.Format("{0:0,0}", @Model.line.price)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    <span asp-validation-for="@Model.line.price" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">قیمت تخفیف</label>
+                                    <input asp-for="@Model.line.discountPrice" value="@String.Format("{0:0,0}", @Model.line.discountPrice)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    <span asp-validation-for="@Model.line.discountPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">کاربر</label>
+                                    <input disabled value="@Model.line.user.cellphone" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="@Model.line.description" class="control-label"></label>
+                                    <textarea asp-for="@Model.line.description" class="form-control"></textarea>
+                                    <span asp-validation-for="@Model.line.description" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" onclick="file.click()"><i class="fa fa-camera"></i>انتخاب عکس</button>
+                                    <input display="Image" id="file" name="file" class="TheFile" onchange="SetPictures('file','ImageItems');" style="display:none" multiple type="file">
+                                    <div id="ImageItems" style="margin-top:10px">
+
+                                    </div>
+                                </div>
+                                @if (Model.line.LineImages != null && Model.line.LineImages.Count() > 0)
+                                {
+                                    <div id="RemoveImageItems" class="form-group">
+                                        <label>عکس ها</label>
+                                        @foreach (var item in Model.line.LineImages)
+                                        {
+                                            <div id=@item.id>
+                                                <div><img src="/wwwroot/Line/File/@item.url" style="width: 70px; height: 60px;" id="@item.id" /></div><div style="margin-top:5px;width:40px">
+                                                    <a data-rid="@item.id" class="btn  btn-danger  btnremovefile">حذف</a>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="submit" value="ویرایش" class="btn btn-default" />
+                                    <a onclick="goBack()" class="btn btn-danger">بازگشت</a>
+                                </div>
+                            </div>
+                        </div>
+</form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/PersianDatePicker.min.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+
+            $('#expireDate1').persianDatepicker({
+                formatDate: "YYYY/MM/DD",
+                altFormat: 'X',
+                observer: true,
+                timePicker: {
+                    enabled: false
+                },
+
+            });
+            $("#expireDate1").val('');
+            $('#reserveDate1').persianDatepicker({
+                formatDate: "YYYY/MM/DD",
+                altFormat: 'X',
+                observer: true,
+                timePicker: {
+                    enabled: false
+                },
+
+            });
+            $("#reserveDate1").val('');
+
+        });
+        function numberWithCommas(x) {
+            var tmp = x.value;
+            while (tmp.indexOf(',') != -1)
+                tmp = tmp.replace(',', '');
+            var parts = tmp.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            x.value = parts.join(".");
+        }
+        $('form').submit(function () {
+            if ($('#line_price').length != 0) {
+                while (line_price.value.indexOf(',') != -1) {
+                    line_price.value = line_price.value.replace(',', '');
+                }
+            }
+            if ($('#line_discountPrice').length != 0) {
+                while (line_discountPrice.value.indexOf(',') != -1) {
+                    line_discountPrice.value = line_discountPrice.value.replace(',', '');
+                }
+            }
+        });
+        function goBack() {
+            window.history.back();
+        }
+            $('#RemoveImageItems').on('click', '.btnremovefile', function () {
+                RemoveFiles('RemoveImageItems', '/CustomerHome/RemoveFile', 'Id', $(this).attr("data-rid"));
+                $(this).closest('div').parent().html('');
+              });
+    </script>
+   
+}
+

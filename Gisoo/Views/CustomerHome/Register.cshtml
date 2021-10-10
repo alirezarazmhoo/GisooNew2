@@ -1,0 +1,176 @@
+﻿@model Gisoo.ViewModel.UserViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_CustomerLoginLayout.cshtml";
+}
+<header class="main-header">
+    <div class="container">
+        <div class="main-header__wrapper">
+            <div class="main-header__mobie-menu">
+                <a href="#" data-toggle="openbox" data-target="mobile-menu" data-status="false"><i class="dn-menu"></i></a>
+            </div>
+            <div class="main-header__logo">
+                <a href="/CustomerHome/Index"><img src="~/images/barbershop2.png"></a>
+            </div>
+            <div class="main-header__nav">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="/CustomerHome/Index">صفحه اصلی</a>
+                        </li>
+                        <li>
+                            <a href="/CustomerHome/UserList?userRolaNameEng=SalonOwner">آرایشگاه ها</a>
+                        </li>
+                        <li>
+                            <a href="/CustomerHome/UserList?userRolaNameEng=Academy">آموزشگاه ها</a>
+                        </li>
+                        <li>
+                            <a href="/CustomerHome/UserList?userRolaNameEng=Store">فروشگاه ها</a>
+                        </li>
+                        @*<li>
+                                <a href="/CustomerHome/NoticeList">آگهی ها</a>
+                            </li>
+                            <li>
+                                <a href="/CustomerHome/ProductList">محصولات</a>
+                            </li>
+                            <li>
+                                <a href="/CustomerHome/ClassRoomList">کلاس ها</a>
+                            </li>
+                            <li>
+                                <a href="/CustomerHome/AdvertismentList">ورکشاپ و تبلیغات</a>
+                            </li>
+                            <li>
+                                <a href="/CustomerHome/LineList">لاین ها</a>
+                            </li>*@
+                        <li>
+                            <a href="/CustomerHome/ContactUs">تماس با ما</a>
+                        </li>
+                        <li>
+                            <a href="/CustomerHome/AboutUs">درباره ما</a>
+                        </li>
+                        <li>
+                            <a href="/CustomerHome/Rule">قوانین و مقررات</a>
+                        </li>
+                        <li>
+                            @using (Html.BeginForm("AllSearch", "CustomerHome", FormMethod.Get))
+                            {
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="عنوان را وارد کنید">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit">
+                                            <i class="dn-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="main-header__left">
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a href="/LogoutCustomer">خروج</a>
+
+                        </li>
+                    }
+                    else
+
+                    {
+                        <li>
+                            <a href="/CustomerHome/SelectUserType">ثبت نام</a>
+
+                        </li>
+                        <li>&nbsp;&nbsp;</li>
+
+
+                        <li>
+
+                            <a href="/CustomerHome/Login">ورود </a>
+
+                        </li>
+
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<section>
+    <section class="auth">
+        <div class="auth__background">
+            <img src="~/HomeContent/assets/img/auth-bg.jpg">
+        </div>
+        <div class="container">
+            <div class="auth__wrapper">
+                <div class="auth__logo">
+
+                    <h4 style="padding-top:10%;">سامانه مدیریت سالن های آرایشی گیسو</h4>
+                    <p class="text text-danger">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </p>
+                </div>
+                <div class="auth__form">
+                    <form asp-action="Register" method="post" enctype="multipart/form-data">
+                        @*<input asp-for="roleId" value="@ViewBag.UseType" hidden />*@
+                        <input asp-for="roleId" hidden />
+                        <div class="form-group">
+                            <input type="text" class="form-control" maxlength="50" placeholder="نام و نام خانوادگی" asp-for="fullname">
+                            <span asp-validation-for="fullname" class="text-danger" />
+
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" maxlength="10" placeholder="کد ملی" asp-for="nationalCode">
+                            <span asp-validation-for="nationalCode" class="text-danger" />
+
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" maxlength="11" placeholder="شماره همراه" asp-for="cellphone">
+                            <span asp-validation-for="cellphone" class="text-danger" />
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" maxlength="6" asp-for="identifiecode" placeholder="در صورت داشتن کدمعرف،کدراوارد کنیدوامتیاز بگیرید!">
+                        </div>
+                        <div class="form-check" style="color:white;margin-right:10px;">
+                            <input class="form-check-input" type="radio" name="sexuality" id="man" value="false" checked>
+                            <label class="form-check-label" for="man">
+                                مردانه
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="form-check-input" type="radio" name="sexuality" id="woman" value="true">
+                            <label class="form-check-label" for="woman">
+                                زنانه
+                            </label>
+                        </div>
+                        @*<input   value="@ViewBag.isnoticeshourtcut" asp-for="isNoticeShortcut" hidden>*@
+                        <input asp-for="isNoticeShortcut" hidden>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn">ثبت نام</button>
+                        </div>
+                        <div class="form-group">
+
+                            <a href="/CustomerHome/Login" class="btn">ورود </a>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+    </section>
+    <script>
+        window.onload = Load;
+        function Load() {
+            SetInputFilter(["nationalCode", "cellphone"]);
+        }
+
+    </script>

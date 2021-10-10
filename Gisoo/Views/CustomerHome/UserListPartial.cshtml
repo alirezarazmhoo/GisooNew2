@@ -1,0 +1,65 @@
+﻿@model Gisoo.ViewModel.UserListViewModel
+@using Gisoo.Utility
+@foreach (var item in Model.Users)
+{
+    <div class="cat-blog__list">
+        <div class="cat-blog__list__img">
+            @if (String.IsNullOrEmpty(item.url))
+            {
+                @if (String.IsNullOrEmpty(item.fullname))
+                {
+                    <a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a>
+                }
+                else
+                {
+                    <a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>
+
+                }
+            }
+            else
+            {
+                @if (String.IsNullOrEmpty(item.fullname))
+                {
+                    <a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی"><img src="/wwwroot @item.url"></a>
+                }
+                else
+
+                {
+                    <a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')"><img src="/wwwroot @item.url"></a>
+                }
+            }
+        </div>
+        <div class="cat-blog__list__desc">
+            <div class="cat-blog__list__desc__title">
+                <h2>
+                    @if (String.IsNullOrEmpty(item.fullname))
+                    {
+                        <a href="/CustomerHome/ProfileUserSingle/@item.id/آگهی">آگهی</a>
+                    }
+                    else
+                    {
+                        <a href="/CustomerHome/ProfileUserSingle/@item.id/@item.fullname.Replace(' ', '-')">@item.fullname</a>
+                    }
+                </h2>
+
+            </div>
+            @if (!String.IsNullOrEmpty(item.shortDescription))
+            {
+                <div class="cat-blog__list__desc__text">
+                    @if (item.shortDescription.Length > 20)
+                    {
+                        <p> @item.shortDescription.Substring(0, 20)</p>
+                    }
+                    else
+                    {
+                        <p> @item.shortDescription</p>
+
+                    }
+                </div>
+            }
+
+
+        </div>
+
+    </div>
+}

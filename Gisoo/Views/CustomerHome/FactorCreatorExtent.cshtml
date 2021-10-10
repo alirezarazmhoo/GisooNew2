@@ -1,0 +1,107 @@
+﻿
+@model Gisoo.ViewModel.FactorViewModel
+@{
+    ViewData["Title"] = "FactorCreator";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+<section class="factor">
+    <div class="container">
+        <div class="factor__wrapper">
+            <div class="row">
+                <div class="col-md-10 offset-lg-1" style="margin-top:65px">
+                    <form method="post" asp-action="FactorCreatorExtent">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="factor__list">
+                                    <ul>
+                                        <li>
+                                            <span>نام و نام خانوادگی</span>
+                                            <span>@Model.fullName</span>
+                                        </li>
+                                        @if (Model.date != DateTime.MinValue)
+                                        {
+
+                                            <li>
+                                                <span>تاریخ تراکنش</span>
+                                                <span>@Gisoo.Utility.PersianCalendarDate.PersianCalendarResult(Model.date)</span>
+                                            </li>
+                                        }
+
+                                        <li>
+                                            <span>مبلغ واحد</span>
+                                            @{
+                                                if (Model.totalAmount == "0")
+                                                {
+                                                    <span>رایگان</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span>@Model.totalAmount<small>تومان</small></span>
+                                                }
+                                            }
+                                        </li>
+                                        <li>
+                                            <span>جمع</span>
+                                            @{
+                                                if (Model.totalAmount == "0")
+                                                {
+                                                    <span>رایگان</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span>@Model.totalAmount<small>تومان</small></span>
+                                                }
+                                            }
+                                        </li>
+
+                                        <li>
+                                            <span>نوع پرداخت</span>
+                                            <select class="form-control" style="width:50%" asp-for="PursheType">
+                                                <option selected value="1">کارت بانکی</option>
+                                                <option value="2">کیف پول</option>
+                                            </select>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="factor__alert">
+                                    <ul>
+                                        <li>لطفا در پرداخت های خود دقت کافی داشته باشید.</li>
+                                        <li>قیمت را قبل از تایید و ورود به صفحه پرداخت بررسی فرمایید.</li>
+                                        <li>پس از پرداخت اطلاعات تراکنش برای شما ایمیل خواهد شد.</li>
+                                        <li>در صفحه پرداخت از دکمه Back مرورگر استفاده ننمایید.</li>
+                                    </ul>
+                                </div>
+                                @{
+                                    <input asp-for="totalAmount" hidden />
+                                    <input asp-for="isNotice" hidden />
+                                    <input asp-for="ItemId" hidden />
+                                    <input asp-for="fullName" hidden />
+                                    <input asp-for="isBarber" hidden />
+                                    <input asp-for="isWorkshop" hidden />
+                                    <div class="factor__btn">
+                                        <button type="submit" onclick="Register()" class="btn">تایید و پرداخت فاکتور</button>
+                                    </div>
+                                    <div class="factor__btn">
+                                        <a href="/CustomerHome/CancellFactor?Id=@Model.ItemId&&IsNotice=3" style="margin-top:10px" class="btn">انصراف و بازگشت</a>
+                                        <div class="text text-danger text text-center">
+                                            <p style="margin-top:10px">
+
+                                                @ViewData["Error"]
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

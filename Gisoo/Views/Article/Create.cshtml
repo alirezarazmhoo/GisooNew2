@@ -1,0 +1,79 @@
+﻿@model Gisoo.Models.Article
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">مقاله جدید</h3>
+                </div>
+                <div class="row">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div class="box-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="imageUrl" class="control-label"></label>
+                                    <p>عکس مقاله را در اندازه 275*390 وارد نمایید</p>
+
+                                    <img id="imgArticle" class="thumbnail imgthumw" />
+                                    <div class="form-group">
+                                        <label>انتخاب تصویر</label>
+                                        <input type="file" asp-for="imageUrl">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label asp-for="title" class="control-label"></label>
+                                    <input asp-for="title" class="form-control" />
+                                    <span asp-validation-for="title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="description" class="control-label"></label>
+                                    <textarea asp-for="description" class="form-control"></textarea>
+                                    <span asp-validation-for="description" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="submit" value="ثبت" class="btn btn-default" />
+                                    <a class="btn btn-danger" asp-action="Index">بازگشت</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('description', {
+            customConfig: '/js/Config.js'
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgArticle').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#imageUrl").change(function () {
+            readURL(this);
+        });
+    </script>
+}

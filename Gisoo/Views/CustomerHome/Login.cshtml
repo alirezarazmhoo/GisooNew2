@@ -1,0 +1,277 @@
+﻿@model Gisoo.ViewModel.UserViewModel
+
+@{
+	ViewData["Title"] = "Register";
+	Layout = "~/Views/Shared/_CustomerLoginLayout.cshtml";
+}
+
+<section>
+	<section class="auth">
+		<div class="auth__background">
+			<img src="~/HomeContent/assets/img/auth-bg.jpg">
+		</div>
+		<div class="container">
+			<div class="auth__wrapper">
+				<div class="auth__logo">
+
+					@*<a href="/CustomerHome/Index">
+							<img src="~/images/barbershop2.png" />
+						</a>*@
+					<h4 style="padding-top:10%;">سامانه مدیریت سالن های آرایشی گیسو</h4>
+					<p class="text text-danger">
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+					</p>
+				</div>
+				<div class="auth__form">
+					<div class="form-group">
+						<input type="text" class="form-control" maxlength="11" placeholder="شماره همراه" asp-for="cellphone">
+						<input type="text" asp-for="returnUrl" hidden>
+
+						<span asp-validation-for="cellphone" class="text-danger"></span>
+					</div>
+					<div class="form-group" id="divCode" style="display:none">
+						<input type="text" class="form-control" placeholder="کد تایید" asp-for="code">
+						<span id="codCk" class="text-danger" hidden>کد تایید را وارد نمایید</span>
+						<span asp-validation-for="code" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+
+						@{
+							if (Model.isNoticeShortcut == 0 && Model.isAdverstitment==0)
+							{
+								<button onclick="sendcode()" id="Codebtn" class="btn">درخواست رمز عبور</button>
+							}
+							else
+							{
+								<button onclick="sendcode()" id="Codebtn" class="btn">ثبت نام و درخواست رمز عبور</button>
+							}
+
+						}
+
+						<button id="Loginbtn" onclick="LoginUser()" style="display:none" class="btn">ورود</button>
+					</div>
+
+					<button type="button" id="btnretry" onclick="tryagain()" class="btn btn-color-reverse btn-full" style="display:none">
+						<span id="countdown" class="timer"></span>
+						تلاش مجدد
+					</button>
+					@*@if (Model.isNoticeShortcut == 0 && Model.isAdverstitment == 0)
+					{
+						<div class="form-group">
+
+							<a href="/CustomerHome/SelectUserType" class="btn">ثبت نام </a>
+						</div>
+					}*@
+					<input id="shouldnoticeshortcut" value="@Model.isNoticeShortcut" hidden />
+					<input id="shouldAdverstitmentshortcut" value="@Model.isAdverstitment" hidden />
+
+
+					
+				</div>
+
+			</div>
+		</div>
+	</section>
+</section>
+<div class="modal fade" id="ErrorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">ارسال کد</h4>
+				<div data-dismiss="modal"></div>
+			</div>
+			<div class="modal-body">
+				<p id="errortext"></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="SuccessModals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">ارسال کد</h4>
+				<div data-dismiss="modal"></div>
+			</div>
+			<div class="modal-body">
+				<p id="successtxt"></p>
+			</div>
+		</div>
+	</div>
+</div>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+<div class="modal fade" id="reg-user">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+				</button>
+				<h4 class="modal-title">سامانه گیسو</h4>
+			</div>
+			<div class="modal-body">
+				<p id="payText"></p>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<script>
+     window.onload = Load;
+    function Load() {
+
+        if ('@Html.Raw(ViewBag.textRegister)'!="") {
+            $('#reg-user').modal('show');
+            $("#reg-user #payText").html('@Html.Raw(ViewBag.textRegister.Replace("-", " "))');
+            $("#Loginbtn").show();
+            $("#btnretry").show();
+            $("#divCode").show();
+            $("#Codebtn").hide();
+        }
+    }
+</script>
+<script>
+	var seconds = 30;
+
+	function sendcode() {
+		var fd = new FormData();
+		fd.append("cellphone", $('#cellphone').val());
+		$.ajax({
+			type: "POST",
+			url: "../CustomerHome/SignInConfirmCode",
+			data: fd,
+			dataType: "json",
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				if (response.success == false) {
+					$("#errortext").text(response.responseText);
+					$('#ErrorModal').modal('show');
+				}
+				else {
+					$("#Loginbtn").show();
+					$("#btnretry").show();
+					$("#divCode").show();
+					$("#Codebtn").hide();
+				}
+			},
+			error: function (response) {
+
+			}
+		});
+	}
+	function tryagain() {
+		seconds = 30;
+		$("#btnretry").prop("disabled", true);
+		$('#countdown').attr("hidden", false);
+
+		countdown();
+
+		PostAjaxtryagain();
+	}
+	function PostAjaxtryagain() {
+		var fd = new FormData();
+		fd.append("cellphone", $('#cellphone').val());
+		$.ajax({
+			type: "POST",
+			url: "../CustomerHome/SignInConfirmCode",
+			data: fd,
+			dataType: "json",
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				if (response.success == false) {
+					$("#errortext").text(response.responseText);
+					$('#ErrorModal').modal('show');
+				}
+				if (response.success == true) {
+					$("#successtxt").text("پیامک مجددا ارسال شد");
+					$('#SuccessModals').modal('show');
+				}
+			},
+			error: function (response) {
+
+			}
+		});
+	}
+	function secondPassed() {
+		var minutes = Math.floor(seconds / 60);
+		var remainingSeconds = seconds % 60;
+		if (remainingSeconds < 10) {
+			remainingSeconds = "0" + remainingSeconds;
+		}
+		document.getElementById('countdown').innerHTML = minutes + ":" + remainingSeconds;
+		if (seconds == 0) {
+			$("#btnretry").prop("disabled", false);
+			$('#countdown').attr("hidden", true);
+		}
+	}
+	$("#code").change(function () {
+		$("#codCk").attr("hidden", "hidden");
+	});
+
+
+	function LoginUser() {
+		if ($('#code').val() == "") {
+			$("#codCk").removeAttr("hidden");
+		}
+		else {
+
+		var fd = new FormData();
+		fd.append("cellphone", $('#cellphone').val());
+		fd.append("code", $('#code').val());
+		fd.append("returnUrl", $('#returnUrl').val());
+		fd.append("shouldnoticeshortcut", $('#shouldnoticeshortcut').val());
+		fd.append("shouldAdverstitmentshortcut", $('#shouldAdverstitmentshortcut').val());
+
+
+		
+		$.ajax({
+			type: "POST",
+			url: "../CustomerHome/SignIn",
+			data: fd,
+			dataType: "json",
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				if (response.success == false) {
+					$("#errortext").text(response.responseText);
+					$('#ErrorModal').modal('show');
+				}
+				else {
+
+					if (response.returnUrl != null && response.returnUrl != "") {
+						window.location.href = response.returnUrl;
+					}
+					else {
+						if (response.roleNameEn == "SalonOwner")
+							window.location.href = '/CustomerHome/SalonOwner?isNoticeShortcut=' + response.hasnoticeshortcut + '&isadverstitmentShortcut=' + response.hasadverstitmentshortcut + '';
+						if (response.roleNameEn == "HairStylist")
+							window.location.href = '/CustomerHome/HairStylist?isNoticeShortcut=' + response.hasnoticeshortcut + '&isadverstitmentShortcut=' + response.hasadverstitmentshortcut + '';
+						if (response.roleNameEn == "Store")
+							window.location.href = '/CustomerHome/Store?isNoticeShortcut=' + response.hasnoticeshortcut + '&isadverstitmentShortcut=' + response.hasadverstitmentshortcut + '';
+						if (response.roleNameEn == "Academy")
+							window.location.href = '/CustomerHome/Academy?isNoticeShortcut=' + response.hasnoticeshortcut + '&isadverstitmentShortcut=' + response.hasadverstitmentshortcut + '';
+                        if (response.roleNameEn == "Mentor")
+                            window.location.href = '/CustomerHome/Mentor?isNoticeShortcut=' + response.hasnoticeshortcut + '&isadverstitmentShortcut=' + response.hasadverstitmentshortcut + '';
+						if (response.roleNameEn == "Student")
+							window.location.href = '/CustomerHome/Student?isNoticeShortcut=' + response.hasnoticeshortcut + '&isadverstitmentShortcut=' + response.hasadverstitmentshortcut + '';
+						if (response.roleNameEn == "Member")
+							window.location.href = '/CustomerHome/Member?isNoticeShortcut=' + response.hasnoticeshortcut + '&isadverstitmentShortcut=' + response.hasadverstitmentshortcut + '';
+					}
+				}
+			},
+			error: function (response) {
+
+			}
+		});
+		}
+	}
+	function countdown() {
+		secondPassed();
+		if (seconds != 0) {
+			seconds--;
+			countdownTimer = setTimeout('countdown()', 1000);
+		}
+	}
+</script>

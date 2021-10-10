@@ -1,0 +1,52 @@
+﻿@model List<LineWeekDate>
+@{
+    var dateTemp = Model.FirstOrDefault().date;
+    var isFirst = 0;
+}
+<table style="border:1px solid #c8c8c8;width:100%">
+    <tr>
+        <th style="border:1px solid #c8c8c8;padding:5px">روزها</th>
+        <th style="border:1px solid #c8c8c8;padding:5px">ساعات</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        if (isFirst == 0) { isFirst++; continue; }
+        if (item.date != dateTemp)
+        {
+            <tr>
+                <td style="border:1px solid #c8c8c8">@DateTimeHelper.PersionDayOfWeekStr(item.date) &nbsp; @Gisoo.Utility.DateChanger.ToPersianDateString(item.date)</td>
+                <td style="border:1px solid #c8c8c8">
+                    @foreach (var item2 in Model)
+                    {
+                        @if (item.date.Date == item2.date.Date)
+                        {
+                            if (item2.isReserved)
+                            {
+                                <label style="border-radius: 6px;background: #ff1e7c;margin-right: 3px;line-height: 30px;padding:5px;text-align: center;margin-top:5px;">
+                                    @item2.fromTime - @item2.toTime
+
+                                </label>
+
+                            }
+                            else
+                            {
+
+                                <label onclick="addClassByClick(this)" id="@item2.id" style="border-radius: 6px;background: #dddddd;margin-right: 3px;line-height: 30px;padding:5px;text-align: center;cursor:pointer;margin-top:5px;">
+                                    @item2.fromTime - @item2.toTime
+
+                                </label>
+                            }
+                        }
+
+                    }
+                </td>
+            </tr>
+        }
+
+        dateTemp = item.date;
+
+    }
+</table>
+
+
+

@@ -1,0 +1,227 @@
+﻿@model Gisoo.ViewModel.Notice2ViewModel
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/js/Common.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+<div class="profile__content__header">
+    <span>فرم ثبت آگهی</span>
+</div>
+<div class="profile__content__form">
+    <p class="text text-danger">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </p>
+    <form  action="RegisterNotice" method="post" enctype="multipart/form-data">
+        <div class="row" data-space="20">
+            <div class="col-xl-8 offset-xl-2">
+                <div class="profile__content__form__wrapper">
+                    <input asp-for="id" hidden>
+                    <input asp-for="image1" hidden>
+                    <input asp-for="image2" hidden>
+                    <input asp-for="image3" hidden>
+                    <input asp-for="adminConfirmStatus" hidden>
+                    <input asp-for="isDeleted" hidden>
+                    <div class="form-group">
+                        <label>عنوان</label>
+                        <input type="text" class="form-control" asp-for="title" placeholder="عنوان را وارد کنید">
+                        <span asp-validation-for="title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" class="form-check-input" style="margin-right: 5px;" asp-for="isBarber">
+                        <label class="form-check-label" style="margin-right: 20px;" for="isBarber">آرایشگر</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>توضیحات</label>
+                        <textarea asp-for="description" type="text" class="form-control" placeholder="توضیحات را وارد کنید">
+</textarea>
+                        <span asp-validation-for="description" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>وضعیت آگهی</label>
+                        <select class="form-control" asp-for="condition">
+
+                            @if (Model.condition == ConditionEnum.FixedSalary)
+                            {
+                                <option selected value=3> ثابت</option>
+                            }
+                            else
+                            {
+                                <option selected value=3> ثابت</option>
+
+                            }
+                            @if (Model.condition == ConditionEnum.Percent)
+                            {
+                                <option selected value=1>درصدی</option>
+                            }
+                            else
+                            {
+                                <option selected value=1>درصدی</option>
+
+                            }@if (Model.condition == ConditionEnum.Rent)
+                            {
+                                <option selected value=2>اجاره ای</option>
+                            }
+                            else
+                            {
+                                <option selected value=2>اجاره ای</option>
+
+                            }
+
+                        </select>
+                        <span class="text-danger" asp-validation-for="cityId"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>استان</label>
+                        <select class="form-control" asp-for="cityId">
+                            <option value="">انتخاب کنید</option>
+                            @foreach (var item in Model.cities)
+                            {
+                                if (item.id == Model.cityId)
+                                {
+                                    <option selected value=@item.id>@item.name</option>
+                                }
+                                else
+                                {
+                                    <option value=@item.id>@item.name</option>
+                                }
+                            }
+                        </select>
+                        <span class="text-danger" asp-validation-for="cityId"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>شهرستان</label>
+                        <select class="form-control" asp-for="provinceId">
+                            @if (Model.id != 0)
+                            {
+                                @foreach (var item in Model.provinces)
+                                {
+                                    if (item.id == Model.provinceId)
+                                    {
+                                        <option selected value=@item.id>@item.name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@item.id>@item.name</option>
+                                    }
+                                }
+
+                            }
+                        </select>
+                        <span class="text-danger" asp-validation-for="provinceId"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>محدوده</label>
+                        <select class="form-control" asp-for="areaId">
+                            @if (Model.id != 0)
+                            {
+                                @foreach (var item in Model.areas)
+                                {
+                                    if (item.id == Model.areaId)
+                                    {
+                                        <option selected value=@item.id>@item.name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@item.id>@item.name</option>
+                                    }
+                                }
+
+                            }
+                        </select>
+
+                        <span class="text-danger" asp-validation-for="areaId"></span>
+
+                    </div>
+                    <div class="form-group">
+                        @if (!String.IsNullOrEmpty(Model.image1))
+                        {
+                            <button type="button" class="btn btn-primary" onclick="file1.click()"><i class="fa fa-camera"></i>تغییر عکس اول</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary" onclick="file1.click()"><i class="fa fa-camera"></i>انتخاب عکس اول</button>
+
+                        }
+                        <input display="Image" id="file1" name="file1" class="TheFile" onchange="clearDiv('image1');SetPictures('file1','ImageItem1')" style="display:none" type="file">
+                        <div id="ImageItem1" style="margin-top:10px">
+
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.image1))
+                        {
+                            <img src="/wwwroot/Notice/@Model.image1" style="width: 70px; margin-right:10px;height: 60px;" />
+                        }
+                    </div>
+                    <div class="form-group">
+                        @if (!String.IsNullOrEmpty(Model.image2))
+                        {
+                            <button type="button" class="btn btn-primary" onclick="file2.click()"><i class="fa fa-camera"></i>تغییر عکس دوم</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary" onclick="file2.click()"><i class="fa fa-camera"></i>انتخاب عکس دوم</button>
+
+                        }
+                        <input display="Image" id="file2" name="file2" class="TheFile" onchange="clearDiv('image2');SetPictures('file2','ImageItem2')" style="display:none" type="file">
+                        <div id="ImageItem2" style="margin-top:10px">
+
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.image2))
+                        {
+                            <img src="/wwwroot/Notice/@Model.image2" style="width: 70px; margin-right:10px;height: 60px;" />
+                        }
+                    </div>
+                    <div class="form-group">
+                        @if (!String.IsNullOrEmpty(Model.image3))
+                        {
+                            <button type="button" class="btn btn-primary" onclick="file3.click()"><i class="fa fa-camera"></i>تغییر عکس سوم</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary" onclick="file3.click()"><i class="fa fa-camera"></i>انتخاب عکس سوم</button>
+
+                        }
+                        <input display="Image" id="file3" name="file3" class="TheFile" onchange="clearDiv('image3');SetPictures('file3','ImageItem3')" style="display:none" type="file">
+                        <div id="ImageItem3" style="margin-top:10px">
+
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.image3))
+                        {
+                            <img src="/wwwroot/Notice/@Model.image3" style="width: 70px; margin-right:10px;height: 60px;" />
+                        }
+                    </div>
+
+
+
+                    <div class="form-group form-group-btn">
+                        <button type="submit" class="btn">ثبت</button>
+
+                        <button type="button" onclick="showAllNotice();" class="btn" style="margin-top:3px">انصراف</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function clearDiv(imageName) {
+        
+        if (imageName == 'image1')
+            $("#ImageItem1").parent().find('img').remove();
+        if (imageName == 'image2')
+            $("#ImageItem2").parent().find('img').remove();
+        if (imageName == 'image3')
+            $("#ImageItem3").parent().find('img').remove();
+    }
+    
+    $("#provinceId").change(function () {
+        var ProvinceId = $("#provinceId option:selected").val();
+        GetData("/CustomerHome/GetArea?provinceId=" + ProvinceId + "", "areaId");
+    });
+    $("#cityId").change(function () {
+      var cityId=  $("#cityId option:selected").val();
+        GetData("/CustomerHome/GetProvince?cityId=" + cityId + "", "provinceId");
+    });
+</script>

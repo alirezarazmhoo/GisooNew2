@@ -1,0 +1,221 @@
+﻿@model Gisoo.ViewModel.VisitViewModel
+
+@{
+    var day1 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-9));
+    var day2 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-8));
+    var day3 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-7));
+    var day4 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-6));
+    var day5 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-5));
+    var day6 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-4));
+    var day7 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-3));
+    var day8 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-2));
+    var day9 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date.AddDays(-1));
+    var day10 = Gisoo.Utility.DateChanger.ToPersianDateString(DateTime.Now.Date);
+}
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">جزییات آگهی</h3>
+                </div>
+                <div class="row">
+
+                    <div class="box-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">تاریخ ایجاد</label>
+
+                                <input class="form-control" disabled value="@Gisoo.Utility.PersianCalendarDate.PersianCalendarResult(Model.Notice.createDate)" />
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">تاریخ انقضا</label>
+                                <input class="form-control" disabled value="@Gisoo.Utility.PersianCalendarDate.PersianCalendarResult(Model.Notice.expireDate)" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="@Model.Notice.title" class="control-label"></label>
+                                <input disabled asp-for="@Model.Notice.title" class="form-control" />
+                                <span asp-validation-for="@Model.Notice.title" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">کاربر</label>
+                                <input disabled value="@Model.Notice.user.cellphone" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">شرایط</label>
+                                @if (Model.Notice.condition == ConditionEnum.FixedSalary)
+                                {<input disabled class="form-control" value="حقوق ثابت" />
+                                }
+                                @if (Model.Notice.condition == ConditionEnum.Percent)
+                                {<input disabled class="form-control" value="درصدی" />
+                                }
+                                @if (Model.Notice.condition == ConditionEnum.Rent)
+                                {<input disabled class="form-control" value="اجاره ای" />
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">دسته</label>
+                                @if (Model.Notice.isBarber)
+                                {<input disabled class="form-control" value="آرایشگران" />
+                                }
+                                else
+                                {<input disabled class="form-control" value="آرایشگاه ها" />
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">استان</label>
+                                <input disabled asp-for="@Model.Notice.city.name" class="form-control" />
+                                <span asp-validation-for="@Model.Notice.city.name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">شهر</label>
+                                <input disabled asp-for="@Model.Notice.province.name" class="form-control" />
+                                <span asp-validation-for="@Model.Notice.province.name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">حومه</label>
+                                <input disabled asp-for="@Model.Notice.area.name" class="form-control" />
+                                <span asp-validation-for="@Model.Notice.area.name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="@Model.Notice.countView" class="control-label"></label>
+                                <textarea disabled asp-for="@Model.Notice.countView" class="form-control"></textarea>
+                                <span asp-validation-for="@Model.Notice.countView" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="@Model.Notice.description" class="control-label"></label>
+                                <textarea disabled asp-for="@Model.Notice.description" class="form-control"></textarea>
+                                <span asp-validation-for="@Model.Notice.description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">تصویر اول</label>
+
+                                <img class="thumbnail" style="width:300px;height:300px" src="@Model.Notice.image1" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">تصویر دوم</label>
+
+                                <img class="thumbnail" style="width:300px;height:300px" src="@Model.Notice.image2" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">تصویر سوم</label>
+
+                                <img class="thumbnail" style="width:300px;height:300px" src="@Model.Notice.image3" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+
+                            <div class="profile__content__header">
+                                <span>آمار بازدید</span>
+                            </div>
+                            <div class="profile__content__ads__chart">
+                                <canvas id="ads_chart1"></canvas>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+    </div>
+
+</section>
+
+
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+
+    <script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+    <script>
+    if ($('#ads_chart1').length > 0) {
+        Chart.defaults.global.defaultFontFamily = 'yekan';
+
+        var ads_chart = new Chart($('#ads_chart1')[0], {
+            type: 'line',
+            data: {
+                datasets: [{
+                    data: [@Model.datecount1,@Model.datecount2, @Model.datecount3, @Model.datecount4, @Model.datecount5, @Model.datecount6, @Model.datecount7,@Model.datecount8, @Model.datecount9, @Model.datecount10],
+                    backgroundColor: '#f2a900',
+                    borderColor: '#999',
+                    fill: false,
+                    label: 'میزان بازدید'
+                }],
+                labels: [
+                    '@day1',
+                    '@day2',
+                    '@day3',
+                    '@day4',
+                    '@day5',
+                    '@day6',
+                    '@day7',
+                    '@day8',
+                    '@day9',
+                    '@day10'
+                ]
+            },
+            options:
+            {
+                elements:
+                {
+                    line:
+                    {
+                        tension: 0.000001,
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }]
+                },
+                maintainAspectRatio: false,
+            }
+        });
+    }
+
+
+    </script>
+}
+

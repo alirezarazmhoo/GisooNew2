@@ -1,0 +1,207 @@
+﻿@model Gisoo.Models.User
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">ویرایش کاربر</h3>
+                </div>
+                <div class="row">
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <div class="box-body">
+
+                            <input type="hidden" asp-for="id" />
+                            <input type="hidden" asp-for="roleId" />
+                            <input type="hidden" asp-for="password" />
+                            <input type="hidden" asp-for="token" />
+
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">کد</label>
+                                    <input asp-for="code" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">کد معرف شخص</label>
+                                    <input asp-for="identifiecodeOwner" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">کد شخصی که به عنوان معرف وارد کرده</label>
+                                    <input asp-for="identifiecode" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">رمز عبور</label>
+                                    <input asp-for="passwordShow" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">همراه</label>
+                                    <input asp-for="cellphone" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">نام و نام خانوادگی</label>
+                                    <input class="form-control" disabled asp-for="fullname" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">موبایل</label>
+                                    <input class="form-control" disabled asp-for="cellphone" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">کد ملی</label>
+                                    <input class="form-control" disabled asp-for="nationalCode" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">امتیاز</label>
+                                    <input class="form-control" disabled asp-for="score">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">ساعت کاری</label>
+                                    <input class="form-control" disabled asp-for="workingHours">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">توضیح مختصر</label>
+                                    <input class="form-control" disabled asp-for="shortDescription">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">لینک تلگرام</label>
+                                    <input class="form-control" disabled asp-for="linkTelegram">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">لینک اینستاگرام</label>
+                                    <input class="form-control" disabled asp-for="linkInstagram">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">شماره شبا</label>
+                                    <input class="form-control" disabled asp-for="shebaNumber">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">عکس</label>
+                                    @if (!String.IsNullOrEmpty(Model.url))
+                                    {
+                                        <a href="/wwwroot/@Model.url">
+                                            <img src="/wwwroot/@Model.url" style="width: 70px; margin-right:10px;height: 60px;" />
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+
+                                @if (Model.UserDocumentImages != null && Model.UserDocumentImages.Count() > 0)
+                                {
+                                    <div class="form-group">
+                                        <label>عکس های مدارک</label>
+
+                                        @foreach (var item in Model.UserDocumentImages)
+                                        {
+                                            <a href="/wwwroot/images/Profile/@item.url">
+                                                <img src="/wwwroot/images/Profile/@item.url" style="width: 70px; margin-right:10px;height: 60px;" id="@item.id" />
+                                            </a>
+                                        }
+                                    </div>
+
+                                }
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">آدرس</label>
+                                    <textarea class="form-control" disabled asp-for="address">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label">توضیحات تکمیلی</label>
+                                    <textarea class="form-control" disabled asp-for="longDescription">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        <input disabled type="checkbox" asp-for="hasCertificate" class="myhasCertificate" />
+                                    </label>
+                                    <label for="hasCertificate" class="control-label">مجوز دارد</label>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label> موقعیت</label>
+                                    <div id="mapid" style="height:180px"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <a class="btn btn-danger" onclick="goBack()">بازگشت</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+    LoadMap(@Model.longitude, @Model.latitude);
+
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+}

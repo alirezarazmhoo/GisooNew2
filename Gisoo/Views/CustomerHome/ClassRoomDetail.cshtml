@@ -1,0 +1,307 @@
+﻿@model Gisoo.ViewModel.ClassRoomDetailViewModel
+@using Gisoo.Utility;
+
+@{ ViewData["Title"] = "ClassRoomDetail";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml"; }
+
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            <h1>@Model.ClassRoom.title</h1>
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                <li>@Model.ClassRoom.title</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="ads-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="ads-content__slider">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @if (Model.ClassRoom.ClassRoomImages.Count() > 0)
+                            {
+                @foreach (var item in Model.ClassRoom.ClassRoomImages)
+                {
+<div class="swiper-slide">
+    <div class="ads-content__slider__item">
+        <img src="/ClassRoom/File/@item.url">
+    </div>
+</div>} }
+            else
+            {
+<img src="~/HomeContent/assets/img/ads.png">}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="ads-content__desc">
+                    <p>@Model.ClassRoom.description</p>
+                </div>
+                <div class="ads-content__seller">
+                    <div class="ads-content__seller__avatar">
+                        @if (String.IsNullOrEmpty(Model.ClassRoom.user.url))
+                        {
+            @if (String.IsNullOrEmpty(Model.ClassRoom.user.fullname))
+            {
+<a href="/CustomerHome/ProfileUserSingle/@Model.ClassRoom.user.id/آگهی">
+    <img src="~/HomeContent/assets/img/store.png">
+</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@Model.ClassRoom.user.id/@Model.ClassRoom.user.fullname.Replace(' ', '-')">
+    <img src="~/HomeContent/assets/img/store.png">
+</a>} }
+        else
+        {
+@if (String.IsNullOrEmpty(Model.ClassRoom.user.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@Model.ClassRoom.user.id/آگهی"><img src="@(Model.ClassRoom.user.url)"></a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@Model.ClassRoom.user.id/@Model.ClassRoom.user.fullname.Replace(' ', '-')"><img src="@(Model.ClassRoom.user.url)"></a>}}
+                    </div>
+                    <div class="ads-content__seller__name">
+                        @if (String.IsNullOrEmpty(Model.ClassRoom.user.fullname))
+                        {
+            <a href="/CustomerHome/ProfileUserSingle/@Model.ClassRoom.user.id/آگهی">آگهی</a> }
+        else
+        {
+<a href="/CustomerHome/ProfileUserSingle/@Model.ClassRoom.user.id/@Model.ClassRoom.user.fullname.Replace(' ', '-')">@Model.ClassRoom.user.fullname</a>}
+                    </div>
+                </div>
+
+                @if (Model.ClassRoom.discountPrice != 0 && Model.ClassRoom.discountPrice != null)
+                {
+    <div class="ads-content__price">
+        <div class="ads-content__price__new">
+            <span>@Model.ClassRoom.discountPrice.ToRial()<small>تومان</small></span>
+        </div>
+        <div class="ads-content__price__old">
+            <span>@Model.ClassRoom.price.ToRial()<small>تومان</small></span>
+        </div>
+
+    </div> }
+else
+{
+<div class="ads-content__price">
+    <div class="ads-content__price__new">
+        <span>@Model.ClassRoom.price.ToRial()<small>تومان</small></span>
+    </div>
+</div>}
+                <div class="ads-content__list">
+                    <ul>
+                        <li> تاریخ ثبت : @Gisoo.Utility.DateChanger.ToPersianDateString(Model.ClassRoom.registerDate)</li>
+                        @*@if (!String.IsNullOrEmpty(Model.ClassRoom.reserveDate.ToString()))
+                            {
+                                <li> تاریخ رزرو : @Gisoo.Utility.DateChanger.ToPersianDateString((DateTime)Model.ClassRoom.reserveDate)</li>
+                            }
+                            @if (!String.IsNullOrEmpty(Model.ClassRoom.reserveHour))
+                            {
+                                <li>  ساعت رزرو : @Model.ClassRoom.reserveHour</li>
+
+                            }*@
+
+
+                        <li>  نوع کلاس : @Model.ClassRoom.classRoomType.name</li>
+                        <li>  شماره تماس : @Model.ClassRoom.user.cellphone</li>
+                        <li>  نام و نام خانوادگی مدرس  : @Model.ClassRoom.classRoomTeacher</li>
+                        <li>  طول دوره  : @Model.ClassRoom.classRoomPeriod</li>
+
+                        @*@if (Model.ClassRoom.classRoomLaw == EnumLineLaw.hire)
+                            {
+                                <li> شرایط : اجاره ای </li>
+                            }
+                            @if (Model.ClassRoom.classRoomLaw == EnumLineLaw.law)
+                            {
+                                <li> شرایط : حقوقی </li>
+                            }
+                            @if (Model.ClassRoom.classRoomLaw == EnumLineLaw.percent)
+                            {
+                                <li> شرایط : درصدی </li>
+                            }
+                            @if (Model.ClassRoom.classRoomLaw == EnumLineLaw.reserve)
+                            {
+                                <li> شرایط : رزروی </li>
+                            }*@
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @*<form asp-action="CustomerFactorCreator" method="get">
+                <input name="ItemId" value="@Model.ClassRoom.id" hidden />
+                <input name="totalAmount" value="@Model.ClassRoom.price" hidden />
+                <input name="reserveDate" value="@Model.ClassRoom.reserveDate" hidden />
+                <input name="NoticeType" value="@Gisoo.Models.Enums.NoticeType.ClassRoom" hidden />
+                <div class="ads-content__btn">
+                    <span>رزرو کلاس</span>
+                    <button type="submit" class="btn" style="margin-right:10px">سفارش دهید</button>
+
+                </div>
+            </form>*@
+        <h4 id="divLogin" style="display: none;color:red"></h4>
+
+        <button type="button" onclick="AddReserve()" class="btn" style="margin-top: 5%;">سفارش دهید</button>
+
+    </div>
+</section>
+@if (Model.Banner != null)
+{
+<section class="banner">
+    <div class="container">
+        <div class="banner__wrapper">
+            <a href="@Model.Banner.link"><img src="@Model.Banner.image"></a>
+        </div>
+    </div>
+</section>}
+@if (Model.OtherClassRoom.Count() > 0)
+{
+<section class="product-slider">
+    <div class="container">
+        <div class="sec-title">
+            <h3><i class="dn-line-left"></i>کلاس های مرتبط</h3>
+            <a href="/CustomerHome/ClassRoomList">بیشتر</a>
+        </div>
+        <div class="product-slider__wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.OtherClassRoom)
+                    {
+
+
+    <div class="swiper-slide">
+        <div class="product-slider__item">
+            <figure class="product-slider__item__image">
+                @if (item.ClassRoomImages.Count() > 0)
+                {
+<a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/ClassRoom/File/@item.ClassRoomImages.FirstOrDefault().url"></a> }
+else
+{
+<a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/eyelash.jpg"></a>}
+            </figure>
+            <div class="product-slider__item__title">
+                <h2><a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')">@item.title</a></h2>
+            </div>
+            <div class="product-slider__item__row">
+                <div class="product-slider__item__author">
+                    <div class="product-slider__item__author__avatar">
+                        @if (String.IsNullOrEmpty(item.user.url))
+                        {
+    @if (String.IsNullOrEmpty(item.user.fullname))
+    {
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی"><img src="~/HomeContent/assets/img/store.png"></a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')"><img src="~/HomeContent/assets/img/store.png"></a>} }
+else
+{
+@if (String.IsNullOrEmpty(item.user.fullname))
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">
+    @* /wwwroot  *@
+    <img src="@item.user.url">
+</a> }
+else
+
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">
+    @* /wwwroot  *@
+    <img src="@item.user.url">
+</a>}}
+                    </div>
+                    <div class="product-slider__item__author__name">
+                        @if (String.IsNullOrEmpty(item.user.fullname))
+                        {
+    <a href="/CustomerHome/ProfileUserSingle/@item.user.id/آگهی">آگهی</a> }
+else
+{
+<a href="/CustomerHome/ProfileUserSingle/@item.user.id/@item.user.fullname.Replace(' ', '-')">@item.user.fullname</a>}
+                    </div>
+                </div>
+                @if (item.discountPrice != 0 && item.discountPrice != null)
+                {
+<div class="ads-slider__item__price">
+    <div class="ads-slider__item__price__old">
+        <span>@item.price.ToRial()</span>
+    </div>
+    <div class="ads-slider__item__price__new">
+        <span>@(item.discountPrice.ToString("#,00"))<small>تومان</small></span>
+    </div>
+</div> }
+else
+{
+<div class="product-slider__item__price">
+    <span>@item.price.ToRial()<small>تومان</small></span>
+</div>}
+            </div>
+        </div>
+    </div>}
+                    <div class="swiper-slide">
+                        <div class="ads-slider__item ads-slider__item--more">
+                            <figure class="ads-slider__item__image">
+                                <img src="/wwwroot/HomeContent/assets/img/facial.png">
+                            </figure>
+                            <div class="ads-slider__item__more">
+                                <span><i class="dn-arrow-left"></i>بیشتر</span>
+                            </div>
+                            <a href="/CustomerHome/ClassRoomList"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-btn-prev"><i class="dn-arrow-right"></i></div>
+                <div class="swiper-btn swiper-btn-next"><i class="dn-arrow-left"></i></div>
+
+            </div>
+        </div>
+    </div>
+</section>}
+<div class="modal fade" id="register-Reserved">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                </button>
+                <h4 class="modal-title">سامانه گیسو</h4>
+            </div>
+            <div class="modal-body">
+                <p>رزرو با موفقیت انجام شد</p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+     window.onload = Load;
+    function Load() {
+        if ('@ViewBag.isReserved') {
+            $('#register-Reserved').modal('show');
+        }
+
+    }
+     function AddReserve() {
+
+        if ('@User.Identity.IsAuthenticated' =='False') {
+            $("#divLogin").show();
+            $("#divLogin").html("لطفا برای ثبت نوبت اول وارد سایت شوید");
+        }
+        else {
+
+
+            window.location.href = "/CustomerHome/AddReserveClassRoom?classRoomId=@Model.ClassRoom.id";
+
+        }
+    }
+</script>
+
+
+
+

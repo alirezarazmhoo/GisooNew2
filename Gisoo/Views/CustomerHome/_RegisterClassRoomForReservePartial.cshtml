@@ -1,0 +1,119 @@
+﻿@model Gisoo.ViewModel.ClassRoomViewModel
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/HomeContent/assets/js/header-bundle.js"></script>
+<script src="~/js/Common.js"></script>
+<script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+<script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+<div class="profile__content__header">
+    <span>فرم ایجاد رزرو کلاس</span>
+</div>
+<div class="profile__content__form">
+    <p class="text text-danger">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </p>
+    <form id="frmClassRoomForReserve" action="RegisterClassRoomForReserve" method="post" enctype="multipart/form-data">
+        <div class="row" data-space="20">
+            <div class="col-xl-8 offset-xl-2">
+                <div class="profile__content__form__wrapper">
+                    <input asp-for="id" hidden>
+                    <input type="text" class="form-control" asp-for="minDiscount" hidden>
+                    <input type="text" class="form-control" asp-for="maxDiscount" hidden>
+                    <input type="text" class="form-control" asp-for="userId" hidden>
+                    <div class="form-group">
+                        <label>نوع</label>
+                        <select class="form-control" asp-for="classRoomTypeId">
+
+                            @foreach (var item in Model.ClassRoomTypes)
+                            {
+                                if (item.id == Model.classRoomTypeId)
+                                {
+                                    <option selected value=@item.id>@item.name</option>
+                                }
+                                else
+                                {
+                                    <option value=@item.id>@item.name</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>عنوان</label>
+                        <input type="text" class="form-control" asp-for="title" placeholder="عنوان را وارد کنید">
+                        <span asp-validation-for="title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>توضیحات</label>
+                        <textarea asp-for="description" type="text" class="form-control" placeholder="توضیحات را وارد کنید">
+</textarea>
+                        <span asp-validation-for="description" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>طول دوره</label>
+                        <input type="text" class="form-control" asp-for="classRoomPeriod" placeholder="طول دوره را وارد کنید">
+                        <span asp-validation-for="classRoomPeriod" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>نام و نام خانوادگی مدرس</label>
+                        <input type="text" class="form-control" asp-for="classRoomTeacher" placeholder="نام و نام خانوادگی مدرس را وارد کنید">
+                        <span asp-validation-for="classRoomTeacher" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>قیمت(تومان) </label>
+                        <input type="text" class="form-control" asp-for="price" placeholder="قیمت را وارد کنید">
+                        <span asp-validation-for="price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>قیمت تخفیف (تومان) &nbsp; <span id="discountSpan" style="color:blue"></span></label>
+                        <input type="number" asp-for="discountPrice" class="form-control input-validation-error" data-val="true" data-val-range="" max="" min="" id="discountPrice">
+                        <span asp-validation-for="discountPrice" id="discountSpan" class="text-danger"></span>
+
+                    </div>
+                    @*<div class="form-group">
+            <label>ساعت رزرو</label>
+            <input asp-for="reserveHour" type="time" class="form-control" placeholder="ساعت رزرو را وارد کنید">
+            <span asp-validation-for="reserveHour" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>تاریخ رزرو</label>
+            <input asp-for="reserveDate" type="text" class="form-control datepicker" placeholder="تاریخ رزرو را وارد کنید">
+            <span asp-validation-for="reserveDate" class="text-danger"></span>
+        </div>*@
+
+
+
+                <div class="form-group">
+                    <label>با گرفتن کلید ctrl میتوانید چند عکس انتخاب نمایید</label>
+                    <br />
+                    <button type="button" class="btn btn-primary" onclick="file.click()"><i class="fa fa-camera"></i>انتخاب عکس ها</button>
+                    <input display="Image" id="file" name="file" class="TheFile" onchange="SetPictures('file','ImageItems');" style="display:none" multiple type="file">
+                    <div id="ImageItems" style="margin-top:10px">
+
+                    </div>
+                </div>
+                    @if (Model.ClassRoomImage != null && Model.ClassRoomImage.Count() > 0)
+                    {
+                        <div id="RemoveImageItems" class="form-group">
+                            <label>عکس ها</label>
+                            @foreach (var item in Model.ClassRoomImage)
+                            {
+                                <div id=@item.id>
+                                    <div><img src="/wwwroot/ClassRoom/File/@item.url" style="width: 70px; height: 60px;" id="@item.id" /></div><div style="margin-top:5px;width:40px">
+                                        <a href="../CustomerHome/RemoveFileClassRoom?Id=@item.id" class="btn  btn-danger  btnremovefile">حذف</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    <div class="form-group form-group-btn">
+                        <button type="submit" class="btn">ثبت</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,117 @@
+﻿@model Gisoo.ViewModel.SearchLineViewModel
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/HomeContent/assets/js/header-bundle.js"></script>
+<script src="~/js/Common.js"></script>
+<script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+<script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+@using Gisoo.Utility
+
+<div class="profile__content__header">
+    <span>لیست لاین ها</span>
+</div>
+<div class="profile__content__filter">
+    <form id="SearchLineForm">
+        <div class="profile__content__filter__wrapper">
+            <div>
+                <input type="text" class="form-control" asp-for="title" placeholder="عنوان">
+            </div>
+            <div>
+
+                <input type="text"  class=" datepicker" asp-for="registerDate">
+            </div>
+            <div class="form-group">
+                <select class="form-control" asp-for="lineLaw">
+                    <option value=0>نوع هزینه</option>
+                    <option value=1>اجاره</option>
+                    <option value=2>درصدی</option>
+                    <option value=3>حقوقی</option>
+                    <option value=4>رزرو</option>
+
+                </select>
+            </div>
+            <div>
+                <select class="form-control" asp-for="lineTypeId">
+                    <option value=0>نوع</option>
+
+                    @foreach (var item in Model.LineTypes)
+                    {
+                        <option value=@item.id>@item.name</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <button type="button" onclick="SearchLine()">جستجو</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="profile__content__table">
+    <table class="data-table">
+        <thead>
+            <tr>
+
+                <th>تصویر</th>
+                <th>عنوان</th>
+                <th>تاریخ</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Lines)
+            {
+                <tr>
+                    @if (item.LineImages.FirstOrDefault() != null)
+                    {
+                        <td><img src="/wwwroot/Line/file/@item.LineImages.FirstOrDefault().url" width="50" height="50"></td>
+                    }
+                    else
+                    {
+                        <td><img src="/wwwroot/assets/img/slide2.jpg" width="50" height="50"></td>
+
+                    }
+                    <td>@item.title</td>
+                    <td>@PersianCalendarDate.PersianCalendarResult(item.registerDate)</td>
+                    <td>
+                        <a data-toggle="modal" data-target="#QuestionModal" onclick="AssignButtonClicked(this,1)" data-assigned-id="@item.id">حذف</a>
+                        @if (item.lineLaw == EnumLineLaw.reserve)
+                        {
+                            <a class="btn-Editwarning-Reserve" id="@item.id">ویرایش</a>
+                        }
+                        else
+                        {
+                            <a class="btn-Editwarning" id="@item.id">ویرایش</a>
+                        }
+                        <a class="btn-visit" id="@item.id">آمار بازدید</a>
+                        <a class="btn-weekReserve" id="@item.id">ویرایش برنامه هفتگی</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+ 
+    function SearchLine() {
+        var form = $("#SearchLineForm").serialize();
+        GetData("/CustomerHome/AllLine", "divRegister", form);
+    }
+
+    $(".btn-Editwarning").click(function () {
+        GetData("/CustomerHome/RegisterLine?Id=" + this.id + "", "divRegister");
+    });
+    $(".btn-Editwarning-Reserve").click(function () {
+        GetData("/CustomerHome/RegisterLineForReserve?Id=" + this.id + "", "divRegister");
+    });
+    $(".btn-visit").click(function () {
+
+        GetData("/CustomerHome/VisitAll?Id=" + this.id + "&whichTableEnum=4", "divRegister");
+    });
+    $(".btn-weekReserve").click(function () {
+
+        GetData("/CustomerHome/ReserveWeekEdit?lineId=" + this.id + "", "divRegister");
+    });
+</script>

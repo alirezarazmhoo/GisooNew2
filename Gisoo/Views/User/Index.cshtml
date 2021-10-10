@@ -1,0 +1,387 @@
+﻿@model PagedList.Core.IPagedList<Gisoo.Models.User>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">کاربران</h3>
+            </div>
+            <div class="row">
+                <form>
+                    <div class="box-body">
+                        <div class="col-md-4 form-group">
+                            <input type="text" id="filtercellphone" name="filtercellphone" class="form-control" placeholder="شماره همراه" />
+                            <input type="checkbox" id="isProfileComplete" name="isProfileComplete" >
+                            <label for="isProfileComplete"> پروفایل تکمیل شده ولی تایید نشده</label><br>
+                            <input hidden id="rolenameEn" name="rolenameEn" value="@ViewBag.rolenameEn" />
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <button type="submit" class="btn btn-default">جستجو</button>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <a href="/User/Index?rolenameEn=@ViewBag.rolenameEn" class="btn btn-default">مشاهده همه</a>
+                        </div>
+                        <div class="col-md-2 form-group">
+
+                            <div class="btn btn-default" id="export">خروجی اکسل</div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+                <table id="example2" class="table table-bordered table-hover ">
+                    <thead>
+                        <tr>
+
+                            <th>شماره همراه</th>
+                            @*<th>نمایش</th>*@
+                            <th>امکانات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.cellphone</td>
+                                <td>
+
+                                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-default">حذف</a>
+                                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-default">مشاهده</a>
+                                    @if (ViewBag.rolenameEn == "Member")
+                                    {
+                                        <button name="Confirm-User" data-toggle="modal" data-id="@item.id" class="btn btn-default">فعال/غیرفعال کاربر</button>
+                                    }
+                                    else
+                                    {
+                                        @if (item.isProfileComplete = true && item.isProfileAccept == false)
+                                        {
+                                            <button name="Confirm-User" data-toggle="modal" data-id="@item.id" class="btn btn-danger">فعال/غیرفعال کاربر یا پروفایل</button>
+                                        }
+                                        else
+                                        {
+                                            <button name="Confirm-User" data-toggle="modal" data-id="@item.id" class="btn btn-default">فعال/غیرفعال کاربر یا پروفایل</button>
+
+                                        }
+                                    }
+                                    @*@if (item.userStatus)
+        {
+            <button name="Confirm-User" data-toggle="modal" data-id="@item.id" class="btn btn-default">غیر فعال کردن</button>
+
+        }
+        else
+        {
+            <button name="Confirm-User" data-toggle="modal" data-id="@item.id" class="btn btn-default">فعال کردن</button>
+
+        }*@
+
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="row">
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-7">
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                        <ul class="pagination">
+                            @*@for (int i = 1; i <= Model.PageCount; i++)
+                                {
+                                    <li class="paginate_button  @((i==Model.CurrentPage?"active":""))">
+                                        <a href="/Admin/Users?pageId=@i" aria-controls="example1" data-dt-idx="1" tabindex="0">@i</a>
+                                    </li>
+                                }*@
+                            <li>
+                                <pager list="@Model" asp-controller="User" asp-action="Index" asp-route-rolenameEn=@ViewBag.rolenameEn/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.col -->
+</div>
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">کاربر</h4>
+            </div>
+            <form id="UserForm">
+                <input type="hidden" id="id" name="id" value="" />
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">نام و نام خانوادگی</label>
+                        <input class="form-control" disabled id="fullname" name="fullname">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">موبایل</label>
+                        <input class="form-control" disabled id="cellphone" name="cellphone">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">کد ملی</label>
+                        <input class="form-control" disabled id="nationalCode" name="nationalCode">
+                    </div>
+                    <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sexuality" id="man" value="false">
+                        <label class="form-check-label" for="man">
+                            مردانه
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="form-check-input" type="radio" name="sexuality" id="woman" value="true">
+                        <label class="form-check-label" for="woman">
+                            زنانه
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">امتیاز</label>
+                        <input class="form-control" disabled id="score" name="score">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">ساعت کاری</label>
+                        <input class="form-control" disabled id="workingHours" name="workingHours">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">توضیح مختصر</label>
+                        <input class="form-control" disabled id="shortDescription" name="shortDescription">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">لینک تلگرام</label>
+                        <input class="form-control" disabled id="linkTelegram" name="linkTelegram">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">لینک اینستاگرام</label>
+                        <input class="form-control" disabled id="linkInstagram" name="linkInstagram">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">شماره شبا</label>
+                        <input class="form-control" disabled id="shebaNumber" name="shebaNumber">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">عکس</label>
+                        <img id="imgUrl1" style="height: 80px; width:80px" src="" />
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">عکس های مدارک</label>
+                        <div id="docsdiv"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">آدرس</label>
+                        <textarea class="form-control" disabled id="address" name="address">
+</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">توضیحات تکمیلی</label>
+                        <textarea class="form-control" disabled id="longDescription" name="longDescription">
+</textarea>
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            <input disabled type="checkbox" id="hasCertificate" name="hasCertificate" class="myhasCertificate">
+                        </label>
+                        <label for="hasCertificate" class="control-label">مجوز دارد</label>
+
+                    </div>
+                    <div class="form-group">
+                        <label> موقعیت</label>
+                        <div id="mapid" style="height:180px"></div>
+                    </div>
+                    <div class="form-group">
+
+                        <label>
+                            <input type="checkbox" class="myuserStatus" id="userStatus" name="userStatus">
+                        </label>
+                        <label for="userStatus" class="control-label">فعال</label>
+
+                    </div>
+                    <div class="form-group">
+
+                        <label>
+                            <input type="checkbox" class="myuserisProfileAccept" id="isProfileAccept" name="isProfileAccept">
+                        </label>
+                        <label for="isProfileAccept" class="control-label">فعال کردن کاربر برای اضافه کردن لاین یا کلاس</label>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">دلیل رد پروفایل</label>
+                        <textarea class="form-control" id="notConfirmDes" name="notConfirmDes">
+</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خروج</button>
+                    <button type="submit" class="btn btn-primary">ذخیره فعال یا غیر فعال </button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@section scripts
+    {
+   
+    <script>
+        $('#isProfileComplete').change(function () {
+
+            if (this.checked) {
+                $("#isProfileComplete").val(true);
+            }
+            else {
+                $("#isProfileComplete").val(false);
+
+            }
+        });
+            $("#export").on('click', function () {
+                var filtercellphone = $("#filtercellphone").val();
+                window.location.href = '/User/ExportToExcel?rolenameEn=@ViewBag.rolenameEn&filtercellphone=' + filtercellphone;
+            });
+            $('#UserForm #userStatus').change(function () {
+
+                if (this.checked) {
+                    $("#UserForm #userStatus").val(true);
+                }
+                else {
+                    $("#UserForm #userStatus").val(false);
+
+                }
+            });
+        $('#UserForm #isProfileAccept').change(function () {
+
+            if (this.checked) {
+                $("#UserForm #isProfileAccept").val(true);
+            }
+            else {
+                $("#UserForm #isProfileAccept").val(false);
+
+            }
+        });
+    </script>
+    <script>
+        $("button[name='Confirm-User']").click(function (e) {
+            $("#User-header").html("تایید کاربر");
+            var Id = $(this).attr("data-id");
+            $.ajax({
+                url: "/User/GetUser?id=" + Id + "",
+                method: "Get",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data.id != 0) {
+
+                        $("#UserForm #id").val(data.id);
+                        $("#UserForm #fullname").val(data.fullname);
+                        $("#UserForm #score").val(data.score);
+                        $("#UserForm #cellphone").val(data.cellphone);
+                        $("#UserForm #nationalCode").val(data.nationalCode);
+                        $("#UserForm #longDescription").val(data.longDescription);
+                        $("#UserForm #shortDescription").val(data.shortDescription);
+                        $("#UserForm #shebaNumber").val(data.shebaNumber);
+                        $("#UserForm #linkInstagram").val(data.linkInstagram);
+                        $("#UserForm #linkTelegram").val(data.linkTelegram);
+                        $("#UserForm #workingHours").val(data.workingHours);
+                        $("#UserForm #address").val(data.address);
+                        $("#UserForm #notConfirmDes").val(data.notConfirmDes);
+                        $("#UserForm #imgUrl1").attr("src", "/wwwroot" + data.url);
+
+                        if (data.userStatus == true) {
+                            $("#UserForm").find('input.myuserStatus[type="checkbox"]').prop('checked', true);
+                        }
+                        else {
+                            $("#UserForm").find('input.myuserStatus[type="checkbox"]').prop('checked',false);
+                        }
+                        if (data.sexuality == false) {
+                            $("#UserForm #man").prop('checked', true);
+                        }
+                        else {
+                            $("#UserForm #woman").prop('checked', true);
+
+                        }
+                        if (data.myuserisProfileAccept == true) {
+                            $("#UserForm").find('input.myuserisProfileAccept[type="checkbox"]').prop('checked', true);
+                        }
+                        else {
+                            $("#UserForm").find('input.myuserisProfileAccept[type="checkbox"]').prop('checked', false);
+                        }
+                        if (data.hasCertificate == true) {
+                            $("#UserForm").find('input.myhasCertificate[type="checkbox"]').prop('checked', true);
+                        }
+                        else {
+                            $("#UserForm").find('input.myhasCertificate[type="checkbox"]').prop('checked', false);
+                        }
+
+                        LoadMap(data.longitude, data.latitude);
+                        $("#UserForm #userStatus").val(data.userStatus);
+                        $("#UserForm #hasCertificate").val(data.hasCertificate);
+                        $('#modal-default').modal('show');
+                    }
+                    else {
+                        alert("ID is incorrect");
+                    }
+                },
+                error: function () {
+                    alert("Ajax call failed");
+                }
+            })
+        })
+        $("#UserForm").submit(function (event) {
+            event.preventDefault();
+
+            if ($('#UserForm').valid()) {
+
+                var pagenumber = $("#PageNumber").val();
+                var form = $(this).serialize();
+
+
+
+                $.ajax({
+                    url: "/User/Confirm",
+                    method: "POST",
+                    data: form,
+                    success: function (data) {
+                        $('#modal-default').modal('hide');
+                        var messageText = "";
+                            messageText = 'فعال سازی کاربر با موفقیت انجام شد';
+                        swal({
+                            title: '!  موفقیت آمیز',
+                            text: messageText,
+                            type: 'success',
+                            buttonsStyling: false,
+                            confirmButtonClass: 'btn btn-sm btn-light',
+                            background: 'rgba(0, 0, 0, 0.96)',
+                            timer: 1500
+                        })
+                        var id = $("#UserForm #id").val();
+                        if (id != "")
+                            location.reload();
+                        else
+                            window.location.href = "/User/Index?rolenameEn=@ViewBag.rolenameEn&page="+@Model.PageNumber+"";
+                    },
+                    error: function () {
+                        alert("Ajax call failed");
+                    }
+                })
+            }
+        });
+    </script>
+}
+
+

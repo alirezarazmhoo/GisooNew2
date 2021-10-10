@@ -1,0 +1,275 @@
+﻿@model Gisoo.Models.AllPrice
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">قیمت ها</h3>
+                    <br />
+                    <p class="box-title"> لطفا تمام قیمت ها به تومان ثبت شود</p>
+                </div>
+                <div class="row">
+                    <form asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
+                        <div class="box-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="id" type="hidden" class="form-control" />
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label>
+                                        <input type="checkbox" value="false" class="minimal" asp-for="isHasAdvertismentPrice">
+                                        قیمت تبلیغات دارد
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label asp-for="advertismentPrice" class="control-label"></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="advertismentPrice" name="advertismentPrice" value="@String.Format("{0:0,0}", @Model.advertismentPrice)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="advertismentPrice" type="text" class="form-control" onkeyup="numberWithCommas(this)" />
+
+                                    }
+                                    <span asp-validation-for="advertismentPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label>
+                                        <input type="checkbox" value="false" class="minimal" asp-for="isHasSaloonPrice">
+                                        قیمت آرایشگاه ها دارد
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="saloonPrice" class="control-label"></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="saloonPrice" name="saloonPrice" value="@String.Format("{0:0,0}", @Model.saloonPrice)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="saloonPrice" type="text" class="form-control" onkeyup="numberWithCommas(this)" />
+
+                                    }
+                                    <span asp-validation-for="saloonPrice" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label>
+                                        <input type="checkbox" value="false" class="minimal" asp-for="isHasWorkshopPrice">
+                                        قیمت ورک شاپ دارد
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="workshopPrice" class="control-label"></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="workshopPrice" name="workshopPrice" value="@String.Format("{0:0,0}", @Model.workshopPrice)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="workshopPrice" type="text" class="form-control" onkeyup="numberWithCommas(this)" />
+
+                                    }
+                                    <span asp-validation-for="saloonPrice" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label>
+                                        <input type="checkbox" value="false" class="minimal" asp-for="isHasBarberPrice">
+                                        قیمت آرایشگر دارد
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="barberPrice" class="control-label"></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="barberPrice" name="barberPrice" value="@String.Format("{0:0,0}", @Model.barberPrice)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="barberPrice" type="text" class="form-control" onkeyup="numberWithCommas(this)" />
+
+                                    }
+                                    <span asp-validation-for="barberPrice" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="threeSubscriptionPrice" class="control-label"></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="threeSubscriptionPrice" name="threeSubscriptionPrice" value="@String.Format("{0:0,0}", @Model.threeSubscriptionPrice)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="threeSubscriptionPrice" type="text" class="form-control" onkeyup="numberWithCommas(this)" />
+
+                                    }
+                                    <span asp-validation-for="threeSubscriptionPrice" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="oneSubscriptionPrice" class="control-label"></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="oneSubscriptionPrice" name="oneSubscriptionPrice" value="@String.Format("{0:0,0}", @Model.oneSubscriptionPrice)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="oneSubscriptionPrice" type="text" class="form-control" onkeyup="numberWithCommas(this)" />
+
+                                    }
+                                    <span asp-validation-for="oneSubscriptionPrice" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="minDiscount" class="control-label"></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="minDiscount" name="minDiscount" value="@String.Format("{0:0,0}", @Model.minDiscount)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="minDiscount" type="text" class="form-control" onkeyup="numberWithCommas(this)" />
+
+                                    }
+                                    <span asp-validation-for="minDiscount" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="maxDiscount" class="control-label"></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="maxDiscount" name="maxDiscount" value="@String.Format("{0:0,0}", @Model.maxDiscount)" type="text" onkeyup="numberWithCommas(this)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="maxDiscount" type="text" class="form-control" onkeyup="numberWithCommas(this)" />
+
+                                    }
+                                    <span asp-validation-for="maxDiscount" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="scoreWithInturducer" class="control-label"></label>
+                                        <input asp-for="scoreWithInturducer" type="text" class="form-control" />
+                                    <span asp-validation-for="scoreWithInturducer" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="submit" value="ثبت" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue'
+        })
+        function numberWithCommas(x) {
+            var tmp = x.value;
+            while (tmp.indexOf(',') != -1)
+                tmp = tmp.replace(',', '');
+            var parts = tmp.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            x.value = parts.join(".");
+        }
+        $('form').submit(function () {
+            if ($('#isHasAdvertismentPrice').parent().attr('aria-checked', true)) {
+                $('#isHasAdvertismentPrice').val(true);
+            }
+            if ($('#isHasSaloonPrice').parent().attr('aria-checked', true)) {
+                $('#isHasSaloonPrice').val(true);
+            }
+            if ($('#isHasWorkshopPrice').parent().attr('aria-checked', true)) {
+                $('#isHasWorkshopPrice').val(true);
+            }
+            if ($('#isHasBarberPrice').parent().attr('aria-checked', true)) {
+                $('#isHasBarberPrice').val(true);
+            }
+            if ($('#barberPrice').length != 0) {
+                while (barberPrice.value.indexOf(',') != -1) {
+                    barberPrice.value = barberPrice.value.replace(',', '');
+                }
+            }
+            if ($('#workshopPrice').length != 0) {
+                while (workshopPrice.value.indexOf(',') != -1) {
+                    workshopPrice.value = workshopPrice.value.replace(',', '');
+                }
+            }
+            if ($('#saloonPrice').length != 0) {
+                while (saloonPrice.value.indexOf(',') != -1) {
+                    saloonPrice.value = saloonPrice.value.replace(',', '');
+                }
+            }
+            if ($('#advertismentPrice').length != 0) {
+                while (advertismentPrice.value.indexOf(',') != -1) {
+                    advertismentPrice.value = advertismentPrice.value.replace(',', '');
+                }
+            }
+            if ($('#threeSubscriptionPrice').length != 0) {
+                while (threeSubscriptionPrice.value.indexOf(',') != -1) {
+                    threeSubscriptionPrice.value = threeSubscriptionPrice.value.replace(',', '');
+                }
+            }
+            if ($('#oneSubscriptionPrice').length != 0) {
+                while (oneSubscriptionPrice.value.indexOf(',') != -1) {
+                    oneSubscriptionPrice.value = oneSubscriptionPrice.value.replace(',', '');
+                }
+            }
+            if ($('#minDiscount').length != 0) {
+                while (minDiscount.value.indexOf(',') != -1) {
+                    minDiscount.value = minDiscount.value.replace(',', '');
+                }
+            }
+            if ($('#maxDiscount').length != 0) {
+                while (maxDiscount.value.indexOf(',') != -1) {
+                    maxDiscount.value = maxDiscount.value.replace(',', '');
+                }
+            }
+        });
+    </script>
+}

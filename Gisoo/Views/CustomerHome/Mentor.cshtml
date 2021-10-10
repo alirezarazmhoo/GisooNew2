@@ -1,0 +1,389 @@
+﻿@model Gisoo.ViewModel.ClassRoomViewModel
+@using Gisoo.Utility
+
+@{
+    ViewData["Title"] = "Academy";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+<section class="profile">
+    <div class="container">
+        <div class="profile__header">
+            <div class="profile__header__toggle" onclick="openTab()">
+                <i class="dn-menu"></i>
+            </div>
+            <div class="profile__header__user">
+                <div class="profile__header__user__avatar">
+                    @if (String.IsNullOrEmpty(ViewBag.url))
+                    {
+                        <img src="/HomeContent/assets/img/avatar.jpg">
+                    }
+                    else
+                    {
+                        <img src="/wwwroot/@ViewBag.url" />
+                    }
+                </div>
+                <div class="profile__header__user__name">
+                    <span id="testname">@ViewBag.UserName</span>
+                </div>
+                &nbsp; &nbsp; &nbsp;
+                <div class="profile__header__user__name">
+                    <span id="testname" style="color:red">کد شما برای معرفی به دوستان:@ViewBag.identifyCode</span>
+                </div>
+                &nbsp; &nbsp; &nbsp;
+                <div class="profile__header__user__name">
+                    <span style="color:red">تاریخ انقضا پروفایل:@PersianCalendarDate.PersianCalendarResult(ViewBag.expireDate)</span>
+                </div>
+                &nbsp; &nbsp; &nbsp;
+                @if (@ViewBag.isProfileAccept == false)
+
+                {
+                    if (@ViewBag.isProfileComplete == true)
+                    {
+
+                        <div class="profile__header__user__name">
+                            <span style="color:red">شما پروفایل خود را تکمیل نموده اید لطفا منتظر تایید ادمین بمانید</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="profile__header__user__name">
+                            <span style="color:red">برای تایید کاربری شما باید پروفایل خود را تکمیل نمایید و منتظر تایید ادمین باشید</span>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="profile__header__menu">
+                <ul>
+                    <li>
+                        <a href="/LogoutCustomer">خروج</a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="profile__wrapper" style="min-height:350px;">
+            <div class="profile__sidebar">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#"><span>تکمیل پروفایل</span></a>
+                            <ul>
+                                <li>
+                                    <a style="cursor:pointer" onclick="profileManagment()" @*href="#!"*@ class="link"><span>تکمیل اطلاعات پروفایل</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a style="cursor:pointer" href="/CustomerHome/FactorChargeAccount"><span>خرید پکیج(شارژ اکانت)</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><span>مدیریت کلاس ها</span></a>
+                            <ul>
+                                <li>
+                                    <a style="cursor:pointer" onclick="showAllClassRoom()" class="link"><span>همه کلاس های من</span></a>
+                                </li>
+                                @*<li>
+                                    <a style="cursor:pointer" id="newClassRoom"><span>ایجاد کلاس</span></a>
+                                </li>*@
+                                <li>
+                                    <a style="cursor:pointer" id="newClassRoomReserve" class="link"><span>ایجاد رزور کلاس ها</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><span>مدیریت تبلیغات و ورکشاپ</span></a>
+                            <ul>
+
+                                <li>
+                                    <a style="cursor:pointer" onclick="showAllAdvertisment()" class="link"><span>همه تبلیغات من</span></a>
+                                </li>
+                                <li>
+                                    <a style="cursor:pointer" id="newAdvertisment" class="link"><span>ایجاد تبلیغ</span></a>
+
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><span>مدیریت آگهی ها</span></a>
+                            <ul>
+
+                                <li>
+                                    <a style="cursor:pointer" onclick="showAllNotice()" class="link"><span>همه آگهی های من</span></a>
+                                </li>
+                                <li>
+                                    <a style="cursor:pointer" id="newNotice" class="link"><span>ایجاد آگهی</span></a>
+
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><span>رزرو ها</span></a>
+                            <ul>
+                                <li>
+                                    <a style="cursor:pointer" onclick="showAllReserve()" class="link"><span>همه رزرو ها</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="profile__content">
+                <div class="profile__content__dashboard">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="profile__content__dashboard__item">
+                                <span>امتیاز</span>
+                                <span>@ViewBag.UserScore</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="profile__content__dashboard__item">
+                                <span>آگهی ها</span>
+                                <span>@ViewBag.TotalNotice</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="profile__content__dashboard__item">
+                                <span>تبلیغات وورکشاپ</span>
+                                <span>@ViewBag.TotalAdvertisments</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="profile__content__dashboard__item">
+                                <span>رزروها</span>
+                                <span>@ViewBag.TotalReserve</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="profile__content" style="display:none">
+
+                </div>
+                <div id="divRegister" style="display:none">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="Error">
+
+</div>
+<div id="Question">
+
+</div>
+<div id="Advertisment">
+
+</div>
+<div id="Notice">
+
+</div>
+<div class="modal fade" id="score-user">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                </button>
+                <h4 class="modal-title">سامانه گیسو</h4>
+            </div>
+            <div class="modal-body">
+                <p>درخواست شما با موفقیت انجام شد و از امتیاز شما کسر گردید</p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="class-user">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top: 7px; margin-left: 7px;">
+                </button>
+                <h4 class="modal-title">سامانه گیسو</h4>
+            </div>
+            <div class="modal-body">
+                <p id="txtclass"></p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div id="ItemId">
+    <input name="ClassRoomid" id="ClassRoomid" hidden>
+    <input name="advertismentid" id="advertismentid" hidden>
+    <input name="noticeid" id="noticeid" hidden>
+</div>
+<script>
+    function openTab() {
+        $('.profile__wrapper').toggleClass('profile__wrapper--collapse');
+
+    }
+    $('.profile__sidebar nav a').on('click', function () {
+        if ($(this).hasClass('link')) {
+            $('.profile__wrapper').toggleClass('profile__wrapper--collapse');
+        }
+    })
+    window.onload = Load;
+	function Load() {
+		CreateAllModals();
+        if ('@ViewBag.subScore' == 'True') {
+        $('#score-user').modal('show');
+		}
+
+		if ('@ViewBag.isNoticeShortcut' == 1) {
+			$("#newNotice").click();
+		}
+
+		if ('@ViewBag.hasadverstitmentshortcut' == 1) {
+			$("#newAdvertisment").click();
+		}
+
+
+	}
+    function ClassRoomRegister() {
+        var Parameters = [{ id: "ClassRoomTitle", htmlname: "ClassRoomTitle", special: "" },
+        { id: "ClassRoomDescription", htmlname: "ClassRoomDescription", special: "" },
+        { id: "ClassRoomPrice", htmlname: "ClassRoomPrice", special: "" },
+        { id: "file", htmlname: "file", special: "file" }];
+        PostAjax('../CustomerHome/AddClassRoom', Parameters, "../CustomerHome/Academy");
+    }
+	$("#newClassRoom").on("click", function () {
+
+        if ('@ViewBag.TotalCountRegisterClass' < 20) {
+            var compareDate =@DateTime.Compare(@ViewBag.expireDate, @DateTime.Now);
+            if (compareDate < 0) {
+                $('#class-user').modal('show');
+                $('#class-user #txtclass').html("پروفایل شما منقضی شده است");
+            }
+            else  if ('@ViewBag.isProfileAccept' == 'False')
+            {
+                if ('@ViewBag.isProfileComplete' == 'True') {
+                    $('#line-user').modal('show');
+                    $('#line-user #txtLine').html("شما پروفایل خود را تکمیل نموده اید لطفا منتظر تایید ادمین بمانید ");
+                }
+                else {
+                    $('#line-user').modal('show');
+                    $('#line-user #txtLine').html("لطفا اول نسبت به تکمیل پروفایل خود اقدام نمایید ");
+                }
+            }
+            else {
+                GetData("/CustomerHome/RegisterClassRoom", "divRegister");
+            }
+        }
+        else {
+            $('#class-user').modal('show');
+            $('#class-user #txtclass').html("ثبت کلاس از تعداد مجاز گذشته است");
+
+        }
+    });
+
+    $("#newClassRoomReserve").on("click", function () {
+        if ('@ViewBag.TotalCountRegisterClass' < 20) {
+            var compareDate =@DateTime.Compare(@ViewBag.expireDate, @DateTime.Now);
+            if (compareDate < 0) {
+                $('#class-user').modal('show');
+                $('#class-user #txtclass').html("پروفایل شما منقضی شده است");
+
+            }
+          else  if ('@ViewBag.isProfileAccept' == 'False')
+            {
+                if ('@ViewBag.isProfileComplete' == 'True') {
+                    $('#line-user').modal('show');
+                    $('#line-user #txtLine').html("شما پروفایل خود را تکمیل نموده اید لطفا منتظر تایید ادمین بمانید ");
+                }
+                else {
+                    $('#line-user').modal('show');
+                    $('#line-user #txtLine').html("لطفا اول نسبت به تکمیل پروفایل خود اقدام نمایید ");
+                }
+            }
+            else {
+                GetData("/CustomerHome/RegisterClassRoomForReserve", "divRegister");
+            }
+        }
+        else {
+            $('#class-user').modal('show');
+            $('#class-user #txtclass').html("ثبت کلاس از تعداد مجاز گذشته است");
+
+        }
+    });
+
+    if ('@ViewBag.isRegisterClassRoom' == 'True') {
+        showAllClassRoom();
+    }
+    if ('@ViewBag.isRegisterAdvertisment' == 'True') {
+        showAllAdvertisment();
+    }
+    if ('@ViewBag.isRegisterNotice' == 'True') {
+        showAllNotice();
+    }
+
+	function showAllClassRoom() {
+		GetData("/CustomerHome/AllClassRoom", "divRegister");
+    }
+	function Remove() {
+        var Parameters = [{ id: "id", htmlname: "ClassRoomid", special: "" }];
+
+        PostAjax('../CustomerHome/RemoveClassRoom', Parameters, window.location.href="/CustomerHome/Academy?isRegisterClassRoom=true");
+		$("#QuestionModal").modal('hide');
+        $('.modal-backdrop').remove();
+
+    }
+    function RemoveAdvertisment() {
+        var Parameters = [{ id: "id", htmlname: "advertismentid", special: "" }];
+        PostAjax('../CustomerHome/RemoveAdvertisment', Parameters, showAllAdvertisment);
+        $("#QuestionModalAdvertisment").modal('hide');
+        $('.modal-backdrop').remove();
+    }
+    function RemoveNotice() {
+        var Parameters = [{ id: "id", htmlname: "noticeid", special: "" }];
+        PostAjax('../CustomerHome/RemoveNotice', Parameters, showAllNotice);
+        $("#QuestionModalNotice").modal('hide');
+        $('.modal-backdrop').remove();
+    }
+
+    function AssignButtonClicked(elem, page) {
+        if (page == 1) {
+            $('#ClassRoomid').val($(elem).data('assigned-id'));
+        }
+        if (page == 2) {
+            $('#advertismentid').val($(elem).data('assigned-id'));
+        }
+        if (page == 3) {
+            $('#noticeid').val($(elem).data('assigned-id'));
+        }
+
+    }
+    $("#newAdvertisment").on("click", function () {
+        GetData("/CustomerHome/RegisterAdvertisment", "divRegister");
+    });
+    function showAllAdvertisment() {
+
+        GetData("/CustomerHome/AllAdvertisment", "divRegister");
+    }
+    $("#newNotice").on("click", function () {
+
+
+            GetData("/CustomerHome/RegisterNotice", "divRegister");
+
+
+
+    });
+    function showAllNotice() {
+        GetData("/CustomerHome/AllNotice", "divRegister");
+	}
+   	function profileManagment() {
+        GetData("/CustomerHome/ProfileManagment", "divRegister", null, true);
+	}
+    function showAllReserve() {
+        GetData("/CustomerHome/AllReserveThisUser", "divRegister");
+
+    }
+</script>
+

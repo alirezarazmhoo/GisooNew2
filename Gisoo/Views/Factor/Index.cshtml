@@ -1,0 +1,97 @@
+﻿@model PagedList.Core.IPagedList<Gisoo.Models.Factor>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">فاکتورها</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>کد</th>
+                            <th>شماره همراه</th>
+                            <th>تبلیغات</th>
+                            <th>آگهی</th>
+                            <th>قیمت کل</th>
+                            <th>تاریخ</th>
+                            <th>نوع</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>@item.id</td>
+                            <td>@item.user.cellphone</td>
+                            @if (item.advertismentId != null)
+                            {
+                                <td>@item.advertisment.title</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            @if (item.noticeId != null)
+                            {
+                                <td>@item.notice.title</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>@item.totalPrice</td>
+                            <td>@item.createDatePersian</td>
+                            @if (item.factorKind == FactorKind.Extend)
+                            {
+                                <td>تمدید</td>
+                            }
+                            @if (item.factorKind == FactorKind.Ladder)
+
+                            {
+                                <td>نردبان</td>
+                            }
+                            @if (item.factorKind == FactorKind.Add)
+
+                            {
+                                <td> جدید</td>
+                            }
+                        </tr>
+                        }
+
+
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="row">
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-7">
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                        <ul class="pagination">
+                            @*@for (int i = 1; i <= Model.PageCount; i++)
+                                {
+                                    <li class="paginate_button  @((i==Model.CurrentPage?"active":""))">
+                                        <a href="/Admin/Users?pageId=@i" aria-controls="example1" data-dt-idx="1" tabindex="0">@i</a>
+                                    </li>
+                                }*@
+                            <li>
+                                <pager list="@Model" asp-controller="Factor" asp-action="Index" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.col -->
+</div>
+
+
+

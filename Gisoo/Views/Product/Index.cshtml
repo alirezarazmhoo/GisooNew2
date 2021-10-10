@@ -1,0 +1,233 @@
+﻿@model PagedList.Core.IPagedList<Gisoo.Models.Product>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">محصولات</h3>
+            </div>
+            <div class="row">
+                <form>
+                    <div class="box-body">
+                        <div class="col-md-3 form-group">
+                            <input type="text" name="filterTitle" class="form-control" placeholder="عنوان" />
+                        </div>
+
+
+                        <div class="col-md-1 form-group">
+                            <button type="submit" class="btn btn-default">جستجو</button>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <a href="/Product/Index" class="btn btn-default">مشاهده همه</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="btn btn-default" asp-action="Create">محصول جدید</a>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>تعداد بازدید</th>
+                            <th>عنوان</th>
+
+                            <th>وضعیت </th>
+                            <th>امکانات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @if (item.countView == null)
+                                {
+                                    <td>0</td>
+                                }
+                                else
+                                {
+                                    <td>@item.countView</td>
+                                }
+                                <td>@item.title</td>
+
+                                <td>
+                                    @if (item.adminConfirmStatus == Gisoo.Models.EnumStatus.Accept)
+                                    {
+                                        <span style="color:green">تایید شده</span>
+                                    }
+                                    @if (item.adminConfirmStatus == Gisoo.Models.EnumStatus.NotAccept)
+                                    {
+                                        <span style="color:red">تایید نشده</span>
+                                    }
+                                    @if (item.adminConfirmStatus == Gisoo.Models.EnumStatus.Pending)
+                                    {
+                                        <span style="color:yellow">در انتظار تایید</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-default">ویرایش</a>
+                                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-default">مشاهده</a>
+                                    <a onclick="Active(@item.id)" class="btn btn-danger">رد/تایید کردن</a>
+                                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-default">حذف</a>
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="row">
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-7">
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                        <ul class="pagination">
+                            @*@for (int i = 1; i <= Model.PageCount; i++)
+                        {
+                            <li class="paginate_button  @((i==Model.CurrentPage?"active":""))">
+                                <a href="/Admin/Users?pageId=@i" aria-controls="example1" data-dt-idx="1" tabindex="0">@i</a>
+                            </li>
+                        }*@
+                            <li>
+                                <pager list="@Model" asp-controller="Product" asp-action="Index" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.col -->
+</div>
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">محصول</h4>
+            </div>
+            <form id="ProductConfirm">
+                <input type="hidden" id="id" name="id" value="" />
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input id="titleProduct" class="form-control" name="titleProduct" disabled />
+                    <div class="form-group" id="ConfirmDescriptiondiv">
+                        <label class="control-label">دلیل رد</label>
+                        <textarea class="form-control" type="text" data-val="true" data-val-maxlength="دلیل رد نمی تواند بیشتر از 1000 کاراکتر باشد ." data-val-maxlength-max="1000" id="notConfirmDescription" name="notConfirmDescription" value=""></textarea>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="notConfirmDescription" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>وضعیت</label>
+                        <select class="form-control" id="adminConfirmStatus" name="adminConfirmStatus">
+                            @foreach (var item in Enum.GetValues(typeof(Gisoo.Models.EnumStatus)))
+                            {
+                                if (item.Equals(Gisoo.Models.EnumStatus.Pending))
+                                {
+                                    <option selected value="1"> در انتظار تایید </option>
+                                }
+                                if (item.Equals(Gisoo.Models.EnumStatus.Accept))
+                                {
+                                    <option selected value="2"> تایید شده </option>
+                                }
+                                if (item.Equals(Gisoo.Models.EnumStatus.NotAccept))
+                                {
+                                    <option selected value="3"> تایید نشده </option>
+                                }
+                            }
+                        </select>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خروج</button>
+                    <button type="submit" class="btn btn-primary">ذخیره</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section scripts
+    {
+   
+    <script>
+        function Active(id) {
+
+            $.ajax({
+                url: "/Product/GetProduct?id=" + id,
+                method: "Get",
+                dataType: "json",
+                success: function (data) {
+                    if (data.id != 0) {
+                        $("#titleProduct").val(data.title);
+                        $("#notConfirmDescription").val(data.notConfirmDescription);
+                        $("#adminConfirmStatus").val(data.adminConfirmStatus);
+                        $("#id").val(data.id);
+                        $(function () {
+                            $('#ProductConfirm #ConfirmDescriptiondiv').hide();
+                            if ($('#adminConfirmStatus').val() == '3') {
+                                $('#ProductConfirm #ConfirmDescriptiondiv').show();
+                            } else {
+                                $('#ProductConfirm #ConfirmDescriptiondiv').hide();
+                            }
+                        });
+                        $('#modal-default').modal('show');
+                    }
+                    else {
+                        alert("ID is incorrect");
+                    }
+                },
+                error: function () {
+                    alert("Ajax call failed");
+                }
+            })
+        }
+        $("#ProductConfirm").submit(function (event) {
+
+            event.preventDefault();
+            var form = $(this).serialize();
+            $.ajax({
+                url: "/Product/InActive",
+                method: "POST",
+                data: form,
+                success: function (data) {
+                    $('#modal-default').modal('hide');
+                    location.reload();
+                }
+
+            })
+        });
+
+       
+      
+    </script>
+    <script>
+        $(function () {
+            $('#ProductConfirm #ConfirmDescriptiondiv').hide();
+            $('#adminConfirmStatus').change(function () {
+                if ($('#adminConfirmStatus').val() == '3') {
+                    $('#ProductConfirm #ConfirmDescriptiondiv').show();
+                } else {
+                    $('#ProductConfirm #ConfirmDescriptiondiv').hide();
+                }
+            });
+        });
+    </script>
+}
+
+

@@ -1,0 +1,154 @@
+﻿@model Gisoo.ViewModel.ProductListViewModel
+@using Gisoo.Utility
+
+@{
+    ViewData["Title"] = "ProductDetail";
+    Layout = "~/Views/Shared/_CustomerProfileLayout.cshtml";
+}
+
+
+<section class="page-title">
+    <div class="page-title__background"></div>
+    <div class="container">
+        <div class="page-title__wrapper">
+            <h1>تمام محصولات</h1>
+            <ul>
+                <li><a href="/CustomerHome/Index">صفحه اصلی</a></li>
+                <li>تمام محصولات</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="cat-blog">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="cat-blog__title">
+                    <h3>محصولات</h3>
+                </div>
+                <div id="yourDiv">
+
+                    @foreach (var item in Model.Products)
+                    {
+                        <div class="cat-blog__list">
+                            <div class="cat-blog__list__img">
+                                @if (item.ProductImages.Count() > 0)
+                                {
+                                    <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Product/File/@item.ProductImages.FirstOrDefault().url"></a>
+                                }
+                                else
+                                {
+                                    <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                                }
+                            </div>
+                            <div class="cat-blog__list__desc">
+                                <div class="cat-blog__list__desc__title">
+                                    <h2>  <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                                </div>
+                                @if (!String.IsNullOrEmpty(item.description))
+                                {
+                                    <div class="cat-blog__list__desc__text">
+                                        @if (item.description.Length > 20)
+                                        {
+                                            <p> @item.description.Substring(0, 20)</p>
+                                        }
+                                        else
+                                        {
+                                            <p> @item.description</p>
+
+                                        }
+                                    </div>
+                                }
+
+                                <div class="cat-blog__list__desc__info">
+                                    <span><i class="dn-clock"></i>@DateChanger.calculatDate(item.createDate)</span>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                    @*<div class="page-number">
+                <ul>
+                    <li>
+                        <pager list="@Model.Products" asp-controller="CustomerHome" asp-action="ProductList" />
+                    </li>
+
+                </ul>
+            </div>*@
+                </div>
+                <div id="mydiv2"></div>
+            </div>
+
+                <div class="col-lg-3">
+                    <div class="cat-blog__title">
+                        <h3>ارزان ترین ها</h3>
+                    </div>
+                    @foreach (var item in Model.CheapestProducts)
+                    {
+
+
+                        <div class="cat-blog__list">
+                            <div class="cat-blog__list__image">
+                                @if (item.ProductImages.Count() > 0)
+                                {
+                                    <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Product/File/@item.ProductImages.FirstOrDefault().url"></a>
+                                }
+                                else
+                                {
+                                    <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                                }
+                            </div>
+                            <div class="cat-blog__list__content">
+                                <div class="cat-blog__list__content__title">
+                                    <h2>@item.title</h2>
+                                </div>
+
+                                <div class="cat-blog__list__content__info">
+                                    <span><i class="dn-clock"></i>@DateChanger.calculatDate(item.createDate)</span>
+                                </div>
+                            </div>
+                            <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"></a>
+                        </div>
+                    }
+
+
+
+                    <div class="cat-blog__telegram">
+                        <i class="dn-telegram"></i>
+                        <span>به دنبال کنندگان صفحه تلگرام <b>گیسو</b> بپیوندید</span>
+                        <a href="https://telegram.me/gisoo_app"></a>
+                    </div>
+                    <div class="cat-blog__instagram">
+                        <i class="dn-instagram"></i>
+                        <span>به دنبال کنندگان صفحه اینستاگرام <b>گیسو</b> بپیوندید</span>
+                        <a href="https://www.instagram.com/gisoo_app"></a>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</section>
+@if (Model.Banner != null)
+{
+    <section class="banner">
+        <div class="container">
+            <div class="banner__wrapper">
+                <a href="@Model.Banner.link"><img src="@Model.Banner.image"></a>
+            </div>
+        </div>
+    </section>
+}
+<script>
+        window.onscroll = function () {
+            LoadListNotice("/CustomerHome/ProductListPartial");
+        }
+</script>
+
+
+
+

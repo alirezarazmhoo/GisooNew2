@@ -1,0 +1,83 @@
+﻿@model Gisoo.ViewModel.SearchProductViewModel
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/HomeContent/assets/js/header-bundle.js"></script>
+<script src="~/js/Common.js"></script>
+<script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+<script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+@using Gisoo.Utility
+
+<div class="profile__content__header">
+    <span>لیست محصولات</span>
+</div>
+<div class="profile__content__filter">
+    <form id="SearchProductForm">
+        <div class="profile__content__filter__wrapper">
+            <div>
+                <input type="text" class="form-control" asp-for="title" placeholder="عنوان">
+            </div>
+            <div>
+                <input type="text"  class=" datepicker" asp-for="createDate">
+            </div>
+            <div>
+                <button type="button" onclick="SearchProduct()">جستجو</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="profile__content__table">
+    <table class="data-table">
+        <thead>
+            <tr>
+
+                <th>تصویر</th>
+                <th>عنوان</th>
+                <th>تاریخ</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    @if (item.ProductImages.FirstOrDefault() != null)
+                    {
+                        <td><img src="/wwwroot/Product/file/@item.ProductImages.FirstOrDefault().url" width="50" height="50"></td>
+                    }
+                    else
+                    {
+                        <td><img src="/wwwroot/assets/img/slide2.jpg" width="50" height="50"></td>
+
+                    }
+                    <td>@item.title</td>
+                    <td>@PersianCalendarDate.PersianCalendarResult(item.createDate)</td>
+                    <td>
+                        <a data-toggle="modal" data-target="#QuestionModal" onclick="AssignButtonClicked(this,1)" data-assigned-id="@item.id">حذف</a>
+
+                        <a class="btn-Editwarning" id="@item.id">ویرایش</a>
+                        <a class="btn-visit" id="@item.id">آمار بازدید</a>
+
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+ 
+    function SearchProduct() {
+        var form = $("#SearchProductForm").serialize();
+        GetData("/CustomerHome/AllProduct", "divRegister", form);
+    }
+
+    $(".btn-Editwarning").click(function () {
+        GetData("/CustomerHome/RegisterProduct?Id=" + this.id + "", "divRegister");
+    });
+    $(".btn-visit").click(function () {
+
+        GetData("/CustomerHome/VisitAll?Id=" + this.id + "&whichTableEnum=5", "divRegister");
+    });
+    
+</script>

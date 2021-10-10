@@ -1,0 +1,152 @@
+﻿@model PagedList.Core.PagedList<Gisoo.ViewModel.AllSearchDetailViewModel>
+
+<link href="~/HomeContent/assets/css/styles.css" async defer rel="stylesheet">
+<script src="~/HomeContent/assets/js/header-bundle.js"></script>
+<script src="~/js/Common.js"></script>
+<script src="~/HomeContent/assets/js/footer-bundle.js"></script>
+<script src="~/HomeContent/assets/js/footer-base-bundle.js"></script>
+@using Gisoo.Utility
+<div class="cat-blog__title">
+    <h3>تمام آگهی ها</h3>
+</div>
+<div id="yourDiv">
+    @foreach (var item in Model)
+    {
+        <div class="cat-blog__list">
+            <div class="cat-blog__list__img">
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Advertisment)
+                {
+                    @if (!String.IsNullOrEmpty(item.image1))
+                    {
+                        <a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>
+                    }
+                    else
+                    {
+                        <a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>
+                    }
+                }
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Notice)
+                {
+                    @if (!String.IsNullOrEmpty(item.image1))
+                    {
+                        <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="@item.image1"></a>
+                    }
+                    else
+                    {
+                        <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/ads.png"></a>
+                    }
+                }
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Line)
+                {
+                    @if (!String.IsNullOrEmpty(item.image1))
+                    {
+
+                        <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Line/File/@item.image1"></a>
+                    }
+                    else
+                    {
+                        <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                    }
+                }
+
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.ClassRoom)
+                {
+                    @if (!String.IsNullOrEmpty(item.image1))
+                    {
+                        <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/ClassRoom/File/@item.image1"></a>
+                    }
+                    else
+                    {
+                        <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                    }
+                }
+                @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Product)
+                {
+                    @if (!String.IsNullOrEmpty(item.image1))
+                    {
+                        <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="/wwwroot/Product/File/@item.image1"></a>
+                    }
+                    else
+                    {
+                        <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')"><img src="~/HomeContent/assets/img/facial.png"></a>
+                    }
+                }
+            </div>
+            <div class="cat-blog__list__desc">
+                <div class="cat-blog__list__desc__title">
+                    @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Advertisment)
+                    {
+                        <h2>  <a href="/CustomerHome/AdvertismentDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+                    }
+                    @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Notice)
+                    {
+                        <h2>  <a href="/CustomerHome/NoticeDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                    }
+                    @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Line)
+                    {
+                        <h2>  <a href="/CustomerHome/LineDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                    }
+                    @if (item.tabletype == Gisoo.ViewModel.EnumTableType.ClassRoom)
+                    {
+                        <h2>  <a href="/CustomerHome/ClassRoomDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                    }
+                    @if (item.tabletype == Gisoo.ViewModel.EnumTableType.Product)
+                    {
+                        <h2>  <a href="/CustomerHome/ProductDetail/@item.id/@item.title.Replace(' ', '-')">  @item.title</a> </h2>
+
+                    }
+                </div>
+                @if (!String.IsNullOrEmpty(item.description))
+                {
+                    <div class="cat-blog__list__desc__text">
+                        @if (item.description.Length > 20)
+                        {
+                            <p> @item.description.Substring(0, 20)</p>
+                        }
+                        else
+                        {
+                            <p> @item.description</p>
+
+                        }
+                    </div>
+                }
+
+
+            </div>
+
+        </div>
+    }
+    @*<div class="page-number">
+            <ul>
+                <li>
+                    <pager list="@Model" asp-controller="CustomerHome" asp-action="AllSearch" asp-route-title="@ViewBag.title" />
+                </li>
+
+            </ul>
+        </div>*@
+</div>
+<div id="mydiv2"></div>
+<script>
+    window.onscroll = function () {
+
+        var title='@Html.Raw(ViewBag.title)';
+        LoadListNotice("/CustomerHome/AllSearchWithTypePartial?title=" + title+"");
+
+    }
+    var _changeInterval = null;
+    $("#title2").keydown(function () {
+
+        clearInterval(_changeInterval)
+        _changeInterval = setInterval(function () {
+            var title = $("#title2").val();
+            LoadListNotice("/CustomerHome/AllSearchWithTypePartial?title=" + title +");
+
+            //GetData("/CustomerHome/AllSearchWithTypePartial?title=" +title+"&page=@Model.PageNumber", "divShowNotice");
+            clearInterval(_changeInterval)
+        }, 1500);
+
+    });
+</script>
